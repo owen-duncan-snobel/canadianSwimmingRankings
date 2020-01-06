@@ -24,7 +24,7 @@ const puppeteer = require("puppeteer");
         var removeFirst = events.shift();
         return events;
     })
-    //  console.log(eventsList);
+    //console.log(eventsList);
 
     // Selects the age range from the Gender that is chosen to query from (Select an age, then will collect data for all events)
     // NEED TO ADD THE LOGIC TO SELECT FROM ALL KEY AGE RANGES  
@@ -33,15 +33,17 @@ const puppeteer = require("puppeteer");
         for (ages of document.querySelector("#ddl_agefrom").children) {
             ageArr.push(ages.value);
         }
+        let removeDefault = ageArr.shift();
         return ageArr;
     });
-    // console.log(ageFrom);
+    console.log(ageFrom);
 
     const ageTo = await page.evaluate(() => {
         var ageArr = [];
         for (ages of document.querySelector("#ddl_ageto").children) {
             ageArr.push(ages.value);
         }
+        let removeDefault = ageArr.shift();
         return ageArr;
     })
     //  console.log(ageTo);
@@ -77,47 +79,61 @@ const puppeteer = require("puppeteer");
     const makeDataDirectory = await fs.mkdir("swimmerData", function (err, result) {
         if (err) console.log("Couldn't make directory that stores the csv files, aka(swimmerData/)");
     });
-    for (g in gend) {
-        var count = 0;
-        let lastData = '';
-        await page.select("#ddl_agefrom", ageFrom[8]);
-        await page.select("#ddl_ageto", ageTo[7]);
-        await page.select("#ddl_gender", gend[g].genderValue)
-        const dir = await fs.mkdir("swimmerData/" + gend[g].gender + '_' + ageFrom[8] + "_Events" + "/", function (err, result) {
-            if (err) console.log("couldn't make the directory");
-        });
-        for (event in eventsList) {
-            // should be nested for loop selects age then gets all events and genders
-            const path = "swimmerData/" + gend[g].gender + '_' + ageFrom[8] + "_Events" + "/";
-            await page.select("#ddl_event", eventsList[count].eventValue);
-            await page.click("#btnShow");
-            // IF you dont wait for the selector it moves to fast and will not 
-            // display elements (Learned the hard way 4 hours....)
-            // Need to turn the table into an object
-            await page.waitForSelector("table");
-            const data = await (await page.$$eval("tr", el => el.map(n => n.innerText.replace(/\t/g, '|'))));
-            if (lastData == data.join('')) {
-                console.log("Does not have data for event: " + eventsList[count].eventName + "," + gend[g].gender + "," + ageFrom[8]);
+
+
+
+    for (g in gend) { // CURRENTLY CROSSED OUT SO TESTING CAN BE DONE ON ALL AGES FOR A GENDER
+        // Will only run once a week for events and csv collection
+        // TIME COMPLEXITY FOR G DOES NOT MAKE IT x^3 , only two genders so it is (2 * x^2) slightly faster
+
+        // NEED TO RENAME LOGIC FOR SELECTING ALL AGES / UNDER 10 / OVER 18
+        var ageI = 0;
+        for (age in ageFrom) {
+            if (age == 0) {
+                ageI = 0;
+            } else if (ageI == ageFrom.length - 2) {
+                ageI = age;
             } else {
-                const events = await fs.writeFile(path + gend[g].gender + "_" + eventsList[count].eventName.split(' ').join('_') + '_' + ageFrom[8] + '.csv', data.join('\n'), function (err, result) {
-                    if (err) console.log('error', err);
-                });
+                ageI = age - 1;
             }
-            lastData = data.join('');
-            count++;
+
+
+            await page.select("#ddl_agefrom", ageFrom[age]);
+            await page.select("#ddl_ageto", ageTo[ageI]);
+            await page.select("#ddl_gender", gend[g].genderValue)
+            const dir = await fs.mkdir("swimmerData/" + gend[g].gender + '_' + ageFrom[age] + "_Events" + "/", function (err, result) {
+                if (err) console.log("couldn't make the directory");
+            });
+            var count = 0;
+            let lastData = '';
+            for (event in eventsList) {
+                // should be nested for loop selects age then gets all events and genders
+                const path = "swimmerData/" + gend[g].gender + '_' + ageFrom[age] + "_Events" + "/";
+                await page.select("#ddl_event", eventsList[count].eventValue);
+                await page.click("#btnShow");
+                await page.waitFor(500)
+                // IF you dont wait for the selector it moves to fast and will not 
+                // display elements (Learned the hard way 4 hours....)
+                // Need to turn the table into an object
+                await page.waitForSelector("table");
+                const data = await (await page.$$eval("tr", el => el.map(n => n.innerText.replace(/\t/g, '|'))));
+                if (lastData == data.join('')) {
+                    console.log("Does not have data for event: " + eventsList[count].eventName + "," + gend[g].gender + "," + ageFrom[age]);
+                } else {
+                    const events = await fs.writeFile(path + gend[g].gender + "_" + eventsList[count].eventName.split(' ').join('_') + '_' + ageFrom[age] + '.csv', data.join('\n'), function (err) {
+                        if (err) console.log('error', err);
+                    });
+                }
+                lastData = data.join('');
+                count++;
+            }
+            ageI = 0;
         }
     }
+
     //const divsCounts = await page.$$('tr', tr => tr.innerText);
     //console.log(divsCounts);
 
-
-    const men = await page.evaluate(() => {
-        return 0;
-    })
-
-    const woman = await page.evaluate(() => {
-
-    })
     await browser.close();
 })();
 
