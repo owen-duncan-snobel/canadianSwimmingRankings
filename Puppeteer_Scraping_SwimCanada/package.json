@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "plotly.js": "^1.52.0",
     "puppeteer": "^2.0.0"
   }
 }
