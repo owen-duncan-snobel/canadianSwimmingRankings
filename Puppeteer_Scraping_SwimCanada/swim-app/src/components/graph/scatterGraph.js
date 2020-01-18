@@ -3,7 +3,10 @@ import Chart from "chart.js";
 import * as d3 from 'd3';
 import data from '../../2020-01-08/Female_0_Events/Female_50_Back_0.csv';
 import classes from "./scatterGraph.module.css";
+import colorConstants from './colorConstants';
 
+
+console.log(colorConstants);
 {/* MOST LIKELY WILL GO BACK AND USE ALL REACT CHART.JS FOR THIS
 THAT WAY I AM ABLE TO SWAP THE DATA AND RERENDER WHEN THE DROP DOWN CHANGES ETC */ }
 class ScatterGraph extends Component {
@@ -11,30 +14,37 @@ class ScatterGraph extends Component {
     chartRef = React.createRef();
     componentDidMount() {
         const myChartRef = this.chartRef.current.getContext("2d");
+        var gradientStroke = myChartRef.createLinearGradient(500, 0, 100, 0);
+        gradientStroke.addColorStop(0, "#80b6f4"); gradientStroke.addColorStop(1, "#f49080");
         const newData = d3.dsv('|', data).then(function (text) {
             {/* Create an array of x,y objects from the csv data to graph */ }
-            var swimmersObject = [];
-            for (let el of text) {
-                swimmersObject.push({ x: el.RANK, y: el.TIME });
-            }
-            swimmersObject = swimmersObject.reverse();
-            console.log(swimmersObject)
-
-            //   console.log(swimmersObject);
+            text = text.reverse();
+            const swimmerTimes = text.map(x => x.TIME);
+            const swimmerNames = text.map(x => x.ATHLETES);
+            console.log(swimmerTimes);
             new Chart(myChartRef, {
-                type: 'scatter',
+                type: "line",
                 data: {
-                    datasets: [{
-                        label: 'Female 50 Back fastest times',
-                        data: swimmersObject
-                    }],
-                    option: {
-                        legend: {
-                            reverse: true,
+                    //Bring in data
+                    labels: swimmerNames,
+                    datasets: [
+                        {
+                            label: "Swimming times",
+                            data: swimmerTimes,
+                            borderColor: gradientStroke,
+                            pointBorderColor: gradientStroke,
+                            pointBackgroundColor: gradientStroke,
+                            pointHoverBackgroundColor: gradientStroke,
+                            pointHoverBorderColor: gradientStroke
+                            // pointBackgroundColor: colorConstants
                         }
-                    }
+                    ]
                 },
-            }).render();
+                options: {
+                    //Customize chart options
+
+                }
+            })
         });
     };
 
