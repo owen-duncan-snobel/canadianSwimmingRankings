@@ -94,7 +94,15 @@ class ScatterGraph extends Component {
                                 // AKA YEAR OF RACE TO COMPARE TO PREVIOUS YEARS OR DIFFERENT THINGS FROM CSV
                                 // WILL NEED TO ADD LOGIC TO CHECK IF FEMALE OR MALE
                                 // AKA IF DATA == MALE RETURN ONE OTHERWISE RETURN FEMALE
-                                var tooltipArr = [swimmerAthletes[text.length - tooltipItem.xLabel] + " " + tooltipItem.value];
+                                var tooltipArr = [];
+                                // Validates if the item directly beside it is a tie
+                                if (tooltipItem.index != text.length - tooltipItem.xLabel) {
+                                    tooltipArr = [swimmerAthletes[(text.length - 1) - tooltipItem.xLabel] + " " + tooltipItem.value];
+                                }
+                                else {
+                                    tooltipArr = [swimmerAthletes[text.length - tooltipItem.xLabel] + " " + tooltipItem.value];
+                                }
+
                                 // tooltipArr.push("Rank: " + tooltipItem.xLabel);
                                 return tooltipArr;
                             }

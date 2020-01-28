@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "plotly.js": "^1.52.0",
+    "directory-tree": "^2.2.4",
     "puppeteer": "^2.0.0"
   }
 }

@@ -126,7 +126,7 @@ const puppeteer = require("puppeteer");
                 await page.select("#ddl_gender", genders[gender].genderValue);
                 const date = new Date().toISOString().slice(0, 10);
                 // NEED TO ADD VARIABLE FOR LONG COURSE OR SHORT COURSE AND YEAR ONCE I COLLECT ALL THE BACK LOGS
-                const dir = await fs.mkdir("swimmerData/" + swimmingSeason[year].seasonYear.split('-').join('_') + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
+                const dir = await fs.mkdir("swimmerData/" + swimmingSeason[year].seasonYear.split('-').join('-') + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
                     recursive: true
                 },
                     function (err, result) {

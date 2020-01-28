@@ -109,8 +109,8 @@ const puppeteer = require("puppeteer");
             const date = new Date().toISOString().slice(0, 10);
             // NEED TO ADD VARIABLE FOR LONG COURSE OR SHORT COURSE AND YEAR ONCE I COLLECT ALL THE BACK LOGS
             const dir = await fs.mkdir("swimmerData/2019-2020/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
-                    recursive: true
-                },
+                recursive: true
+            },
                 function (err, result) {
                     if (err) console.log("couldn't make the directory");
                 });
@@ -147,13 +147,15 @@ const puppeteer = require("puppeteer");
 })();
 
 
-/* 
+/*
     Need to seperate the consts into another folder and import them as constants,
     The Gender selectors, Age from and Age to, Event values / all Events
     (That way when it is making request calls it only downloads the events one time / will store
         gender locations and event values on the server. )
- 
+
     ALSO NEED TO SPECIFY SHORT VS LONG COURSE DEPENDING ON THE SEASON
     NEED TO COLLECT THE BACK CATALOGUE, SO ADDING COLLECTING ALL PREVIOUS YEARS SO FAR
+
+    NEED TO ADD LOGIC TO DEAL WITH FILE PATHS FOR UNDER 10 (IF STATEMENT)
 
 */
