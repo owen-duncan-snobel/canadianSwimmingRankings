@@ -1,4 +1,6 @@
-/* CORRECT LOGIC TO PRINT THE CONTENTS OF A DIRECTORY INTO A JSON FILE  (NEEDED FOR THE TREE COMPONENTS IN REACT )  */
+/* CORRECT LOGIC TO PRINT THE CONTENTS OF A DIRECTORY INTO A JSON FILE  (NEEDED FOR THE TREE COMPONENTS IN REACT )
+----- Following Command needs to be run after to ensure that the tree structure is properly maintained with only csv files
+ find . -name '.DS_Store' -type f -delete */
 var fs = require('fs');
 var path = require('path');
 
@@ -41,7 +43,7 @@ var diretoryTreeToObj = function (dir, done) {
     });
 };
 
-var dirTree = ('./swimmerData/2007-2008/');
+var dirTree = ('./swimmerData/');
 
 diretoryTreeToObj(dirTree, function (err, res) {
     if (err)

@@ -38,31 +38,52 @@ const divStyle = {
 const yearAndData = (data, ages) => {
     return (
         <div>
-            <TreeItem nodeId="1" label={"Power Rankings Data"}>
-                <TreeItem nodeId="2" label={data[0].path.split("/")[1]}>
-                    <TreeItem nodeId="3" label="Female">
-
-                    </TreeItem>
-                    <TreeItem nodeId="5" label="Male">
-                        {ages.map(age => <TreeItem nodeId={age} label={
-                            (age == "0") ? "Under 10" : age
-                        }>
-                            {data.map(n => <TreeItem nodeId="4" label={
-                                (n.name.split('_')[3] == age) ? n.name : ''
-                            }>
-                            </TreeItem>)}
-                        </TreeItem>)}
-                    </TreeItem>
-                </TreeItem>
+            <TreeItem nodeId="Power Rankings Data" label={"Power Rankings Data"}>
+                {/* Render all the csv files by creating a nested tree components to allow 
+                    users the ability to download the files from a certain height
+                */}
+                {data.map(function (x) {
+                    return (
+                        <TreeItem nodeId={x.name} label={x.name} >
+                            {/* Mapping for year nestings */}
+                            {x.children.map(function (y) {
+                                return (
+                                    < TreeItem nodeId={y.name} label={y.name}>
+                                        {/* Mapping for Course (short / long) nestings */}
+                                        {y.children.map(function (z) {
+                                            return (
+                                                <TreeItem nodeId={z.name} label={z.name}>
+                                                    {/* Mapping for Ages nestings */}
+                                                    {z.children.map(function (m) {
+                                                        return (
+                                                            <TreeItem nodeId={m.name} label={m.name}>
+                                                                {/* Mapping for Events nestings */}
+                                                                {m.children.map(function (m) {
+                                                                    return (
+                                                                        <TreeItem nodeId={m.name} label={m.name} />
+                                                                    )
+                                                                })}
+                                                            </TreeItem>
+                                                        )
+                                                    })}
+                                                </TreeItem>
+                                            )
+                                        })}
+                                    </TreeItem>
+                                )
+                            })}
+                        </TreeItem>
+                    )
+                })}
             </TreeItem>
-
-        </div >
+        </div>
 
     );
 }
 function Datasets() {
-    let data = require('../datasets/directoryJSON.json');
-    let ages = require('../datasets/agesJSON.json');
+    let data = require('./dirTree.json');
+    // Sort the Year data to be in the correct order
+    data = data.sort((a, b) => parseInt(b.name.slice(0, 4)) - parseInt(a.name.slice(0, 4)));
     // console.log(data);
     const classes = useStyles();
     return (
@@ -73,7 +94,7 @@ function Datasets() {
                     defaultCollapseIcon={<ExpandMoreIcon />}
                     defaultExpandIcon={<ChevronRightIcon />}
                 >
-                    <div>{yearAndData(data, ages)}</div>
+                    <div>{yearAndData(data)}</div>
                     {/*}
                     <TreeItem nodeId="0" label="TOP NODE">
                         {data.map(n => <TreeItem nodeId="1" label={n.path.split('/')[1]} />)}
