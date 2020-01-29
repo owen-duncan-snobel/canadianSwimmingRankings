@@ -14,6 +14,9 @@ function App() {
       <Col className="d-xs-none">
         <ScatterGraph></ScatterGraph>
         {/*   <Datasets></Datasets> */}
+
+        {/* Most likely will replace with an env variable will need to come back and look */}
+        <a href="./src/components/swimmerData.zip" download>Click to download</a>
       </Col>
 
     </div>
