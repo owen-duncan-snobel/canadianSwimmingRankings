@@ -48,14 +48,14 @@ class ScatterGraph extends Component {
     componentDidMount() {
         const myChartRef = this.chartRef.current.getContext("2d");
         // Styling for the  Graph 
-        /*     var gradientStroke = myChartRef.createLinearGradient(500, 0, 100, 0);
-             gradientStroke.addColorStop(0, "#80b6f4"); gradientStroke.addColorStop(1, "#f49080");
-             var gradientFill = myChartRef.createLinearGradient(500, 0, 100, 0);
-     
-             gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
-             gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
-     
-             */
+        var gradientStroke = myChartRef.createLinearGradient(500, 0, 100, 0);
+        gradientStroke.addColorStop(0, "#80b6f4"); gradientStroke.addColorStop(1, "#f49080");
+        var gradientFill = myChartRef.createLinearGradient(500, 0, 100, 0);
+
+        gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
+        gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
+
+
 
         const newData = d3.dsv('|', data).then(function (text) {
             {/* Create an array of x,y objects from the csv data to graph */ }
@@ -86,15 +86,17 @@ class ScatterGraph extends Component {
                             /* For gradient graph refer to bookmark for more info 
                             https://blog.vanila.io/chart-js-tutorial-how-to-make-gradient-line-chart-af145e5c92f9
                             */
-                            label: " Female Swimming times",
+                            // WORK ON LOGIC FOR WHEN PROP PASSES FILE NAMES
+
+                            label: d[0].split('/')[3].split('_')[0] + " Swimming times",
                             data: swimmerTimes,
-                            /*   borderColor: gradientStroke,
-                               pointBorderColor: gradientStroke,
-                               pointBackgroundColor: gradientStroke,
-                               pointHoverBackgroundColor: gradientStroke,
-                               pointHoverBorderColor: gradientStroke, */
+                            borderColor: gradientStroke,
+                            pointBorderColor: gradientStroke,
+                            pointBackgroundColor: gradientStroke,
+                            pointHoverBackgroundColor: gradientStroke,
+                            pointHoverBorderColor: gradientStroke,
                             fill: true,
-                            //   backgroundColor: gradientFill,
+                            backgroundColor: gradientFill,
                             showLine: true,
                         } /* ,
                         { 
@@ -110,7 +112,8 @@ class ScatterGraph extends Component {
                     maintainAspectRatio: false,
                     title: {
                         display: true,
-                        text: 'Female 100m Backstroke'
+                        // Will need to change the d0 to be the prop passed to it
+                        text: d[0].split('/')[4].split('_').splice(0, 3).join(' ')
                     },
                     scales: {
                         yAxes: [{
