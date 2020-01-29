@@ -36,7 +36,7 @@ const divStyle = {
 {/* ALSO NEED TO SEE HOW WHEN DATA IS UPDATED IT IS ADDED TO SITE IDEALLY DYNAMICALLY BOOTSTRAP CHECKS SERVER AND JUST UPDATE*/ }
 
 // CONSIDER USING JSON EVENTS AND AGE LIST TO CREATE THE DROP DOWN. EXPORT THEM AS JSON AND USE TO FORMAT
-const yearAndData = (data, ages) => {
+const yearAndData = (data) => {
     return (
         <div>
             <TreeItem nodeId="Power Rankings Data" label={"Power Rankings Data"}>
