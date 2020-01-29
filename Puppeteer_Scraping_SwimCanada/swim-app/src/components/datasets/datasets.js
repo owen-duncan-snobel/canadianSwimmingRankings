@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ScatterGraph from '../graph/scatterGraph';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
@@ -54,13 +55,18 @@ const yearAndData = (data, ages) => {
                                             return (
                                                 <TreeItem nodeId={z.name} label={z.name}>
                                                     {/* Mapping for Ages nestings */}
-                                                    {z.children.map(function (m) {
+                                                    {z.children.map(function (m, z) {
                                                         return (
                                                             <TreeItem nodeId={m.name} label={m.name}>
                                                                 {/* Mapping for Events nestings */}
                                                                 {m.children.map(function (m) {
                                                                     return (
-                                                                        <TreeItem nodeId={m.name} label={m.name} />
+                                                                        <TreeItem path={m.path} nodeId={m.name} label={m.name} >
+                                                                            {/* NEED TO THINK OUT WHAT WILL BE DONE WITH UPDATING GRAPH
+                                                                                THE LOGIC AND CURRENT FILE STRUCTURE IS VERY POOR
+                                                                            */}
+                                                                        </TreeItem>
+
                                                                     )
                                                                 })}
                                                             </TreeItem>

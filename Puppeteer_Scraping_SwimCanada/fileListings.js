@@ -1,6 +1,9 @@
 /* CORRECT LOGIC TO PRINT THE CONTENTS OF A DIRECTORY INTO A JSON FILE  (NEEDED FOR THE TREE COMPONENTS IN REACT )
+
 ----- Following Command needs to be run after to ensure that the tree structure is properly maintained with only csv files
- find . -name '.DS_Store' -type f -delete */
+ find . -name '.DS_Store' -type f -delete 
+ AS WELL AS GOING INTO THE FOLER AND DELETING THE DS_Store file
+ */
 var fs = require('fs');
 var path = require('path');
 
@@ -33,7 +36,8 @@ var diretoryTreeToObj = function (dir, done) {
                 else {
                     results.push({
                         type: 'file',
-                        name: path.basename(file)
+                        name: path.basename(file),
+                        path: path.relative('./swimmerData', file)
                     });
                     if (!--pending)
                         done(null, results);
