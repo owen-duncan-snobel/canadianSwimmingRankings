@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "directory-tree": "^2.2.4",
+    "papaparse": "^5.1.1",
     "puppeteer": "^2.0.0"
   }
 }
