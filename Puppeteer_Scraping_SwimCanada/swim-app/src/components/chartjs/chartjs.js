@@ -5,21 +5,25 @@ class Chart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.data
+            data: props.data,
+            options: props.options
         }
+        //  console.log(props.options)
     }
 
     static defaultProps = {
         displayTitle: true,
         displayLegend: true,
         legendPosition: 'right',
-        location: 'City'
     }
     render() {
         return (
             <div className="Chart">
-                <Line data={this.state.data}
+                <Line
+                    data={this.state.data}
+                    options={this.state.options}
                 >
+
                 </Line>
             </div>
         )
