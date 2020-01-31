@@ -119,7 +119,6 @@ const puppeteer = require("puppeteer");
                     ageI = age - 1;
                 }
 
-
                 // ALSO NEED TO ADD FOR YEAR SELECTIONS TO COLLECT THE BACK CATALOGUE
                 await page.select("#ddl_agefrom", ageFrom[age]);
                 await page.select("#ddl_ageto", ageTo[ageI]);
@@ -151,7 +150,10 @@ const puppeteer = require("puppeteer");
                     if (lastData == data.join('')) {
                         console.log("Does not have data for event: " + eventsList[count].eventName + "," + genders[gender].gender + "," + ageFrom[age]);
                     } else {
-                        const events = await fs.writeFile(path + genders[gender].gender + "_" + eventsList[count].eventName.split(' ').join('_') + '_' + ageFrom[age] + '.csv', data.join('\n'), function (err) {
+                        const jsonData = await Papa.parse(data.join('\n'), {
+                            header: true
+                        });
+                        const events = await fs.writeFile(path + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
                             if (err) console.log('error', err);
                         });
                     }

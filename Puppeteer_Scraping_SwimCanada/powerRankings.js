@@ -1,5 +1,6 @@
 // Seperate logic into different files (import the events into the main logic etc)
 const fs = require('fs');
+const Papa = require('papaparse');
 const puppeteer = require("puppeteer");
 
 (async () => {
@@ -133,9 +134,13 @@ const puppeteer = require("puppeteer");
                 if (lastData == data.join('')) {
                     console.log("Does not have data for event: " + eventsList[count].eventName + "," + genders[gender].gender + "," + ageFrom[age]);
                 } else {
-                    const events = await fs.writeFile(path + genders[gender].gender + "_" + eventsList[count].eventName.split(' ').join('_') + '_' + ageFrom[age] + '.csv', data.join('\n'), function (err) {
-                        if (err) console.log('error', err);
+                    // ! CONVERTS THE DATA OBJECT (Scrape Data) into a Js object that saved as a json file
+                    const jsonData = await Papa.parse(data.join('\n'), {
+                        header: true
                     });
+                    const events = await fs.writeFile(path + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
+                        if (err) console.log('error', err);
+                    })
                 }
                 lastData = data.join('');
                 count++;
