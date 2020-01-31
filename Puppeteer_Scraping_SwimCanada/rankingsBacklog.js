@@ -1,5 +1,6 @@
 // Seperate logic into different files (import the events into the main logic etc)
 const fs = require('fs');
+const Papa = require('papaparse');
 const puppeteer = require("puppeteer");
 
 (async () => {
@@ -72,7 +73,7 @@ const puppeteer = require("puppeteer");
         for (g of document.querySelector("#ddl_gender").children) {
             gendersArr.push({
                 "genderValue": g.value,
-                "gender": g.innerText.split('-').join('_')
+                "gender": g.innerText
             });
         }
         let removeFirst = gendersArr.shift();
@@ -125,7 +126,7 @@ const puppeteer = require("puppeteer");
                 await page.select("#ddl_gender", genders[gender].genderValue);
                 const date = new Date().toISOString().slice(0, 10);
                 // NEED TO ADD VARIABLE FOR LONG COURSE OR SHORT COURSE AND YEAR ONCE I COLLECT ALL THE BACK LOGS
-                const dir = await fs.mkdir("swimmerData/" + swimmingSeason[year].seasonYear.split('-').join('-') + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
+                const dir = await fs.mkdir("swimmerData/" + swimmingSeason[year].seasonYear + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
                     recursive: true
                 },
                     function (err, result) {
@@ -138,7 +139,7 @@ const puppeteer = require("puppeteer");
                     // should be nested for loop selects age then gets all events and genders
                     // NEED TO CHANGE THE COURSE TO A VARIABLE TO DO SEND TO CORRECT PATH
                     // NEED TO ADD CORRECT YEAR TO IT AS WELL
-                    const path = "swimmerData/" + swimmingSeason[year].seasonYear.split('-').join('_') + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/";
+                    const path = "swimmerData/" + swimmingSeason[year].seasonYear + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/";
                     await page.select("#ddl_event", eventsList[count].eventValue);
                     await page.click("#btnShow");
                     await page.waitFor(300)
@@ -150,6 +151,7 @@ const puppeteer = require("puppeteer");
                     if (lastData == data.join('')) {
                         console.log("Does not have data for event: " + eventsList[count].eventName + "," + genders[gender].gender + "," + ageFrom[age]);
                     } else {
+                        // ! CONVERTS THE DATA OBJECT (Scrape Data) into a Js object that saved as a json file
                         const jsonData = await Papa.parse(data.join('\n'), {
                             header: true
                         });

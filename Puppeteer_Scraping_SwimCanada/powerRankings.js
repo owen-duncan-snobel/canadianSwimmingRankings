@@ -102,7 +102,6 @@ const puppeteer = require("puppeteer");
                 ageI = age - 1;
             }
 
-
             // ALSO NEED TO ADD FOR YEAR SELECTIONS TO COLLECT THE BACK CATALOGUE
             await page.select("#ddl_agefrom", ageFrom[age]);
             await page.select("#ddl_ageto", ageTo[ageI]);
@@ -125,7 +124,7 @@ const puppeteer = require("puppeteer");
                 const path = "swimmerData/2019-2020/" + "Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/";
                 await page.select("#ddl_event", eventsList[count].eventValue);
                 await page.click("#btnShow");
-                await page.waitFor(500)
+                await page.waitFor(300)
                 // IF you dont wait for the selector it moves to fast and will not 
                 // display elements (Learned the hard way 4 hours....)
                 // Need to turn the table into an object
@@ -140,7 +139,7 @@ const puppeteer = require("puppeteer");
                     });
                     const events = await fs.writeFile(path + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
                         if (err) console.log('error', err);
-                    })
+                    });
                 }
                 lastData = data.join('');
                 count++;
