@@ -72,7 +72,7 @@ class ScatterGraph extends Component {
                 if (x.TIME.length === 7) x.TIME = '0' + x.TIME;
                 // CONVERT RACE TIMES INTO MS TO BE ABLE TO GRAPH IT CORRECTLY
                 let milli = ((parseInt(x.TIME.split(':')[0] * 60000)) + (parseInt(x.TIME.split(':')[1].split('.')[0] * 1000)) + (parseInt(x.TIME.split('.')[1])));
-                return (milli)
+                return new Date(milli).toISOString().substr(14, 8)
             });
             // console.log(swimmerTimes)
 

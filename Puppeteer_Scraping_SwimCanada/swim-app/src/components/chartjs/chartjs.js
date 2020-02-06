@@ -23,7 +23,6 @@ class Chart extends Component {
                     data={this.state.data}
                     options={this.state.options}
                 >
-
                 </Line>
             </div>
         )
