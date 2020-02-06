@@ -126,7 +126,7 @@ const puppeteer = require("puppeteer");
                 await page.select("#ddl_gender", genders[gender].genderValue);
                 const date = new Date().toISOString().slice(0, 10);
                 // NEED TO ADD VARIABLE FOR LONG COURSE OR SHORT COURSE AND YEAR ONCE I COLLECT ALL THE BACK LOGS
-                const dir = await fs.mkdir("swimmerData/" + swimmingSeason[year].seasonYear + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
+                const dir = await fs.mkdir("swimmerData/" + "/Short_Course/", {
                     recursive: true
                 },
                     function (err, result) {
@@ -139,7 +139,7 @@ const puppeteer = require("puppeteer");
                     // should be nested for loop selects age then gets all events and genders
                     // NEED TO CHANGE THE COURSE TO A VARIABLE TO DO SEND TO CORRECT PATH
                     // NEED TO ADD CORRECT YEAR TO IT AS WELL
-                    const path = "swimmerData/" + swimmingSeason[year].seasonYear + "/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/";
+                    const path = "swimmerData/" + "/Short_Course/";
                     await page.select("#ddl_event", eventsList[count].eventValue);
                     await page.click("#btnShow");
                     await page.waitFor(300)
@@ -155,7 +155,7 @@ const puppeteer = require("puppeteer");
                         const jsonData = await Papa.parse(data.join('\n'), {
                             header: true
                         });
-                        const events = await fs.writeFile(path + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
+                        const events = await fs.writeFile(path + swimmingSeason[year].seasonYear + '_' + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
                             if (err) console.log('error', err);
                         });
                     }
