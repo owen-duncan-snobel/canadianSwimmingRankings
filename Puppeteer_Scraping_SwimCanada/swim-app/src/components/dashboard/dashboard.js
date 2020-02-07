@@ -33,68 +33,26 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {
-                // x-axis label is the swimming ranks from (50-1 for the specified event respectively)
-                labels: this.props.data.data.reverse().map(x => x.RANK),
-                datasets: [{
-                    // Gets the event name passed from the app (top layer)
-                    label: this.props.event,
-                    data: this.props.data.data.map(function (x) {
-                        if (x.TIME.length === 5) x.TIME = '00:' + x.TIME;
-                        if (x.TIME.length === 7) x.TIME = '0' + x.TIME;
-                        // CONVERTS RACE TIMES INTO Milliseconds TO BE ABLE TO GRAPH IT CORRECTLY
-                        let milli = ((parseFloat(x.TIME.split(':')[0] * 60000))
-                            + (parseFloat(x.TIME.split(':')[1].split('.')[0] * 1000))
-                            + (parseFloat(x.TIME.split('.')[1] * 10)));
-                        return milli
-                    }),
-
-                },
-                {
-                    // Gets the event name passed from the app (top layer)
-                    label: this.props.event,
-                    data: this.props.data.data,
-
-                }
-                ],
-
-
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Swimming Power Rankings"
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            callback: function (x) {
-                                return epoch_to_hh_mm_ss(x);
-                            }
-                        }
-                    }]
-                },
-                tooltips: {
-                    callbacks: {
-                        // Logic for tooltips and repeating ties for swimmers
-                        label: function (tooltip, data) {
-                            let tooltipArr = [];
-                            tooltipArr = [swimmerAthletes[tooltip.index] + " " + epoch_to_hh_mm_ss(tooltip.yLabel)];
-                            return tooltipArr;
-                        }
-                    }
-                }
-            }
+            data: {}
         }
         // The names of the swimmers to be passed into the tooltips
-        const swimmerAthletes = this.props.data.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
+        //    const swimmerAthletes = this.props.data.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
 
+    }
+
+    componentDidMount() {
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        fetch("https://storage.googleapis.com/canadian-swimming-ranks.appspot.com/Short_Course/2011-2012_Male_18_200_Medley_Relay.json?GoogleAccessId=firebase-adminsdk-7x0t5%40canadian-swimming-ranks.iam.gserviceaccount.com&Expires=16447035600&Signature=GQWWh5zSHYvwHlo2XClrd%2B6%2BYizsoCaZyqoG2piowbnuX0XbrHrC9t%2ByQtNCCulq7tD9ZWeDBmbGgl%2FIL%2B5%2F5F7uOSPNJdRizsSQNFdSdeS9U11Wm4vbKczU%2BucI6BKjnW%2FRYfnx1QmbFdPMtUgBG%2FO6VSLmVkYeCqDFGKLVvPEnAJWHGshJ%2BkS1E3mJ3W7NWyt1x6Z9aDcjHfEszOKajcnF2C217EbdDhFQOPPynXUgyo9NCdK%2F1vgK3YbUC9u1NgR12MEhWWa0fQbN0iVmW1ZSaHj2TimT3SfZVys%2FbjN2jSyeb3j2nDV7%2FWRHQew2Ga5si2zzYz22xSNF9SDe9Q%3D%3D", {
+            method: "GET",
+            mode: 'cors'
+        })
+            .then(results => console.log(results));
     }
 
     render() {
         return (
             <div className="Dashboard for Chart">
-                <Chart options={this.state.options} data={this.state.data} />
+                <Chart options={this.state.options} />
             </div>
         )
     }
