@@ -40,13 +40,24 @@ class Dashboard extends Component {
 
     }
 
+
+    // !!! NEED TO GO BACK AND SEARCH THE REACT FIREBASE / COMPONENT MOUNTING GUIDE FOR UPDATING THE STATE
     componentDidMount() {
         const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        fetch("https://storage.googleapis.com/canadian-swimming-ranks.appspot.com/Short_Course/2011-2012_Male_18_200_Medley_Relay.json?GoogleAccessId=firebase-adminsdk-7x0t5%40canadian-swimming-ranks.iam.gserviceaccount.com&Expires=16447035600&Signature=GQWWh5zSHYvwHlo2XClrd%2B6%2BYizsoCaZyqoG2piowbnuX0XbrHrC9t%2ByQtNCCulq7tD9ZWeDBmbGgl%2FIL%2B5%2F5F7uOSPNJdRizsSQNFdSdeS9U11Wm4vbKczU%2BucI6BKjnW%2FRYfnx1QmbFdPMtUgBG%2FO6VSLmVkYeCqDFGKLVvPEnAJWHGshJ%2BkS1E3mJ3W7NWyt1x6Z9aDcjHfEszOKajcnF2C217EbdDhFQOPPynXUgyo9NCdK%2F1vgK3YbUC9u1NgR12MEhWWa0fQbN0iVmW1ZSaHj2TimT3SfZVys%2FbjN2jSyeb3j2nDV7%2FWRHQew2Ga5si2zzYz22xSNF9SDe9Q%3D%3D", {
+
+        fetch("https://storage.googleapis.com/canadian-swimming-ranks.appspot.com/Short_Course/2010-2011_Male_13_50_Fly.json?GoogleAccessId=firebase-adminsdk-7x0t5%40canadian-swimming-ranks.iam.gserviceaccount.com&Expires=16447035600&Signature=PqqDfvg9YXcOBi%2F%2BS8jBwekCqGvuh7XxxnvOXWHzpbay2mpyxfedgRfVhKXAAT3I4Zzn4SQ%2B3aNvG5tJpfJYeG5POPv0hAOREtHErYeUDihskonTpkPyQrY02Fk1zZbHE1PW%2BmCpS1rkUVBEVXW4MPCukSLPJ1ugwpMDFIlUO92J5sqOa7rQe3AUS1enIlh%2BdHOMzX12KKtddB46wW3hxPCtL0HJg1otITUxBU2Rx7qh5t31mTi8Dol9GhTAigCZPSIPFWXtV70eAYscfuY2ZlL03IF0cKJCxJljOoBL88%2FxaTB57nqpjymmCAurheeulBf2kxlPBpQ7sFLoTXnPLA%3D%3D", {
             method: "GET",
-            mode: 'cors'
+
+        }).then(response => {
+            return response.json()
         })
-            .then(results => console.log(results));
+            .then(data => {
+                // Work with JSON data here
+                let time = data.data.map(x => x.TIME);
+                let athletes = data.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
+                return { time, athletes };
+            }).then(data => this.setState({ data: data.time }));
+
     }
 
     render() {
