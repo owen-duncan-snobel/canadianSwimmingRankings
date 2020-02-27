@@ -9,10 +9,11 @@ import Col from 'react-bootstrap/Col';
 
 function App() {
   // Will need to switch event name to be found as a variable that is equal to chart data
-  var eventName = './components/swimmerData/2007-2008/Short_Course/2020-01-31/Female_0_Events/Female_0_50_Back.json'
-  eventName = eventName.split('/')[7].split('.')[0].split('_');
-  if (eventName[1] === '0') eventName[1] = 'Under 10';
-  eventName = eventName.join(' ');
+  /* var eventName = './components/swimmerData/2007-2008/Short_Course/2020-01-31/Female_0_Events/Female_0_50_Back.json'
+   eventName = eventName.split('/')[7].split('.')[0].split('_');
+   if (eventName[1] === '0') eventName[1] = 'Under 10';
+   eventName = eventName.join(' ');
+   */
 
   return (
     <div>
@@ -20,7 +21,7 @@ function App() {
       <Col className="d-xs-none">
         <Dashboard
           // ! LOGIC TO PASS THE FORMATTED DATA DOWN TO THE DASHBOARD THEN FROM THE DASH BOARD TO THE CHART
-          event={eventName}
+          event={"TEMP HOLDER"}
         />
         {/*  <Datasets></Datasets> */}
 

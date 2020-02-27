@@ -4,8 +4,13 @@ import * as d3 from 'd3';
 import classes from "./scatterGraph.module.css";
 import moment from '../../../node_modules/moment/moment'
 
+/**
+ * !!! THE CURRENT IMPLIMENTATION OF THIS FOLDER IS NOT  USED ANYMORE, CONSIDER REMOVING ONCE REACT STATES IS FULLY FUNCTIONAL
+ */
+
 
 // Filters all datasets to allow graph to pick from active data
+/*
 let dirTree = require('../graph/dirTree.json');
 let d = [];
 dirTree.map(function (years) {
@@ -45,6 +50,7 @@ console.log(d[0])
 const divStyle = {
     margin: '2%',
 };
+
 class ScatterGraph extends Component {
 
     // Loads the data from csv into d3 to parse it
@@ -204,6 +210,4 @@ class ScatterGraph extends Component {
     }
 }
 export default ScatterGraph;
-
-
 

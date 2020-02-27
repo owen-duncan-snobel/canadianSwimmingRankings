@@ -1,14 +1,19 @@
+
+/**
+ * !!! CURRENTLY NOT NEEDED WILL HAVE TO GO BACK OVER LOGIC AND SEE HOW I WANT TO PROCEED WITH SPLITTING CHART APART FROM THE FETCH
+ */
+
 import React, { Component } from 'react';
-import { Scatter, Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 class Chart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.data,
-            options: props.options
+            data: this.props.data,
+            options: this.props.options
         }
-        //  console.log(props.options)
+
     }
 
     static defaultProps = {
@@ -18,13 +23,13 @@ class Chart extends Component {
     }
     render() {
         return (
-            <div className="Chart">
-                <Line
-                    data={this.state.data}
-                    options={this.state.options}
-                >
-                </Line>
-            </div>
+            <Line
+                data={this.state.data}
+                options={this.state.options}
+            >
+                {console.log(this.state)}
+                {/*console.log(this.state) */}
+            </Line>
         )
     }
 }
