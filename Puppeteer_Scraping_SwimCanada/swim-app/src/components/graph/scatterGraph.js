@@ -41,10 +41,12 @@ d = d.filter(d => d.includes("Female_0_Events"))
 let data = require('../../swimmerData/' + d[0]);
 console.log(d[0])
 
-{   /**
+   /*
      * ! MOST LIKELY WILL GO BACK AND USE ALL REACT CHART.JS FOR THIS
      * ! THAT WAY I AM ABLE TO SWAP THE DATA AND RERENDER WHEN THE DROP DOWN CHANGES ETC
-     */ }
+     *
+    */
+
 
 
 const divStyle = {
