@@ -2,7 +2,7 @@ var fs = require('fs');
 var admin = require("firebase-admin");
 var serviceAccount = require("../../canadian-swimming-ranks-firebase-adminsdk-7x0t5-f65824ad6d");
 
-// Initialize the app with the credentials for the storage and bucket from Firebase
+// * Initialize the app with the credentials for the storage and bucket from Firebase
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://canadian-swimming-rankings.firebaseio.com",
@@ -12,7 +12,7 @@ admin.initializeApp({
 const bucket = admin.storage().bucket()
 
 
-// ! Makes the Bucket Public (Needed for doing calls for the react app to the Storage)
+// * Makes the Bucket Public (Needed for doing calls for the react app to the Storage)
 function makeBucketPublic(bucket) {
     bucket.makePublic();
 }
@@ -28,8 +28,8 @@ fs.appendFileSync('./MALE_SIGNED_URLS.csv', 'File Name\tSIGNED URL\n', function 
 })
 
 /** 
- * ! Function for collecting the backloged data that is scraped in 'powerRanking.js' & 'rankingsBacklog.js'
- * ! and adds the data to the Firebase storage
+ * * Function for collecting the backloged data that is scraped in 'powerRanking.js' & 'rankingsBacklog.js'
+ * * and adds the data to the Firebase storage
 */
 
 function addFilesToStorage() {

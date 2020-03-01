@@ -1,0 +1,1 @@
+CURRENTLY THE USE OF chartjs.js file is DEPRECIATED as of FEB 29, 2020
