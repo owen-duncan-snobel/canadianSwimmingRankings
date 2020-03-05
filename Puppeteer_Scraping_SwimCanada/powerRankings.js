@@ -131,16 +131,22 @@ const puppeteer = require("puppeteer");
             var count = 0;
             let lastData = '';
             for (event in eventsList) {
-                // should be nested for loop selects age then gets all events and genders
-                // NEED TO CHANGE THE COURSE TO A VARIABLE TO DO SEND TO CORRECT PATH
-                // NEED TO ADD CORRECT YEAR TO IT AS WELL
+                /**  
+                 *  TODO should be nested for loop selects age then gets all events and genders
+                 *  TODO NEED TO CHANGE THE COURSE TO A VARIABLE TO DO SEND TO CORRECT PATH
+                 *  TODO NEED TO ADD CORRECT YEAR TO IT AS WELL
+                */
                 const path = "swimmerData/2019-2020/Short_Course/";
                 await page.select("#ddl_event", eventsList[count].eventValue);
                 await page.click("#btnShow");
                 await page.waitFor(300)
-                // IF you dont wait for the selector it moves to fast and will not 
-                // display elements (Learned the hard way 4 hours....)
-                // Need to turn the table into an object
+
+                /**
+                 * * IF you dont wait for the selector it moves to fast and will not 
+                 * * display elements (Learned the hard way 4 hours....)
+                 * * Need to turn the table into an object
+                */
+
                 await page.waitForSelector("table");
                 const data = await (await page.$$eval("tr", el => el.map(n => n.innerText.replace(/\t/g, '|'))));
                 if (lastData == data.join('')) {
@@ -165,6 +171,9 @@ const puppeteer = require("puppeteer");
 
 
 /*
+
+TODO
+
     Need to seperate the consts into another folder and import them as constants,
     The Gender selectors, Age from and Age to, Event values / all Events
     (That way when it is making request calls it only downloads the events one time / will store
