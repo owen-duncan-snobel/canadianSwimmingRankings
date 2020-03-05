@@ -1,4 +1,7 @@
-// Seperate logic into different files (import the events into the main logic etc)
+/**
+ *  * FILE ONLY WILL COLLECT FROM CURRENT YEAR WILL NOT SELECT PREVIOUS YEARS POWER RANKINGS
+ *  * REFER TO RANKINGSBACKLOG for collect all previous years data sets
+*/
 const fs = require('fs');
 const Papa = require('papaparse');
 const puppeteer = require("puppeteer");
@@ -10,8 +13,15 @@ const puppeteer = require("puppeteer");
     const page = await browser.newPage();
     await page.goto("https://registration.swimming.ca/powerranking.aspx");
 
-    // ALL THE ARRAY BUILDERS OF OPTIONS OF WHAT TO SCRAPE
-    // Stores all the Events values in an array
+    // * Stores the current Selected year (useful for file naming)
+    const currentYear = await page.evaluate(() => {
+        for (year of document.querySelector("#ddl_season").children) {
+            if (year.selected == true) return year.innerText;
+        }
+        return null;
+    })
+
+    // * Stores all the Events values in an array
     const eventsList = await page.evaluate(() => {
         var events = [];
         for (option of document.querySelector("#ddl_event").children) {
@@ -22,7 +32,7 @@ const puppeteer = require("puppeteer");
                 "eventName": option.innerText
             });
         }
-        // First Element is the default value from the dropdown list so it is not needed
+        // * First Element is the default value from the dropdown list so it is not needed
         var removeFirst = events.shift();
         return events;
     })
@@ -30,8 +40,8 @@ const puppeteer = require("puppeteer");
     //console.log(eventsList);
 
 
-    // Selects all the age ranges in the dropdown list from to and from for later use 
-    // ALSO ONLY CURRENTLY SELECTS FROM LONG COURSE
+    // * Selects all the age ranges in the dropdown list from to and from for later use 
+    // *  ALSO ONLY CURRENTLY SELECTS FROM LONG COURSE
     const ageFrom = await page.evaluate(() => {
         var ageArr = [];
         for (ages of document.querySelector("#ddl_agefrom").children) {
@@ -68,11 +78,14 @@ const puppeteer = require("puppeteer");
     // console.log(genders);
 
 
-    // selects all events and displays the prompts (based on other parameters in search)
-    // will eventually change it to a form that the user can specify
+    /**  
+    * * selects all events and displays the prompts (based on other parameters in search)
+    * * will eventually change it to a form that the user can specify
+    *
+    * * Need to go back and organize the variable names and proper local and global scoping of variables
+    * * aka g in gend, gender, genders ... more meaningful names 
+*/
 
-    // Need to go back and organize the variable names and proper local and global scoping of variables
-    // aka g in gend, gender, genders ... more meaningful names 
 
     const makeDirectoryForCSV = await fs.mkdir("swimmerData", function (err, result) {
         if (err) console.log("Couldn't make directory that stores the csv files, aka(swimmerData/)");
@@ -108,7 +121,7 @@ const puppeteer = require("puppeteer");
             await page.select("#ddl_gender", genders[gender].genderValue);
             const date = new Date().toISOString().slice(0, 10);
             // NEED TO ADD VARIABLE FOR LONG COURSE OR SHORT COURSE AND YEAR ONCE I COLLECT ALL THE BACK LOGS
-            const dir = await fs.mkdir("swimmerData/2019-2020/Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/", {
+            const dir = await fs.mkdir("swimmerData/2019-2020/Short_Course/", {
                 recursive: true
             },
                 function (err, result) {
@@ -121,7 +134,7 @@ const puppeteer = require("puppeteer");
                 // should be nested for loop selects age then gets all events and genders
                 // NEED TO CHANGE THE COURSE TO A VARIABLE TO DO SEND TO CORRECT PATH
                 // NEED TO ADD CORRECT YEAR TO IT AS WELL
-                const path = "swimmerData/2019-2020/" + "Short_Course/" + date + "/" + genders[gender].gender + '_' + ageFrom[age] + "_Events" + "/";
+                const path = "swimmerData/2019-2020/Short_Course/";
                 await page.select("#ddl_event", eventsList[count].eventValue);
                 await page.click("#btnShow");
                 await page.waitFor(300)
@@ -133,11 +146,11 @@ const puppeteer = require("puppeteer");
                 if (lastData == data.join('')) {
                     console.log("Does not have data for event: " + eventsList[count].eventName + "," + genders[gender].gender + "," + ageFrom[age]);
                 } else {
-                    // ! CONVERTS THE DATA OBJECT (Scrape Data) into a Js object that saved as a json file
+                    // * CONVERTS THE DATA OBJECT (Scrape Data) into a Js object that saved as a json file
                     const jsonData = await Papa.parse(data.join('\n'), {
                         header: true
                     });
-                    const events = await fs.writeFile(path + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
+                    const events = await fs.writeFile(path + currentYear + '_' + genders[gender].gender + '_' + ageFrom[age] + "_" + eventsList[count].eventName.split(' ').join('_') + '.json', JSON.stringify(jsonData), function (err) {
                         if (err) console.log('error', err);
                     });
                 }
