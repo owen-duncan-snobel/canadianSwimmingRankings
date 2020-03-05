@@ -18,15 +18,6 @@ function makeBucketPublic(bucket) {
 }
 
 
-// ? Format the CSV Files and Header for the CSV Files
-
-fs.appendFileSync('./FEMALE_SIGNED_URLS.csv', 'File Name\tSIGNED URL\n', function (err) {
-    if (err) console.log('ERROR: Unable to write SIGNED URLS to JSON');
-})
-fs.appendFileSync('./MALE_SIGNED_URLS.csv', 'File Name\tSIGNED URL\n', function (err) {
-    if (err) console.log('ERROR: Unable to write SIGNED URLS to JSON');
-})
-
 /** 
  * * Function for collecting the backloged data that is scraped in 'powerRanking.js' & 'rankingsBacklog.js'
  * * and adds the data to the Firebase storage
@@ -51,36 +42,11 @@ function addFilesToStorage() {
                 let url = file.getSignedUrl({
                     action: 'read',
                     expires: '03-09-2491'
-                }).then(function (x, file) {
-
-                    // ! Filename for mapping of pairs of file and the SIGNED URL PATH
-                    let fileNameForSignedUrl = x[0].toString().split('?')[0].split('/').pop().split('.')[0];
-                    let gender = fileNameForSignedUrl.split('_')[1];
-
-
-                    // ! FILE SIZE WHEN THEY WERE ALL IN ONE HIT MAX FILE LENGTH
-                    if (gender == "Male") {
-                        let obj = fileNameForSignedUrl.toString() + '\t' + x[0];
-                        fs.appendFileSync('./MALE_SIGNED_URLS.csv', obj + '\n', function (err) {
-                            if (err) console.log('ERROR: Unable to write SIGNED URLS to JSON');
-                        })
-                    }
-
-                    else {
-                        let obj = fileNameForSignedUrl.toString() + '\t' + x[0];
-                        fs.appendFileSync('./FEMALE_SIGNED_URLS.csv', obj + '\n', function (err) {
-                            if (err) console.log('ERROR: Unable to write SIGNED URLS to JSON');
-                        })
-                    }
-
                 })
             })
         }
-
-
     })
 }
-
 
 addFilesToStorage();
 // makeBucketPublic(bucket);
