@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google-cloud/storage": "^4.4.0",
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.40",
@@ -14,6 +15,7 @@
     "chartjs-plugin-colorschemes": "^0.4.0",
     "d3": "^5.15.0",
     "d3-scale-chromatic": "^1.5.0",
+    "firebase-admin": "^8.9.2",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-chartjs-2": "^2.8.0",
