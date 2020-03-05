@@ -1,3 +1,6 @@
+// TODO
+
+// ! CURRENT STATE OF FILE IS CURRENTLY DEPRECIATED WILL NEED TO COME BACK AND THINK OF HOW I WANT TO SELECT COMPARISIONS
 /* CORRECT LOGIC TO PRINT THE CONTENTS OF A DIRECTORY INTO A JSON FILE  (NEEDED FOR THE TREE COMPONENTS IN REACT )
 
 ----- Following Command needs to be run after to ensure that the tree structure is properly maintained with only csv files
