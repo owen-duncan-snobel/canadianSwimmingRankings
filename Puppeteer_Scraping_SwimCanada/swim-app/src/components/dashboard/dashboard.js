@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
+
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 import * as firebase from "firebase/app";
 
 // Add the Firebase services that you want to use
 import "firebase/storage";
+import SwimForm from '../swimForm/swimForm';
 
 /**
  *   The dashboard is responsible for housing the Chart and styling for the chart
@@ -15,6 +17,8 @@ import "firebase/storage";
  *  Is called from within the Dashboard constructor for the chart
  *  Converts Millisecond string/number to a ISOString representation of it in (mm:ss.SS)
  */
+
+// * General Firebase config, does not matter if the api key is leaked(needed to fetch files), as long as it is not the ADMIN SDK FOR FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyBuZ2fXe-NLt8N7e8Dq3HVMGOvvAjWSj6w",
     authDomain: "canadian-swimming-ranks.firebaseapp.com",
@@ -150,8 +154,13 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div className="Dashboard for Chart">
-                <Line data={this.state.data} options={this.state.options}> </Line>
+            <div>
+                <div className="Dashboard for Chart">
+                    <Line data={this.state.data} options={this.state.options}> </Line>
+                </div>
+                <div>
+                    <SwimForm></SwimForm>
+                </div>
             </div>
         )
     }
