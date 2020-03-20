@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from './components/dashboard/dashboard'
+import SwimForm from './components/swimForm/swimForm'
 //import Datasets from "./components/datasets/datasets";
 
 import './App.css';
@@ -18,13 +18,9 @@ function App() {
 
   return (
     <div>
-      <div className="App">Canadian Swimmings Power Rankings</div>
       <Col className="d-xs-none">
-        <Dashboard
-          // ! LOGIC TO PASS THE FORMATTED DATA DOWN TO THE DASHBOARD THEN FROM THE DASH BOARD TO THE CHART
-          event={"TEMP HOLDER"}
-        />
 
+        <SwimForm></SwimForm>
         {/*  <Datasets></Datasets> */}
 
         {/*  TODO: Most likely will replace with an env variable will need to come back and look  */}

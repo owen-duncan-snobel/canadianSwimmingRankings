@@ -57,6 +57,11 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             data: {
+                datasets: [
+                    {
+                        label: ''
+                    }
+                ]
             }
         }
     }
@@ -149,17 +154,15 @@ class Dashboard extends Component {
     // * NEED TO GO BACK AND SEARCH THE REACT FIREBASE / COMPONENT MOUNTING GUIDE FOR UPDATING THE STATE
     // When Component Finishes loading the Chart, It will then fetch the data, then update the state and pass new props
     componentDidMount() {
-        this.getData();
+        //   this.getData();
     }
 
     render() {
         return (
             <div>
+                <div className="App">Canadian Swimmings Power Rankings</div>
                 <div className="Dashboard for Chart">
                     <Line data={this.state.data} options={this.state.options}> </Line>
-                </div>
-                <div>
-                    <SwimForm></SwimForm>
                 </div>
             </div>
         )
