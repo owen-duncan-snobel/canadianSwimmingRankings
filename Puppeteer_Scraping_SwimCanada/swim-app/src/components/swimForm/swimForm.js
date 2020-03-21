@@ -5,11 +5,33 @@ import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
 
-const handleSubmit = event => {
-    console.log(event.target)
-}
 
 class SwimForm extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            ddl_season: '2019-2020',
+            ddl_course: 'Short_Course',
+            swimEvent: ''
+        };
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({ swimEvent: 'Short_Course/2019-2020_Male_11_100_Back.json' }, () => {
+        })
+    }
+    handleInputChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+    handleSubmit(event) {
+        //  event.preventDefault();
+        console.log(this.state)
+        // console.log(this.state);
+        // console.log('SUBMITTING');
+    }
 
     /**
      * TODO |CONSIDER COMPLETELY REMOVING THE REACT-BOOTSTRAP FORM (Potentially all of react-bootstrap), MIGHT JUST STEAL 
@@ -52,64 +74,64 @@ class SwimForm extends Component {
                     <hr></hr>
                     <h1 className="formTitle">Swimming Canada Power Rankings</h1>
                 </div>
-                <Form className='form' onSubmit={handleSubmit}>
+                <Form className='rankingsForm' onSubmit={this.handleSubmit}>
                     <Form.Row>
                         {/**  Swimming Season */}
-                        <Form.Group controlId="formGridState">
-                            <Form.Control id="ddl_season" className="dropdownBox custom-select" as="select">
+                        <Form.Group >
+                            <Form.Control name="ddl_season" id="ddl_season" value={this.state.ddl_season} onChange={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option value="" disabled>Season</option>
-                                <option>2007-2008</option>
-                                <option>2008-2009</option>
-                                <option>2009-2010</option>
-                                <option>2010-2011</option>
-                                <option>2011-2012</option>
-                                <option>2012-2013</option>
-                                <option>2013-2014</option>
-                                <option>2014-2015</option>
-                                <option>2015-2016</option>
-                                <option>2016-2017</option>
-                                <option>2017-2018</option>
-                                <option>2018-2019</option>
-                                <option selected>2019-2020</option>
-                                <option>2020-2021</option>
-                                <option>2021-2022</option>
+                                <option value="2007-2008">2007-2008</option>
+                                <option value="2008-2009">2008-2009</option>
+                                <option value="2009-2010">2009-2010</option>
+                                <option value="2010-2011">2010-2011</option>
+                                <option value="2011-2012">2011-2012</option>
+                                <option value="2012-2013">2012-2013</option>
+                                <option value="2013-2014">2013-2014</option>
+                                <option value="2014-2015">2014-2015</option>
+                                <option value="2015-2016">2015-2016</option>
+                                <option value="2016-2017">2016-2017</option>
+                                <option value="2017-2018">2017-2018</option>
+                                <option value="2018-2019">2018-2019</option>
+                                <option value="2019-2020">2019-2020</option>
+                                <option value="2020-2021">2020-2021</option>
+                                <option value="2021-2022">2021-2022</option>
                             </Form.Control>
                         </Form.Group>
 
                         {/**  Course */}
-                        <Form.Group controlId="formGridState">
-                            <Form.Control id="ddl_course" className="dropdownBox custom-select" as="select">
+                        <Form.Group >
+                            <Form.Control name="ddl_course" id="ddl_course" value={this.state.ddl_course} onChange={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Course</option>
-                                <option selected>Long Course</option>
-                                <option>Short Course</option>
+                                <option value="Long_Course">Long Course</option>
+                                <option value="Short_Course">Short Course</option>
                             </Form.Control>
                         </Form.Group>
 
 
                         {/**  Gender */}
-                        <Form.Group controlId="formGridState">
-                            <Form.Control id="ddl_gender" className="dropdownBox custom-select" as="select">
+                        <Form.Group >
+                            <Form.Control name="ddl_gender" id="ddl_gender" className="dropdownBox custom-select" as="select">
                                 <option disabled>Gender</option>
-                                <option>Male</option>
-                                <option selected>Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </Form.Control>
                         </Form.Group>
 
 
                         {/**  Age */}
-                        <Form.Group controlId="formGridState">
-                            <Form.Control id="ddl_age" className="dropdownBox custom-select" as="select">
+                        <Form.Group >
+                            <Form.Control name="ddl_age" id="ddl_age" className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
-                                <option>Under 10</option>
-                                <option selected>10</option>
-                                <option>11</option>
-                                <option>12</option>
-                                <option>13</option>
-                                <option>14</option>
-                                <option>15</option>
-                                <option>16</option>
-                                <option>17</option>
-                                <option>18</option>
+                                <option value="Under_10">Under 10</option>
+                                <option value="10" selected>10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -119,10 +141,9 @@ class SwimForm extends Component {
                     </Form.Row>
                 </Form>
 
-
                 <Dashboard
                     // ! LOGIC TO PASS THE FORMATTED DATA DOWN TO THE DASHBOARD THEN FROM THE DASH BOARD TO THE CHART
-                    event={"TEMP HOLDER"}
+                    swimEvent={this.state.swimEvent}
                 />
             </>)
     }

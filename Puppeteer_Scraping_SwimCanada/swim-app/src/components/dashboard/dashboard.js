@@ -31,7 +31,6 @@ const firebaseConfig = {
 };
 const app = firebase.initializeApp(firebaseConfig);
 
-
 // TODO NEED TO RECREATE THE TABLE THAT IS USED ON THE MAIN PAGE FOR THE SELECTION OF DATA TO GRAB THE LINK FROM
 const standardize_times = (time) => {
     // * Ensures that all time strings given are in an appropriate ISO String format
@@ -53,25 +52,13 @@ var dynamicColors = function () {
 
 
 class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: {
-                datasets: [
-                    {
-                        label: ''
-                    }
-                ]
-            }
-        }
-    }
+
 
     getData() {
         // ! NOT CURRENTLY USED  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-
         const that = this;
         // !!! WILL NEED TO MAKE THE FETCH ADDRESS A VARIABLE THEN PASS THE TITLE TO THE NEXT PEICE FOR USE
-        app.storage().ref('Short_Course/2019-2020_Male_11_100_Back.json').getDownloadURL().then((url) => {
+        app.storage().ref(this.props.swimEvent).getDownloadURL().then((url) => {
             fetch(url, {
                 method: "GET",
             }).then(response => {
@@ -154,7 +141,7 @@ class Dashboard extends Component {
     // * NEED TO GO BACK AND SEARCH THE REACT FIREBASE / COMPONENT MOUNTING GUIDE FOR UPDATING THE STATE
     // When Component Finishes loading the Chart, It will then fetch the data, then update the state and pass new props
     componentDidMount() {
-        //   this.getData();
+        //  this.getData();
     }
 
     render() {
@@ -162,7 +149,7 @@ class Dashboard extends Component {
             <div>
                 <div className="App">Canadian Swimmings Power Rankings</div>
                 <div className="Dashboard for Chart">
-                    <Line data={this.state.data} options={this.state.options}> </Line>
+                    <Line data={this.props.data} options={this.state.options}> </Line>
                 </div>
             </div>
         )
