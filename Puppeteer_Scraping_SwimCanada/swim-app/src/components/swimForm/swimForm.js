@@ -4,6 +4,23 @@ import Col from 'react-bootstrap/Col'
 import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
+import * as firebase from "firebase/app";
+// Add the Firebase services that you want to use
+import "firebase/storage";
+
+
+// * General Firebase config, does not matter if the api key is leaked(needed to fetch files), as long as it is not the ADMIN SDK FOR FIREBASE
+const firebaseConfig = {
+    apiKey: "AIzaSyBuZ2fXe-NLt8N7e8Dq3HVMGOvvAjWSj6w",
+    authDomain: "canadian-swimming-ranks.firebaseapp.com",
+    databaseURL: "https://canadian-swimming-ranks.firebaseio.com",
+    projectId: "canadian-swimming-ranks",
+    storageBucket: "canadian-swimming-ranks.appspot.com",
+    messagingSenderId: "772356223119",
+    appId: "1:772356223119:web:40ef7c35bc78f6f3b340fa",
+    measurementId: "G-8LF3N3CFPZ"
+};
+const app = firebase.initializeApp(firebaseConfig);
 
 
 class SwimForm extends Component {
@@ -13,7 +30,7 @@ class SwimForm extends Component {
         this.state = {
             ddl_season: '2019-2020',
             ddl_course: 'Short_Course',
-            link: ''
+            swimmerData: null
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,15 +39,40 @@ class SwimForm extends Component {
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
+
     handleSubmit(event) {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         event.preventDefault();
+
         // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
-        this.setState({ link: 'Short_Course/2007-2008_Female_0_100_Back.json' })
+        app.storage().ref('Short_Course/2007-2008_Female_0_100_Back.json').getDownloadURL().then(
+            (url) => {
+                fetch(url, {
+                    method: "GET",
+                })
+                    .then(response => {
+                        return response.json()
+                    })
+                    .then(dataset => {
+                        const standardize_times = (time) => {
+                            // * Ensures that all time strings given are in an appropriate ISO String format
+                            if (time.length === 5) time = '00:' + time;
+                            if (time.length === 7) time = '0' + time;
+                            let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+                            return milli;
+                        }
+                        // * Work with JSON data here
+                        let time = dataset.data.map(x => standardize_times(x.TIME));
+                        let athletes = dataset.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
+                        let rank = dataset.data.map(x => x.RANK).reverse();
+                        this.setState({ swimmerData: { time, athletes, rank } })
+                    })
+            })
     }
 
+
     /**
-     * TODO |CONSIDER COMPLETELY REMOVING THE REACT-BOOTSTRAP FORM (Potentially all of react-bootstrap), MIGHT JUST STEAL 
+     * TODO | CONSIDER COMPLETELY REMOVING THE REACT-BOOTSTRAP FORM (Potentially all of react-bootstrap), MIGHT JUST STEAL 
      * TODO | THE STYLE AND REMOVE IT FORM ISN'T EASY TO FOLLOW FROM THE DOCUMENTATION
     */
     render() {
@@ -139,7 +181,7 @@ class SwimForm extends Component {
 
                 <Dashboard
                     // ! LOGIC TO PASS THE FORMATTED DATA DOWN TO THE DASHBOARD THEN FROM THE DASH BOARD TO THE CHART
-                    link={this.state.link}
+                    swimmerData={this.state.swimmerData}
                 />
             </>)
     }
