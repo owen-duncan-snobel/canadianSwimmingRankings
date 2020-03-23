@@ -32,124 +32,142 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 
 // TODO NEED TO RECREATE THE TABLE THAT IS USED ON THE MAIN PAGE FOR THE SELECTION OF DATA TO GRAB THE LINK FROM
-const standardize_times = (time) => {
-    // * Ensures that all time strings given are in an appropriate ISO String format
-    if (time.length === 5) time = '00:' + time;
-    if (time.length === 7) time = '0' + time;
-    let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-    return milli;
-}
-const epoch_to_hh_mm_ss = (epoch) => {
-    return new Date(epoch).toISOString().substr(14, 8);
-}
 
-var dynamicColors = function () {
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
-    return "rgb(" + r + "," + g + "," + b + ")";
-}
 
 
 class Dashboard extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {
+                datasets: [
+                    {
+                        label: ''
+                    }
+                ]
+            }
+        }
+    }
+    componentDidUpdate() {
+        this.getData();
+    }
 
     getData() {
-        // ! NOT CURRENTLY USED  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        const that = this;
-        // !!! WILL NEED TO MAKE THE FETCH ADDRESS A VARIABLE THEN PASS THE TITLE TO THE NEXT PEICE FOR USE
-        app.storage().ref(this.props.swimEvent).getDownloadURL().then((url) => {
-            fetch(url, {
-                method: "GET",
-            }).then(response => {
-                return response.json()
-            })
-                .then(data => {
-                    console.log(data);
-                    // * Work with JSON data here
-                    let time = data.data.map(x => standardize_times(x.TIME));
-                    let athletes = data.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
-                    let rank = data.data.map(x => x.RANK).reverse();
-                    return { time, athletes, rank };
-                }).then(
-                    (graphData) => that.setState({
-                        // TODO NEED TO ADD TOOLTIPS AND ALL OTHER CHART.JS GRAPHING LOGIC HERE
-                        data: {
-                            labels: graphData.rank,
-                            datasets: [{
-                                /**
-                                 * TODO POTENTIALLY STYLE 1st,2nd,3rd Place to be coloured gold silver bronze to make finding the 
-                                 * fastest time easier
-                                 */
-                                label: "Replace label with a variable that is the year and gender",
-                                backgroundColor: 'rgb(255, 99, 132)',
-                                borderColor: 'rgb(255, 99, 132)',
-                                fill: false,
-                                data: graphData.time.reverse(),
-                            }]
-                        },
-                        options: {
-                            title: {
-                                display: true,
-                                text: 'Needs to be replaced with variable'
-                            },
-                            legend: {
-                                text: 'Replace with Dataset Year and Gender'
-                            },
-                            animation: {
-                                duration: 0 // general animation time
-                            },
-                            tooltips: {
-                                callbacks: {
-                                    // * Updates the Tooltips (Graph Points) with the Name,Time 
-                                    label: function (tooltipItem, data) {
-                                        // * Label Array is used to create multiple labels inside of data element in graph. 
-                                        let labelArr = [];
-                                        //  console.log(tooltipItem)
-                                        labelArr.push(graphData.athletes[tooltipItem.label - 1] + ' ' + epoch_to_hh_mm_ss(tooltipItem.yLabel));
-                                        return labelArr;
-                                    }
-                                }
-                            },
-                            scales: {
-                                yAxes: [{
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Times",
-                                    },
-                                    ticks: {
-                                        callback: function (v) {
-                                            // Responsible for the time graphing for the y-axis (converts ms to a readable format)
-                                            return epoch_to_hh_mm_ss(v);
-                                        },
 
-                                    }
-                                }],
-                                xAxes: [{
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Rank",
-                                    }
+        if (this.props.link === '') {
+            // * If the link passed from dashboard is empty or default, no starting graph to display
+        } else {
+            app.storage().ref(this.props.link).getDownloadURL().then((url) => {
+                fetch(url, {
+                    method: "GET",
+                }).then(response => {
+                    return response.json()
+                })
+                    .then(data => {
+                        console.log(data);
+                        // * Work with JSON data here
+                        let time = data.data.map(x => standardize_times(x.TIME));
+                        let athletes = data.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
+                        let rank = data.data.map(x => x.RANK).reverse();
+                        return { time, athletes, rank };
+                    }).then(
+                        (graphData) => this.setState({
+                            // TODO NEED TO ADD TOOLTIPS AND ALL OTHER CHART.JS GRAPHING LOGIC HERE
+                            data: {
+                                labels: graphData.rank,
+                                datasets: [{
+
+                                    //  * TODO POTENTIALLY STYLE 1st,2nd,3rd Place to be coloured gold silver bronze to make finding the 
+                                    //  * fastest time easier
+
+                                    label: "Replace label with a variable that is the year and gender",
+                                    backgroundColor: 'rgb(255, 99, 132)',
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    fill: false,
+                                    data: graphData.time.reverse(),
                                 }]
-                            }
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    text: 'Needs to be replaced with variable'
+                                },
+                                legend: {
+                                    text: 'Replace with Dataset Year and Gender'
+                                },
+                                animation: {
+                                    duration: 0 // general animation time
+                                },
+                                tooltips: {
+                                    callbacks: {
+                                        // * Updates the Tooltips (Graph Points) with the Name,Time 
+                                        label: function (tooltipItem, data) {
+                                            // * Label Array is used to create multiple labels inside of data element in graph. 
+                                            let labelArr = [];
+                                            //  console.log(tooltipItem)
+                                            labelArr.push(graphData.athletes[tooltipItem.label - 1] + ' ' + epoch_to_hh_mm_ss(tooltipItem.yLabel));
+                                            return labelArr;
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Times",
+                                        },
+                                        ticks: {
+                                            callback: function (v) {
+                                                // Responsible for the time graphing for the y-axis (converts ms to a readable format)
+                                                return epoch_to_hh_mm_ss(v);
+                                            },
 
-                        }
-                    }),
-                )
-        })
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "Rank",
+                                        }
+                                    }]
+                                }
+
+                            }
+                        }),
+                    )
+            })
+        }
+
+        // * NEEDED FOR THE CONVERSIONS
+        const standardize_times = (time) => {
+            // * Ensures that all time strings given are in an appropriate ISO String format
+            if (time.length === 5) time = '00:' + time;
+            if (time.length === 7) time = '0' + time;
+            let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+            return milli;
+        }
+        const epoch_to_hh_mm_ss = (epoch) => {
+            return new Date(epoch).toISOString().substr(14, 8);
+        }
+
+        var dynamicColors = function () {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
+
     }
     // * NEED TO GO BACK AND SEARCH THE REACT FIREBASE / COMPONENT MOUNTING GUIDE FOR UPDATING THE STATE
     // When Component Finishes loading the Chart, It will then fetch the data, then update the state and pass new props
-    componentDidMount() {
-        //  this.getData();
-    }
 
     render() {
         return (
             <div>
+                {console.log(this.state.data)}
                 <div className="App">Canadian Swimmings Power Rankings</div>
                 <div className="Dashboard for Chart">
-                    <Line data={this.props.data} options={this.state.options}> </Line>
+                    <Line data={this.state.data} option={this.props.options}> </Line>
                 </div>
             </div>
         )

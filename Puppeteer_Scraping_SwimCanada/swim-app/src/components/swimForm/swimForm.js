@@ -13,24 +13,20 @@ class SwimForm extends Component {
         this.state = {
             ddl_season: '2019-2020',
             ddl_course: 'Short_Course',
-            swimEvent: ''
+            link: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-        this.setState({ swimEvent: 'Short_Course/2019-2020_Male_11_100_Back.json' }, () => {
-        })
-    }
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
     handleSubmit(event) {
-        //  event.preventDefault();
-        console.log(this.state)
-        // console.log(this.state);
-        // console.log('SUBMITTING');
+        // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
+        event.preventDefault();
+        // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
+        this.setState({ link: 'Short_Course/2007-2008_Female_0_100_Back.json' })
     }
 
     /**
@@ -143,7 +139,7 @@ class SwimForm extends Component {
 
                 <Dashboard
                     // ! LOGIC TO PASS THE FORMATTED DATA DOWN TO THE DASHBOARD THEN FROM THE DASH BOARD TO THE CHART
-                    swimEvent={this.state.swimEvent}
+                    link={this.state.link}
                 />
             </>)
     }
