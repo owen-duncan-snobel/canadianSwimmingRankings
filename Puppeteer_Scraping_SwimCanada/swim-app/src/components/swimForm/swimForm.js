@@ -88,6 +88,17 @@ class SwimForm extends Component {
     }
 
     render() {
+        /*
+
+         !!! NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
+        let chart;
+        // * Don't display chart if no data has been provided yet
+        if (this.state.swimmerData == null) {
+            chart = '';
+        } else {
+            chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} />;
+        }
+        */
         return (
             <>
                 <style type="text/css">
