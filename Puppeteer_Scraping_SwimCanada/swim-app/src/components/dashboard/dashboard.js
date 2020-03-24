@@ -29,7 +29,7 @@ class Dashboard extends Component {
                 labels: this.props.swimmerData.rank,
                 datasets: [{
                     //  TODO POTENTIALLY STYLE 1st,2nd,3rd Place to be coloured gold silver bronze to make finding the 
-                    label: "Replace label with a variable that is the year and gender",
+                    label: this.props.eventName.split('|')[0].replace(/ 0 /gi, ' Under 10'),
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
@@ -38,12 +38,11 @@ class Dashboard extends Component {
             }
 
             options = {
+                responsive: false,
+                maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: this.props.eventName
-                },
-                legend: {
-                    text: 'Replace with Dataset Year and Gender'
+                    text: this.props.eventName.split('|')[1]
                 },
                 animation: {
                     duration: 0 // general animation time
@@ -69,8 +68,7 @@ class Dashboard extends Component {
                             callback: function (v) {
                                 // Responsible for the time graphing for the y-axis (converts ms to a readable format)
                                 return new Date(v).toISOString().substr(14, 8)
-                            },
-
+                            }
                         }
                     }],
                     xAxes: [{

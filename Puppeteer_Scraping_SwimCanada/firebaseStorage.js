@@ -25,7 +25,7 @@ function makeBucketPublic(bucket) {
 
 function addFilesToStorage() {
     // * Reads the Directory that contins the files and itterates through the folder and uploads each file to Storage
-
+    //  let course = ['Short_Course', 'Short_Course'];
     let files = fs.readdir('./swimmerData/Short_Course/', function (err, data) {
         if (err) console.log("Couldn't read the directory files");
 

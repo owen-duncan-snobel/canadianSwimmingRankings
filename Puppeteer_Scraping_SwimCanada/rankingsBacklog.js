@@ -95,15 +95,15 @@ const puppeteer = require("puppeteer");
     // For Short Course OR Long Course Selection will need to either scrape both (time consuming, or base it off typical months of what season it is)
 
     // ----------- SHORT COURSE OR LONG COURSE SELECTION --------------
-    // NEED TO ADD THE SELECTION FOR LONG COURSE AND SHORT COURSE, Generally only run short course [1 shortcourse, 2 longcourse]
-
+    // * NEED TO ADD THE SELECTION FOR LONG COURSE AND SHORT COURSE, Generally only run short course [1 shortcourse, 2 longcourse]
     await page.select("#ddl_course", "1");
-
     // ADD FUNCTION FOR COURSE SELECTION
 
     for (year in swimmingSeason) {
-        await page.select("#ddl_season", swimmingSeason[year].seasonValue);
+        // * If it times out use this to jump into where it left off
+        //    if (parseInt(swimmingSeason[year].seasonYear.split('-')[0]) < 2014) continue;
 
+        await page.select("#ddl_season", swimmingSeason[year].seasonValue);
         for (gender in genders) {
             // Will only run once a week for events and csv collection
             // TIME COMPLEXITY FOR G DOES NOT MAKE IT x^3 , only two genders so it is (2 * x^2) slightly faster
@@ -149,7 +149,7 @@ const puppeteer = require("puppeteer");
                     await page.waitForSelector("table");
                     const data = await (await page.$$eval("tr", el => el.map(n => n.innerText.replace(/\t/g, '|'))));
                     if (lastData == data.join('')) {
-                        console.log("Does not have data for event: " + eventsList[count].eventName + "," + genders[gender].gender + "," + ageFrom[age]);
+                        console.log("Does not have data for event: " + swimmingSeason[year] + ' ' + eventsList[count].eventName + "," + genders[gender].gender + "," + ageFrom[age]);
                     } else {
                         // ! CONVERTS THE DATA OBJECT (Scrape Data) into a Js object that saved as a json file
                         const jsonData = await Papa.parse(data.join('\n'), {
@@ -166,6 +166,7 @@ const puppeteer = require("puppeteer");
             }
         }
     }
-
+    // TODO NEED TO REWRITE THE VARIABLES FOR SHORT AND LONG COURSE SO WHEN IT IS RAN FILE PATHS ARE APPROPRIATE 
+    // TODO SPECIFICALLY IT NEEDS TO BE A VARIABLE SO THAT IT ISN'T HARDCODED AS A FILE LOCATION
     await browser.close();
 })();
