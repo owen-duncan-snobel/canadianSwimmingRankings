@@ -1,6 +1,5 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col'
 import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
@@ -30,22 +29,35 @@ class SwimForm extends Component {
         this.state = {
             ddl_season: '2019-2020',
             ddl_course: 'Short_Course',
-            swimmerData: null
+            swimmerData: null,
+            eventName: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // * Handles the state selection for when you select a new dropdown from the Form 
     handleInputChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    // * Handles the logic for when you click submit on the form 
     handleSubmit(event) {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         event.preventDefault();
 
+        // * Formed data is used for getting the contents of the submitted form 
+        const formdata = new FormData(event.target);
+        let season = formdata.get('ddl_season');
+        let course = formdata.get('ddl_course').split(' ').join('_');
+        let gender = formdata.get('ddl_gender');
+        let age = formdata.get('ddl_age');
+        let race = formdata.get('ddl_event').split(' ').join('_');
+        let file = course + '/' + season + '_' + gender + '_' + age + '_' + race + '.json';
+
+
         // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
-        app.storage().ref('Short_Course/2007-2008_Female_0_100_Back.json').getDownloadURL().then(
+        app.storage().ref(file).getDownloadURL().then(
             (url) => {
                 fetch(url, {
                     method: "GET",
@@ -65,16 +77,16 @@ class SwimForm extends Component {
                         let time = dataset.data.map(x => standardize_times(x.TIME));
                         let athletes = dataset.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
                         let rank = dataset.data.map(x => x.RANK).reverse();
+                        time = time.reverse();
                         this.setState({ swimmerData: { time, athletes, rank } })
                     })
-            })
+                // * CATCH NEEDED FOR RETURNING AN EMPTY OBJECT (aka. FILE DOESN'T exist or failed fetches to firebase)
+            }).catch(err => (err))
+
+        // * Set the event name to be passed down as a label for the graph
+        this.setState({ eventName: race.split('_').join(' ') })
     }
 
-
-    /**
-     * TODO | CONSIDER COMPLETELY REMOVING THE REACT-BOOTSTRAP FORM (Potentially all of react-bootstrap), MIGHT JUST STEAL 
-     * TODO | THE STYLE AND REMOVE IT FORM ISN'T EASY TO FOLLOW FROM THE DOCUMENTATION
-    */
     render() {
         return (
             <>
@@ -155,13 +167,12 @@ class SwimForm extends Component {
                             </Form.Control>
                         </Form.Group>
 
-
                         {/**  Age */}
                         <Form.Group >
                             <Form.Control name="ddl_age" id="ddl_age" className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
-                                <option value="Under_10">Under 10</option>
-                                <option value="10" selected>10</option>
+                                <option value="0">Under 10</option>
+                                <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
                                 <option value="13">13</option>
@@ -173,16 +184,43 @@ class SwimForm extends Component {
                             </Form.Control>
                         </Form.Group>
 
+                        {/**  Event */}
+                        <Form.Group >
+                            <Form.Control name="ddl_event" id="ddl_event" className="dropdownBox custom-select" as="select">
+                                <option disabled>Event</option>
+                                <option value="50 Free">50 Free</option>
+                                <option value="100 Free">100 Free</option>
+                                <option value="200 Free">200 Free</option>
+                                <option value="400 Free">400 Free</option>
+                                <option value="800 Free">800 Free</option>
+                                <option value="1500 Free">1500 Free</option>
+                                <option value="50 Back">50 Back</option>
+                                <option value="100 Back">100 Back</option>
+                                <option value="200 Back">200 Back</option>
+                                <option value="50 Breast">50 Breast</option>
+                                <option value="100 Breast">100 Breast</option>
+                                <option value="200 Breast">200 Breast</option>
+                                <option value="50 Fly">50 Fly</option>
+                                <option value="100 Fly">100 Fly</option>
+                                <option value="200 Fly">200 Fly</option>
+                                <option value="100 I.Medley">100 I.Medley</option>
+                                <option value="200 I.Medley">200 I.Medley</option>
+                                <option value="400 I.Medley">400 I.Medley</option>
+                                <option value="200 Free Relay">200 Free Relay</option>
+                                <option value="400 Free Relay">400 Free Relay</option>
+                                <option value="800 Free Relay">800 Free Relay</option>
+                                <option value="200 Medley Relay">200 Medley Relay</option>
+                                <option value="400 Medley Relay">400 Medley Relay</option>
+                            </Form.Control>
+                        </Form.Group>
+
                         <Button className="formButton" type="submit">
                             SHOW
                         </Button>
                     </Form.Row>
                 </Form>
-
-                <Dashboard
-                    // ! LOGIC TO PASS THE FORMATTED DATA DOWN TO THE DASHBOARD THEN FROM THE DASH BOARD TO THE CHART
-                    swimmerData={this.state.swimmerData}
-                />
+                {/* Dashboard with all the logic for the graph **/}
+                <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} />
             </>)
     }
 }
