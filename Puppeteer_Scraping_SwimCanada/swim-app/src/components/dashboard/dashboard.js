@@ -23,7 +23,6 @@ class Dashboard extends Component {
                     }
                 ]
             }
-            options = { hidden: true }
         } else {
             data = {
                 labels: this.props.swimmerData.rank,
@@ -38,10 +37,9 @@ class Dashboard extends Component {
             }
 
             options = {
-                responsive: false,
-                maintainAspectRatio: false,
+                responsive: true,
+                maintainAspectRatio: true,
                 title: {
-                    display: true,
                     text: this.props.eventName.split('|')[1]
                 },
                 animation: {
