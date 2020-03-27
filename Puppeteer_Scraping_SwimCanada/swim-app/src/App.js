@@ -6,8 +6,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Col from 'react-bootstrap/Col';
 
-//import chartData from './components/swimmerData/2007-2008/Short_Course/2020-01-31/Female_0_Events/Female_0_50_Back.json'
-
 function App() {
   return (
     <div>
@@ -18,5 +16,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
