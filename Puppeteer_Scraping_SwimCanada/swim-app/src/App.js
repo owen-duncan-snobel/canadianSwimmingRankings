@@ -9,13 +9,6 @@ import Col from 'react-bootstrap/Col';
 //import chartData from './components/swimmerData/2007-2008/Short_Course/2020-01-31/Female_0_Events/Female_0_50_Back.json'
 
 function App() {
-  // Will need to switch event name to be found as a variable that is equal to chart data
-  /* var eventName = './components/swimmerData/2007-2008/Short_Course/2020-01-31/Female_0_Events/Female_0_50_Back.json'
-   eventName = eventName.split('/')[7].split('.')[0].split('_');
-   if (eventName[1] === '0') eventName[1] = 'Under 10';
-   eventName = eventName.join(' ');
-   */
-
   return (
     <div>
       <Col className="d-xs-none">
