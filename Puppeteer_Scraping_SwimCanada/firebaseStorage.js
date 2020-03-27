@@ -11,12 +11,10 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket()
 
-
 // * Makes the Bucket Public (Needed for doing calls for the react app to the Storage)
 function makeBucketPublic(bucket) {
     bucket.makePublic();
 }
-
 
 /** 
  * * Function for collecting the backloged data that is scraped in 'powerRanking.js' & 'rankingsBacklog.js'
