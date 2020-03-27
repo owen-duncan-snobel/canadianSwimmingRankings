@@ -1,7 +1,26 @@
-// Seperate logic into different files (import the events into the main logic etc)
 const fs = require('fs');
 const Papa = require('papaparse');
 const puppeteer = require("puppeteer");
+
+// * Validates that the command line arguments entered are valid for running file
+let args = process.argv;
+let course;
+
+// * ensure that only one is passed (short or long course) 
+if (args.length == 3) {
+    switch (args[2].toLowerCase()) {
+        case 'short_course':
+            course = 'short_course';
+            break;
+        case 'long_course':
+            course = 'long_course';
+            break;
+        default:
+            throw 'Did not select a valid course (short_course or long_course)';
+    }
+} else {
+    if (args.length < 3) throw 'Did not select a course (short_course or long_course)';
+}
 
 (async () => {
     const browser = await puppeteer.launch({
@@ -93,22 +112,32 @@ const puppeteer = require("puppeteer");
     });
 
     // For Short Course OR Long Course Selection will need to either scrape both (time consuming, or base it off typical months of what season it is)
-
     // ----------- SHORT COURSE OR LONG COURSE SELECTION --------------
-    // * NEED TO ADD THE SELECTION FOR LONG COURSE AND SHORT COURSE, Generally only run short course [1 shortcourse, 2 longcourse]
-    await page.select("#ddl_course", "1");
-    // ADD FUNCTION FOR COURSE SELECTION
 
+    if (course == 'short_course') {
+        course = '1';
+    } else if (course == 'long_course') {
+        course = '2';
+    }
+
+    // * Ensures it is selecting saving to correct directory (correct folder path and naming scheme)
+    let coursepath;
+    if (course == '1') {
+        coursepath = 'Short_Course/';
+    } else if (course == '2') {
+        coursepath = 'Long_Course/'
+    }
+
+    // * Selects the correct course from the table
+    await page.select("#ddl_course", course);
+    // ADD FUNCTION FOR COURSE SELECTION
     for (year in swimmingSeason) {
         // * If it times out use this to jump into where it left off
         //    if (parseInt(swimmingSeason[year].seasonYear.split('-')[0]) < 2014) continue;
 
         await page.select("#ddl_season", swimmingSeason[year].seasonValue);
         for (gender in genders) {
-            // Will only run once a week for events and csv collection
-            // TIME COMPLEXITY FOR G DOES NOT MAKE IT x^3 , only two genders so it is (2 * x^2) slightly faster
             // NEED TO RENAME LOGIC FOR SELECTING ALL AGES / UNDER 10 / OVER 18
-
             // NEED TO RETHINK THE LOGIC FOR THE TWO AND FROM AGES IT CURRENTLY DOESN'T DO THE OVER 18
             var ageI = 0;
             for (age in ageFrom) {
@@ -126,7 +155,7 @@ const puppeteer = require("puppeteer");
                 await page.select("#ddl_gender", genders[gender].genderValue);
                 const date = new Date().toISOString().slice(0, 10);
                 // NEED TO ADD VARIABLE FOR LONG COURSE OR SHORT COURSE AND YEAR ONCE I COLLECT ALL THE BACK LOGS
-                const dir = await fs.mkdir("swimmerData/" + "/Short_Course/", {
+                const dir = await fs.mkdir("swimmerData/" + coursepath, {
                     recursive: true
                 },
                     function (err, result) {
@@ -136,16 +165,12 @@ const puppeteer = require("puppeteer");
                 var count = 0;
                 let lastData = '';
                 for (event in eventsList) {
-                    // should be nested for loop selects age then gets all events and genders
-                    // NEED TO CHANGE THE COURSE TO A VARIABLE TO DO SEND TO CORRECT PATH
-                    // NEED TO ADD CORRECT YEAR TO IT AS WELL
-                    const path = "swimmerData/" + "/Short_Course/";
+                    const path = "swimmerData/" + coursepath;
                     await page.select("#ddl_event", eventsList[count].eventValue);
                     await page.click("#btnShow");
                     await page.waitFor(300)
                     // IF you dont wait for the selector it moves to fast and will not 
                     // display elements (Learned the hard way 4 hours....)
-                    // Need to turn the table into an object
                     await page.waitForSelector("table");
                     const data = await (await page.$$eval("tr", el => el.map(n => n.innerText.replace(/\t/g, '|'))));
                     if (lastData == data.join('')) {
@@ -166,7 +191,5 @@ const puppeteer = require("puppeteer");
             }
         }
     }
-    // TODO NEED TO REWRITE THE VARIABLES FOR SHORT AND LONG COURSE SO WHEN IT IS RAN FILE PATHS ARE APPROPRIATE 
-    // TODO SPECIFICALLY IT NEEDS TO BE A VARIABLE SO THAT IT ISN'T HARDCODED AS A FILE LOCATION
     await browser.close();
 })();
