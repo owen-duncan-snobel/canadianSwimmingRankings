@@ -90,17 +90,17 @@ class SwimForm extends Component {
     }
 
     render() {
-        /*
 
-         !!! NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
+
+        //   !!!NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
         let chart;
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
-            chart = '';
+            //  chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />;
         } else {
-            chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} />;
+            chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />
         }
-        */
+
         return (
             <>
                 <style type="text/css">
@@ -233,7 +233,7 @@ class SwimForm extends Component {
                     </Form.Row>
                 </Form>
                 {/* Dashboard with all the logic for the graph **/}
-                <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />
+                {chart}
             </>)
     }
 }
