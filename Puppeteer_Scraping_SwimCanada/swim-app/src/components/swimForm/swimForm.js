@@ -4,7 +4,6 @@ import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
 import * as firebase from "firebase/app";
-// Add the Firebase services that you want to use
 import "firebase/storage";
 
 
@@ -21,9 +20,7 @@ const firebaseConfig = {
 };
 const app = firebase.initializeApp(firebaseConfig);
 
-
 class SwimForm extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +28,7 @@ class SwimForm extends Component {
             ddl_course: 'Short_Course',
             swimmerData: null,
             eventName: '',
-
+            dataArray: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -67,7 +64,6 @@ class SwimForm extends Component {
                         return response.json()
                     })
                     .then(dataset => {
-                        console.log(dataset)
                         const standardize_times = (time) => {
                             // * Ensures that all time strings given are in an appropriate ISO String format
                             if (time.length === 5) time = '00:' + time;
@@ -75,12 +71,14 @@ class SwimForm extends Component {
                             let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
                             return milli;
                         }
+                        // * FILTER BY CLUB MEMEBERS
+                        let club = dataset.data.filter(x => x.CLUB === 'OAK')
                         // * Work with JSON data here
                         let time = dataset.data.map(x => standardize_times(x.TIME));
                         let athletes = dataset.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
                         let rank = dataset.data.map(x => x.RANK).reverse();
                         time = time.reverse();
-                        this.setState({ swimmerData: { time, athletes, rank } })
+                        this.setState({ swimmerData: { time, athletes, rank }, dataArray: dataset })
                     })
                 // * CATCH NEEDED FOR RETURNING AN EMPTY OBJECT (aka. FILE DOESN'T exist or failed fetches to firebase)
             }).catch(err => (err))
@@ -90,9 +88,6 @@ class SwimForm extends Component {
     }
 
     render() {
-
-
-        //   !!!NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
         let chart;
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
