@@ -11,12 +11,10 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket()
 
-
 // * Makes the Bucket Public (Needed for doing calls for the react app to the Storage)
 function makeBucketPublic(bucket) {
     bucket.makePublic();
 }
-
 
 /** 
  * * Function for collecting the backloged data that is scraped in 'powerRanking.js' & 'rankingsBacklog.js'
@@ -25,7 +23,7 @@ function makeBucketPublic(bucket) {
 
 function addFilesToStorage() {
     // * Reads the Directory that contins the files and itterates through the folder and uploads each file to Storage
-
+    //  let course = ['Short_Course', 'Short_Course'];
     let files = fs.readdir('./swimmerData/Short_Course/', function (err, data) {
         if (err) console.log("Couldn't read the directory files");
 

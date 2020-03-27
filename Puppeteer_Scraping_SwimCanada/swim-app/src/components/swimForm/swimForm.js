@@ -30,7 +30,8 @@ class SwimForm extends Component {
             ddl_season: '2019-2020',
             ddl_course: 'Short_Course',
             swimmerData: null,
-            eventName: ''
+            eventName: '',
+
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,6 +67,7 @@ class SwimForm extends Component {
                         return response.json()
                     })
                     .then(dataset => {
+                        console.log(dataset)
                         const standardize_times = (time) => {
                             // * Ensures that all time strings given are in an appropriate ISO String format
                             if (time.length === 5) time = '00:' + time;
@@ -84,21 +86,21 @@ class SwimForm extends Component {
             }).catch(err => (err))
 
         // * Set the event name to be passed down as a label for the graph
-        this.setState({ eventName: race.split('_').join(' ') })
+        this.setState({ eventName: season + ' ' + gender + ' ' + age + ' |' + race.split('_').join(' ') })
     }
 
     render() {
-        /*
 
-         !!! NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
+
+        //   !!!NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
         let chart;
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
-            chart = '';
+            //  chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />;
         } else {
-            chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} />;
+            chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />
         }
-        */
+
         return (
             <>
                 <style type="text/css">
@@ -231,7 +233,7 @@ class SwimForm extends Component {
                     </Form.Row>
                 </Form>
                 {/* Dashboard with all the logic for the graph **/}
-                <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} />
+                {chart}
             </>)
     }
 }

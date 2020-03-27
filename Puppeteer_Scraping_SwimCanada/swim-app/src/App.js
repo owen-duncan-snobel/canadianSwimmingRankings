@@ -12,15 +12,9 @@ function App() {
   return (
     <div>
       <Col className="d-xs-none">
-
         <SwimForm></SwimForm>
-        {/*  <Datasets></Datasets> */}
-
-        {/*  TODO: Most likely will replace with an env variable will need to come back and look  */}
-        <a href="./src/components/swimmerData.zip" download>Click to download</a>
-
+        { /*  <a href="./src/components/swimmerData.zip" download>Click to download</a> */}
       </Col>
-
     </div>
   );
 }
