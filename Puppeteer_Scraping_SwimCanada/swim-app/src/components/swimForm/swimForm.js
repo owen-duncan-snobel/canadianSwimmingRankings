@@ -3,11 +3,11 @@ import Form from 'react-bootstrap/Form'
 import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
-import * as firebase from "firebase/app";
+/* import * as firebase from "firebase/app"; */
 // Add the Firebase services that you want to use
-import "firebase/storage";
+/* import "firebase/storage"; */
 
-
+/* 
 // * General Firebase config, does not matter if the api key is leaked(needed to fetch files), as long as it is not the ADMIN SDK FOR FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyBuZ2fXe-NLt8N7e8Dq3HVMGOvvAjWSj6w",
@@ -21,16 +21,17 @@ const firebaseConfig = {
 };
 const app = firebase.initializeApp(firebaseConfig);
 
-
+ */
 class SwimForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             ddl_season: '2019-2020',
-            ddl_course: 'Short_Course',
+            ddl_club: '72542',
+            ddl_course: 'SCM',
             swimmerData: null,
-            eventName: '',
+            swimEventName: '',
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -38,67 +39,122 @@ class SwimForm extends Component {
     }
 
     // * Handles the state selection for when you select a new dropdown from the Form 
-    handleInputChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
+    handleInputChange(onEvent) {
+        this.setState({ [onEvent.target.name]: onEvent.target.value });
     }
 
     // * Handles the logic for when you click submit on the form 
-    handleSubmit(event) {
+    handleSubmit(onEvent) {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
-        event.preventDefault();
+        onEvent.preventDefault();
 
         // * Formed data is used for getting the contents of the submitted form 
-        const formdata = new FormData(event.target);
+        const formdata = new FormData(onEvent.target);
+        let club = formdata.get('ddl_club');
         let season = formdata.get('ddl_season');
-        let course = formdata.get('ddl_course').split(' ').join('_');
+        let course = formdata.get('ddl_course');
         let gender = formdata.get('ddl_gender');
-        let age = formdata.get('ddl_age');
-        let race = formdata.get('ddl_event').split(' ').join('_');
-        let file = course + '/' + season + '_' + gender + '_' + age + '_' + race + '.json';
+        let agegroup = formdata.get('ddl_age');
+        let event = formdata.get('ddl_event');
+        let stroke = event.split(' ')[1];
+
+        // * Required for search Params, needs to map name to appropriate fetch value
+        switch (stroke) {
+            case 'Free':
+                stroke = '1';
+                break;
+            case 'Back':
+                stroke = '2';
+                break;
+            case 'Breast':
+                stroke = '3';
+                break;
+            case 'Fly':
+                stroke = '4';
+                break;
+            case 'I.Medley':
+                stroke = '5';
+                break;
+            case 'Free Relay':
+                stroke = '6'
+                break;
+            case 'Medley Relay':
+                stroke = '6'
+                break;
+        }
+
+        // * Consts needed for getting correct data to north american swimming (Can be changed in future)
+        // TODO Allow for language and point system changes if required
+        const language = 'us';
+        const points = 'fina_2019';
+
+        // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
+        let url = new URL('https://www.swimrankings.net/services/RankingXls/ranking.xls?');
+        let searchParameter = new URLSearchParams(url);
+        searchParameter.append('clubID', club)
+        searchParameter.append('gender', gender);
+        searchParameter.append('season', season);
+        searchParameter.append('agegroup', agegroup);
+        searchParameter.append('course', course);
+        searchParameter.append('language', language);
+        searchParameter.append('points', points);
+        searchParameter.append('stroke', stroke);
+
+        url += searchParameter.toString();
+        console.log(url)
+        // TODO NEED TO PARSE STROKE TO GET THE CORRECT FORM INPUT
+        /*         let season = formdata.get('ddl_season');
+                let course = formdata.get('ddl_course').split(' ').join('_');
+                let gender = formdata.get('ddl_gender');
+                let age = formdata.get('ddl_age');
+                let race = formdata.get('ddl_event').split(' ').join('_');
+                let file = course + '/' + season + '_' + gender + '_' + age + '_' + race + '.json'; */
 
 
         // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
-        app.storage().ref(file).getDownloadURL().then(
-            (url) => {
-                fetch(url, {
-                    method: "GET",
-                })
-                    .then(response => {
-                        return response.json()
-                    })
-                    .then(dataset => {
-                        console.log(dataset)
-                        const standardize_times = (time) => {
-                            // * Ensures that all time strings given are in an appropriate ISO String format
-                            if (time.length === 5) time = '00:' + time;
-                            if (time.length === 7) time = '0' + time;
-                            let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-                            return milli;
-                        }
-                        // * Work with JSON data here
-                        let time = dataset.data.map(x => standardize_times(x.TIME));
-                        let athletes = dataset.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
-                        let rank = dataset.data.map(x => x.RANK).reverse();
-                        time = time.reverse();
-                        this.setState({ swimmerData: { time, athletes, rank } })
-                    })
-                // * CATCH NEEDED FOR RETURNING AN EMPTY OBJECT (aka. FILE DOESN'T exist or failed fetches to firebase)
-            }).catch(err => (err))
 
+        /*
+                app.storage().ref(file).getDownloadURL().then(
+                    (url) => {
+                        fetch(url, {
+                            method: "GET",
+                        })
+                            .then(response => {
+                                return response.json()
+                            })
+                        
+                           .then(dataset => {
+                               console.log(dataset)
+                               const standardize_times = (time) => {
+                                   // * Ensures that all time strings given are in an appropriate ISO String format
+                                   if (time.length === 5) time = '00:' + time;
+                                   if (time.length === 7) time = '0' + time;
+                                   let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+                                   return milli;
+                               }
+                               // * Work with JSON data here
+                               let time = dataset.data.map(x => standardize_times(x.TIME));
+                               let athletes = dataset.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
+                               let rank = dataset.data.map(x => x.RANK).reverse();
+                               time = time.reverse();
+                               this.setState({ swimmerData: { time, athletes, rank } })
+                           }) 
+                           
+                        // * CATCH NEEDED FOR RETURNING AN EMPTY OBJECT (aka. FILE DOESN'T exist or failed fetches to firebase)
+                    }).catch(err => (err))
+         */
         // * Set the event name to be passed down as a label for the graph
-        this.setState({ eventName: season + ' ' + gender + ' ' + age + ' |' + race.split('_').join(' ') })
+        /*   this.setState({ eventName: season + ' ' + gender + ' ' + age + ' |' + race.split('_').join(' ') }) */
     }
 
     render() {
-
-
         //   !!!NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
         let chart;
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
             //  chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />;
         } else {
-            chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />
+            chart = <Dashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} event />
         }
 
         return (
@@ -141,7 +197,7 @@ class SwimForm extends Component {
                     <Form.Row>
                         {/**  Swimming Season */}
                         <Form.Group >
-                            <Form.Control name="ddl_season" id="ddl_season" value={this.state.ddl_season} onChange={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_season" id="ddl_season" value={this.state.ddl_season} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option value="" disabled>Season</option>
                                 <option value="2007-2008">2007-2008</option>
                                 <option value="2008-2009">2008-2009</option>
@@ -160,13 +216,20 @@ class SwimForm extends Component {
                                 <option value="2021-2022">2021-2022</option>
                             </Form.Control>
                         </Form.Group>
+                        {/** Club */}
 
+                        <Form.Group>
+                            <Form.Control name="ddl_club" id="ddl_club" value={this.state.ddl_club} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                                <option disabled>Club</option>
+                                <option value="72542">Oakville Aquatic Club</option>
+                            </Form.Control>
+                        </Form.Group>
                         {/**  Course */}
                         <Form.Group >
-                            <Form.Control name="ddl_course" id="ddl_course" value={this.state.ddl_course} onChange={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_course" id="ddl_course" value={this.state.ddl_course} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Course</option>
-                                <option value="Long_Course">Long Course</option>
-                                <option value="Short_Course">Short Course</option>
+                                <option value="LCM">Long Course (50m)</option>
+                                <option value="SCM">Short Course (25m)</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -175,8 +238,8 @@ class SwimForm extends Component {
                         <Form.Group >
                             <Form.Control name="ddl_gender" id="ddl_gender" className="dropdownBox custom-select" as="select">
                                 <option disabled>Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -184,16 +247,22 @@ class SwimForm extends Component {
                         <Form.Group >
                             <Form.Control name="ddl_age" id="ddl_age" className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
-                                <option value="0">Under 10</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
+                                <option value="X_X">Open (All years)</option>
+                                <option value="X_10">10 years and younger</option>
+                                <option value="11_11">11 years</option>
+                                <option value="11_12">11 - 12 years</option>
+                                <option value="12_12">12 years</option>
+                                <option value="13_13">13 years</option>
+                                <option value="13_14">13 - 14 years</option>
+                                <option value="14_14">14 years</option>
+                                <option value="15_15">15 years</option>
+                                <option value="15_16">15 - 16 years</option>
+                                <option value="15_17">15 - 17 years</option>
+                                <option value="16_16">16 years</option>
+                                <option value="17_17">17 years</option>
+                                <option value="17_18">17 - 18 years</option>
+                                <option value="18_18">18 years</option>
+                                <option value="18_24">18 - 24 years</option>
                             </Form.Control>
                         </Form.Group>
 
