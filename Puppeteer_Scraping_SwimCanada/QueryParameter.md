@@ -15,13 +15,13 @@ Which Would give us the Excel File with the following Parameters:
 - Language : English
 
 
-**Gender**: 
+####Gender: 
 > Used for selecting the gender of the swimmers for the event.
 
 - 'F' : For Female
 - 'M' : For Male
 
-**Age**: 
+####Age: 
 > Used for selecting the ages of the swimmers. For this Parameter it should be noted it is able to select a specific age (Such as ex. 16 years old).
 
 > As well as Open for selecting all swimmers at any age bracket (Such as ex. 0-100 years old). 
@@ -38,13 +38,13 @@ Which Would give us the Excel File with the following Parameters:
 - '15-17' : 15 to 17 Years
 - '17-18' :  17 and 18 Years
 
-**Course**:
+####Course:
 > Used for selecting the Swim Course Pool Length.
 
 - 'LCM' : For Long Course Metres Swim Meets
 - 'SCM' : For Short Course Metres Swim Meets
 
-**Season**:
+####Season:
 
 > Used for selecting the year events were swam.
 
@@ -52,8 +52,8 @@ Which Would give us the Excel File with the following Parameters:
 - '2008' : 2008 was the first year times were tracked in this system
 - '2009', '2010', ... , '2021' : All Years up until present date
 
-**Club ID**:
+####Club ID:
 > Each Swim Club When registered has a respective club ID given to it, We will add more clubs to the list when available but currently if you would like to add your own change the clubID Parameter to be of the club that you are looking for.
 -  ex: '72542' (Oakville Aquatic Club)
 
-**Stroke**:
+####Stroke:
