@@ -28,7 +28,7 @@ class Dashboard extends Component {
                 labels: this.props.swimmerData.rank,
                 datasets: [{
                     //  TODO POTENTIALLY STYLE 1st,2nd,3rd Place to be coloured gold silver bronze to make finding the 
-                    label: 'WORKING',
+                    label: this.props.swimEvent,
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
@@ -39,9 +39,6 @@ class Dashboard extends Component {
             options = {
                 responsive: true,
                 maintainAspectRatio: true,
-                title: {
-                    text: this.props.eventName
-                },
                 animation: {
                     duration: 0 // general animation time
                 },
