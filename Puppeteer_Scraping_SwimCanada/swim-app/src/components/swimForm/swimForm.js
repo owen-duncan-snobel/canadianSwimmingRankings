@@ -64,31 +64,31 @@ class SwimForm extends Component {
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
         season = season.split('-')[1];
 
-        // * Required for search Params, needs to map name to appropriate fetch value
-        switch (stroke) {
-            case 'Fr':
-                stroke = '1';
-                break;
-            case 'Bk':
-                stroke = '2';
-                break;
-            case 'Br':
-                stroke = '3';
-                break;
-            case 'Bu':
-                stroke = '4';
-                break;
-            case 'Me':
-                stroke = '5';
-                break;
-            case 'Free Relay':
-                stroke = '6'
-                break;
-            case 'Medley Relay':
-                stroke = '6'
-                break;
-        }
-
+        /*  // * Required for search Params, needs to map name to appropriate fetch value
+         switch (stroke) {
+             case 'Fr':
+                 stroke = '1';
+                 break;
+             case 'Bk':
+                 stroke = '2';
+                 break;
+             case 'Br':
+                 stroke = '3';
+                 break;
+             case 'Bu':
+                 stroke = '4';
+                 break;
+             case 'Me':
+                 stroke = '5';
+                 break;
+             case 'Free Relay':
+                 stroke = '6'
+                 break;
+             case 'Medley Relay':
+                 stroke = '6'
+                 break;
+         }
+  */
         // * Consts needed for getting correct data to north american swimming (Can be changed in future)
         // TODO Allow for language and point system changes if required
         const language = 'us';
@@ -102,7 +102,7 @@ class SwimForm extends Component {
         searchParameter.append('course', course);
         searchParameter.append('season', season);
         searchParameter.append('clubID', club);
-        searchParameter.append('stroke', stroke);
+        //  searchParameter.append('stroke', stroke);
         url += searchParameter.toString();
 
         // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
@@ -125,14 +125,23 @@ class SwimForm extends Component {
                 let data = workbook.Sheets[event];
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-
+                toJSON.shift();
                 // * Converting the JSON To working usable data to graph (Shifts and pop are for removing the default row)
-                let time = toJSON.map(time => time.__EMPTY_8).reverse();
-                time.pop();
                 let athletes = toJSON.map(athlete => athlete.__EMPTY_3);
-                athletes.shift();
                 let rank = toJSON.map(rank => rank.__EMPTY_9).reverse();
-                rank.pop();
+
+                // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
+                // * In the following format MM:SS:ss
+                const standardize_times = (time) => {
+                    // * Ensures that all time strings given are in an appropriate ISO String format
+                    if (time.length === 5) time = '00:' + time;
+                    if (time.length === 7) time = '0' + time;
+                    let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+                    return milli;
+                }
+                let time = toJSON.map(time => standardize_times(time.__EMPTY_7)).reverse();
+
+
                 this.setState({ swimmerData: { time, athletes, rank } })
             })
         // * Set the event name to be passed down as a label for the graph
@@ -313,11 +322,12 @@ class SwimForm extends Component {
                                 <option value="100m Me">100 I.Medley</option>
                                 <option value="200m Me">200 I.Medley</option>
                                 <option value="400m Me">400 I.Medley</option>
-                                <option value="200m Free Relay">200 Free Relay</option>
+                                {/* TODO NEED TO ADD FUNCTIONALITY TO THE RELAY SEARCH */}
+                                {/*  <option value="200m Free Relay">200 Free Relay</option>
                                 <option value="400m Free Relay">400 Free Relay</option>
                                 <option value="800m Free Relay">800 Free Relay</option>
                                 <option value="200m Medley Relay">200 Medley Relay</option>
-                                <option value="400m Medley Relay">400 Medley Relay</option>
+                                <option value="400m Medley Relay">400 Medley Relay</option> */}
                             </Form.Control>
                         </Form.Group>
 

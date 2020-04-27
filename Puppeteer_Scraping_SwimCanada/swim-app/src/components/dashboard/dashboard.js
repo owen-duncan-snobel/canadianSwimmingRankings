@@ -48,7 +48,7 @@ class Dashboard extends Component {
                         label: (tooltipItem, data) => {
                             // * Label Array is used to create multiple labels inside of data element in graph. 
                             let labelArr = [];
-                            labelArr.push(this.props.swimmerData.athletes[tooltipItem.label - 1] + ' ' + tooltipItem.yLabel);
+                            labelArr.push(this.props.swimmerData.athletes[tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
                             return labelArr;
                         }
                     }
@@ -61,8 +61,8 @@ class Dashboard extends Component {
                         },
                         ticks: {
                             callback: function (v) {
-                                return v;
-                                // Responsible for the time graphing for the y-axis (converts ms to a readable format)
+                                //* Responsible for the time graphing for the y-axis (converts ms to a readable format)
+                                return new Date(v).toISOString().substr(14, 8)
                             }
                         }
                     }],
