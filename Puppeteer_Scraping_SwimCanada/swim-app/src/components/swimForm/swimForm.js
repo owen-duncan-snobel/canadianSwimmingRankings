@@ -125,7 +125,7 @@ class SwimForm extends Component {
                 let data = workbook.Sheets[event];
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-
+                console.log(toJSON);
                 let times = toJSON.map(time => time.__EMPTY_8)
                 console.log(times)
             })
