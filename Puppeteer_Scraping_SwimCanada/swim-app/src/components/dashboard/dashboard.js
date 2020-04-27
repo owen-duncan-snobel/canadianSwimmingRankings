@@ -28,7 +28,7 @@ class Dashboard extends Component {
                 labels: this.props.swimmerData.rank,
                 datasets: [{
                     //  TODO POTENTIALLY STYLE 1st,2nd,3rd Place to be coloured gold silver bronze to make finding the 
-                    label: this.props.eventName.split('|')[0].replace(/ 0 /gi, ' Under 10'),
+                    label: 'WORKING',
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
@@ -40,7 +40,7 @@ class Dashboard extends Component {
                 responsive: true,
                 maintainAspectRatio: true,
                 title: {
-                    text: this.props.eventName.split('|')[1]
+                    text: this.props.eventName
                 },
                 animation: {
                     duration: 0 // general animation time
@@ -51,7 +51,7 @@ class Dashboard extends Component {
                         label: (tooltipItem, data) => {
                             // * Label Array is used to create multiple labels inside of data element in graph. 
                             let labelArr = [];
-                            labelArr.push(this.props.swimmerData.athletes[tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
+                            labelArr.push(this.props.swimmerData.athletes[tooltipItem.label - 1] + ' ' + tooltipItem.yLabel);
                             return labelArr;
                         }
                     }
@@ -60,12 +60,12 @@ class Dashboard extends Component {
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: "Times",
+                            labelString: "Times (Seconds)",
                         },
                         ticks: {
                             callback: function (v) {
+                                return v;
                                 // Responsible for the time graphing for the y-axis (converts ms to a readable format)
-                                return new Date(v).toISOString().substr(14, 8)
                             }
                         }
                     }],

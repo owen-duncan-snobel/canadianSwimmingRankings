@@ -125,10 +125,18 @@ class SwimForm extends Component {
                 let data = workbook.Sheets[event];
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-                console.log(toJSON);
-                let times = toJSON.map(time => time.__EMPTY_8)
-                console.log(times)
+                //console.log(toJSON);
+
+                let time = toJSON.map(time => time.__EMPTY_8).reverse();
+                time.pop();
+                let athletes = toJSON.map(athlete => athlete.__EMPTY_3);
+                athletes.shift();
+                let rank = toJSON.map(rank => rank.__EMPTY_9).reverse();
+                rank.pop();
+                this.setState({ swimmerData: { time, athletes, rank } })
             })
+        // * Set the event name to be passed down as a label for the graph
+        this.setState({ eventName: event })
         // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
 
         /*
@@ -161,8 +169,6 @@ class SwimForm extends Component {
                         // * CATCH NEEDED FOR RETURNING AN EMPTY OBJECT (aka. FILE DOESN'T exist or failed fetches to firebase)
                     }).catch(err => (err))
          */
-        // * Set the event name to be passed down as a label for the graph
-        /*   this.setState({ eventName: season + ' ' + gender + ' ' + age + ' |' + race.split('_').join(' ') }) */
     }
 
     render() {
