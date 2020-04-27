@@ -2,6 +2,7 @@ import React from 'react'
 import Form from 'react-bootstrap/Form'
 import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
 import Dashboard from '../dashboard/dashboard'
 import XLSX from 'xlsx'
 
@@ -34,7 +35,7 @@ class SwimForm extends Component {
             ddl_course: 'SCM',
             swimmerData: null,
             swimEventName: '',
-
+            tableHead: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,35 +65,10 @@ class SwimForm extends Component {
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
         season = season.split('-')[1];
 
-        /*  // * Required for search Params, needs to map name to appropriate fetch value
-         switch (stroke) {
-             case 'Fr':
-                 stroke = '1';
-                 break;
-             case 'Bk':
-                 stroke = '2';
-                 break;
-             case 'Br':
-                 stroke = '3';
-                 break;
-             case 'Bu':
-                 stroke = '4';
-                 break;
-             case 'Me':
-                 stroke = '5';
-                 break;
-             case 'Free Relay':
-                 stroke = '6'
-                 break;
-             case 'Medley Relay':
-                 stroke = '6'
-                 break;
-         }
-  */
         // * Consts needed for getting correct data to north american swimming (Can be changed in future)
         // TODO Allow for language and point system changes if required
-        const language = 'us';
-        const points = 'fina_2019';
+        //   const language = 'us';
+        // const points = 'fina_2019';
 
         // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
         let url = new URL('https://www.swimrankings.net/services/RankingXls/ranking.xls?');
@@ -125,6 +101,8 @@ class SwimForm extends Component {
                 let data = workbook.Sheets[event];
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
+                let toTABLE = [...toJSON];
+                // * Remove the first row so that the default values aren't used
                 toJSON.shift();
                 // * Converting the JSON To working usable data to graph (Shifts and pop are for removing the default row)
                 let athletes = toJSON.map(athlete => athlete.__EMPTY_3);
@@ -141,55 +119,84 @@ class SwimForm extends Component {
                 }
                 let time = toJSON.map(time => standardize_times(time.__EMPTY_7)).reverse();
 
-
-                this.setState({ swimmerData: { time, athletes, rank } })
+                //  console.log(toJSON)
+                this.setState({ swimmerData: { time, athletes, rank }, tableHead: toTABLE })
             })
         // * Set the event name to be passed down as a label for the graph
         this.setState({ swimEventName: event })
         // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
-
-        /*
-                app.storage().ref(file).getDownloadURL().then(
-                    (url) => {
-                        fetch(url, {
-                            method: "GET",
-                        })
-                            .then(response => {
-                                return response.json()
-                            })
-                        
-                           .then(dataset => {
-                               console.log(dataset)
-                               const standardize_times = (time) => {
-                                   // * Ensures that all time strings given are in an appropriate ISO String format
-                                   if (time.length === 5) time = '00:' + time;
-                                   if (time.length === 7) time = '0' + time;
-                                   let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-                                   return milli;
-                               }
-                               // * Work with JSON data here
-                               let time = dataset.data.map(x => standardize_times(x.TIME));
-                               let athletes = dataset.data.map(x => x.ATHLETES.split(',').reverse().join(' '));
-                               let rank = dataset.data.map(x => x.RANK).reverse();
-                               time = time.reverse();
-                               this.setState({ swimmerData: { time, athletes, rank } })
-                           }) 
-                           
-                        // * CATCH NEEDED FOR RETURNING AN EMPTY OBJECT (aka. FILE DOESN'T exist or failed fetches to firebase)
-                    }).catch(err => (err))
-         */
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    updateTableHeader() {
+        // * If no data has been given table header remains empty
+        if (this.state.tableHead.length === 0) {
+            return;
+        }
+        else {
+            let allowedKeys = ['__EMPTY',
+                '__EMPTY_1',
+                '__EMPTY_2',
+                '__EMPTY_3',
+                //  '__EMPTY_4',            BIRTHDATE NOT IMPORTANT CURRENTLY EITHER
+                '__EMPTY_5',
+                '__EMPTY_6',
+                '__EMPTY_7',
+                '__EMPTY_9',
+                //                          MEETDATE NOT IMPORTANT CURRENTLY AS DATE IS UNREADABLE  '__EMPTY_10',
+                '__EMPTY_11',
+                '__EMPTY_12',
+                '__EMPTY_13']
+            return (
+                <thead>
+                    {
+                        this.state.tableHead.map(item => {
+                            //   console.log(item)
+                            return (
+                                <tr>
+                                    {
+                                        Object.entries(item).filter(([key, value]) =>
+                                            allowedKeys.includes(key)
+                                        ).map(([key, value]) => {
+                                            //console.log(key + ' ' + value)
+                                            return (<th>{value}</th>)
+                                        })
+                                    }
+                                </tr>
+                            )
+                        })
+                    }
+                </thead>
+            )
+        }
+    }
+
+
+
+
+
+
+
+
     render() {
-        //   !!!NEED TO DECIDE IF WE WANT CHART TO ONLY APPEAR AFTER A FORM HAS BEEN RETURNED OR BEFORE
         let chart;
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
-            //  chart = <Dashboard swimmerData={this.state.swimmerData} eventName={this.state.eventName} event />;
         } else {
-            chart = <Dashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} event />
+            chart = <Dashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
         }
-
         return (
             <>
                 <style type="text/css">
@@ -224,13 +231,13 @@ class SwimForm extends Component {
                 </style>
                 <div>
                     <hr></hr>
-                    <h1 className="formTitle">Swimming Canada Power Rankings</h1>
+                    <h1 className="formTitle">Canadian Swimming Rankings</h1>
                 </div>
                 <Form className='rankingsForm' onSubmit={this.handleSubmit}>
                     <Form.Row>
                         {/**  Swimming Season */}
                         <Form.Group >
-                            <Form.Control name="ddl_season" id="ddl_season" value={this.state.ddl_season} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_season" id="ddl_season" onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option value="" disabled>Season</option>
                                 <option value="2007-2008">2007-2008</option>
                                 <option value="2008-2009">2008-2009</option>
@@ -252,14 +259,14 @@ class SwimForm extends Component {
                         {/** Club */}
 
                         <Form.Group>
-                            <Form.Control name="ddl_club" id="ddl_club" value={this.state.ddl_club} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_club" id="ddl_club" onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
                                 <option value="72542">Oakville Aquatic Club</option>
                             </Form.Control>
                         </Form.Group>
                         {/**  Course */}
                         <Form.Group >
-                            <Form.Control name="ddl_course" id="ddl_course" value={this.state.ddl_course} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_course" id="ddl_course" onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Course</option>
                                 <option value="LCM">Long Course (50m)</option>
                                 <option value="SCM">Short Course (25m)</option>
@@ -269,7 +276,7 @@ class SwimForm extends Component {
 
                         {/**  Gender */}
                         <Form.Group >
-                            <Form.Control name="ddl_gender" id="ddl_gender" className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_gender" id="ddl_gender" onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Gender</option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
@@ -278,7 +285,7 @@ class SwimForm extends Component {
 
                         {/**  Age */}
                         <Form.Group >
-                            <Form.Control name="ddl_age" id="ddl_age" className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_age" id="ddl_age" onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
                                 <option value="X_X">Open (All years)</option>
                                 <option value="X_10">10 years and younger</option>
@@ -302,7 +309,7 @@ class SwimForm extends Component {
                         {/**  Event */}
                         {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
                         <Form.Group >
-                            <Form.Control name="ddl_event" id="ddl_event" className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_event" id="ddl_event" onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Event</option>
                                 <option value="50m Fr">50 Free</option>
                                 <option value="100m Fr">100 Free</option>
@@ -338,6 +345,13 @@ class SwimForm extends Component {
                 </Form>
                 {/* Dashboard with all the logic for the graph **/}
                 {chart}
+
+                <Table striped hover responsive>
+                    {this.updateTableHeader()}
+                    {/*this.updateTableBody() */}
+                    <tbody>
+                    </tbody>
+                </Table>
             </>)
     }
 }

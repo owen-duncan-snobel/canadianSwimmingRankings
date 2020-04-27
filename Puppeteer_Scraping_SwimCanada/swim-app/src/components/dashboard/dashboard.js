@@ -10,7 +10,6 @@ import { Line } from 'react-chartjs-2';
 // TODO NEED TO RECREATE THE TABLE THAT IS USED ON THE MAIN PAGE FOR THE SELECTION OF DATA TO GRAB THE LINK FROM
 
 class Dashboard extends Component {
-
     render() {
         let data;
         let options;
@@ -80,7 +79,7 @@ class Dashboard extends Component {
 
         return (
             <div>
-                <div className="App">Canadian Swimmings Power Rankings</div>
+                <div className="App">Canadian Swimming Rankings</div>
                 <div className="Dashboard for Chart">
                     <Line data={data} options={options}> </Line>
                 </div>
