@@ -81,6 +81,7 @@ var https = require('https');
 
 
     let link = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?gender=M&agegroup=X_X&course=LCM&season=2008&clubId=72542&Points=fina_2019&Language=us';
+    https://www.swimrankings.net/services/RankingXls/ranking.xls?club=72542&gender=M&season=2019-2020&agegroup=X_X&course=SCM&language=us&points=fina_2019&stroke=1
     let link2 = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?course=LCM&season=2008&clubId=72542&Points=fina_2019&Language=us&gender=M&agegroup=X_X';
 
     // TODO "QUERYSTRING" PARAMETERS find all combinations and query strings given on the site then can go back and do requests from site

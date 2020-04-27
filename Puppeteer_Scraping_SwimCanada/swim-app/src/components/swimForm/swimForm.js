@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form'
 import { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
+import XLSX from 'xlsx'
+
 /* import * as firebase from "firebase/app"; */
 // Add the Firebase services that you want to use
 /* import "firebase/storage"; */
@@ -58,21 +60,25 @@ class SwimForm extends Component {
         let event = formdata.get('ddl_event');
         let stroke = event.split(' ')[1];
 
+
+        // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
+        season = season.split('-')[1];
+
         // * Required for search Params, needs to map name to appropriate fetch value
         switch (stroke) {
-            case 'Free':
+            case 'Fr':
                 stroke = '1';
                 break;
-            case 'Back':
+            case 'Bk':
                 stroke = '2';
                 break;
-            case 'Breast':
+            case 'Br':
                 stroke = '3';
                 break;
-            case 'Fly':
+            case 'Bu':
                 stroke = '4';
                 break;
-            case 'I.Medley':
+            case 'Me':
                 stroke = '5';
                 break;
             case 'Free Relay':
@@ -91,26 +97,38 @@ class SwimForm extends Component {
         // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
         let url = new URL('https://www.swimrankings.net/services/RankingXls/ranking.xls?');
         let searchParameter = new URLSearchParams(url);
-        searchParameter.append('clubID', club)
         searchParameter.append('gender', gender);
-        searchParameter.append('season', season);
         searchParameter.append('agegroup', agegroup);
         searchParameter.append('course', course);
-        searchParameter.append('language', language);
-        searchParameter.append('points', points);
+        searchParameter.append('season', season);
+        searchParameter.append('clubID', club);
         searchParameter.append('stroke', stroke);
-
         url += searchParameter.toString();
-        console.log(url)
-        // TODO NEED TO PARSE STROKE TO GET THE CORRECT FORM INPUT
-        /*         let season = formdata.get('ddl_season');
-                let course = formdata.get('ddl_course').split(' ').join('_');
-                let gender = formdata.get('ddl_gender');
-                let age = formdata.get('ddl_age');
-                let race = formdata.get('ddl_event').split(' ').join('_');
-                let file = course + '/' + season + '_' + gender + '_' + age + '_' + race + '.json'; */
 
+        // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
+        console.log(url = 'https://cors-anywhere.herokuapp.com/' + url)
 
+        // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
+        fetch(url, {
+            method: "GET"
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Unable to fetch file");
+                return response.arrayBuffer();
+            })
+            .then(buffer => {
+                let bookBuffer = new Uint8Array(buffer);
+                let workbook = XLSX.read(bookBuffer, {
+                    type: "array"
+                })
+                // * Finds the correct sheet within the workbook based on the name of the event
+                let data = workbook.Sheets[event];
+                // * Converts the XLS (Excel File to JSON to allow us to graph data)
+                let toJSON = XLSX.utils.sheet_to_json(data);
+
+                let times = toJSON.map(time => time.__EMPTY_8)
+                console.log(times)
+            })
         // * API CALL WILL BE DONE HERE THEN SETS THE DATA (MAY CHANGE IN THE FUTURE)
 
         /*
@@ -267,32 +285,33 @@ class SwimForm extends Component {
                         </Form.Group>
 
                         {/**  Event */}
+                        {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
                         <Form.Group >
                             <Form.Control name="ddl_event" id="ddl_event" className="dropdownBox custom-select" as="select">
                                 <option disabled>Event</option>
-                                <option value="50 Free">50 Free</option>
-                                <option value="100 Free">100 Free</option>
-                                <option value="200 Free">200 Free</option>
-                                <option value="400 Free">400 Free</option>
-                                <option value="800 Free">800 Free</option>
-                                <option value="1500 Free">1500 Free</option>
-                                <option value="50 Back">50 Back</option>
-                                <option value="100 Back">100 Back</option>
-                                <option value="200 Back">200 Back</option>
-                                <option value="50 Breast">50 Breast</option>
-                                <option value="100 Breast">100 Breast</option>
-                                <option value="200 Breast">200 Breast</option>
-                                <option value="50 Fly">50 Fly</option>
-                                <option value="100 Fly">100 Fly</option>
-                                <option value="200 Fly">200 Fly</option>
-                                <option value="100 I.Medley">100 I.Medley</option>
-                                <option value="200 I.Medley">200 I.Medley</option>
-                                <option value="400 I.Medley">400 I.Medley</option>
-                                <option value="200 Free Relay">200 Free Relay</option>
-                                <option value="400 Free Relay">400 Free Relay</option>
-                                <option value="800 Free Relay">800 Free Relay</option>
-                                <option value="200 Medley Relay">200 Medley Relay</option>
-                                <option value="400 Medley Relay">400 Medley Relay</option>
+                                <option value="50m Fr">50 Free</option>
+                                <option value="100m Fr">100 Free</option>
+                                <option value="200m Fr">200 Free</option>
+                                <option value="400m Fr">400 Free</option>
+                                <option value="800m Fr">800 Free</option>
+                                <option value="1500m Fr">1500 Free</option>
+                                <option value="50m Bk">50 Back</option>
+                                <option value="100m Bk">100 Back</option>
+                                <option value="200m Bk">200 Back</option>
+                                <option value="50m Br">50 Breast</option>
+                                <option value="100m Br">100 Breast</option>
+                                <option value="200m Br">200 Breast</option>
+                                <option value="50m Bu">50 Fly</option>
+                                <option value="100m Me">100 Fly</option>
+                                <option value="200m Me">200 Fly</option>
+                                <option value="100m Me">100 I.Medley</option>
+                                <option value="200m Me">200 I.Medley</option>
+                                <option value="400m Me">400 I.Medley</option>
+                                <option value="200m Free Relay">200 Free Relay</option>
+                                <option value="400m Free Relay">400 Free Relay</option>
+                                <option value="800m Free Relay">800 Free Relay</option>
+                                <option value="200m Medley Relay">200 Medley Relay</option>
+                                <option value="400m Medley Relay">400 Medley Relay</option>
                             </Form.Control>
                         </Form.Group>
 
