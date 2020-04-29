@@ -176,16 +176,13 @@ class SwimForm extends Component {
                 <tbody>
                     {
                         this.state.tableBody.map(item => {
-                            //   console.log(item)
                             return (
-                                <tr>
+                                <tr name={item.__EMPTY_9} >
                                     {
-                                        Object.entries(item).filter(([key, value]) =>
-                                            allowedKeys.includes(key)
-                                        ).map(([key, value]) => {
-                                            //console.log(key + ' ' + value)
-                                            return (<td>{value}</td>)
-                                        })
+                                        Object.entries(item).filter(([key, value]) => allowedKeys.includes(key))
+                                            .map(([key, value]) => {
+                                                return (<td>{value}</td>)
+                                            })
                                     }
                                 </tr>
                             )
@@ -195,12 +192,6 @@ class SwimForm extends Component {
             )
         }
     }
-
-
-
-
-
-
 
 
     render() {
@@ -260,7 +251,7 @@ class SwimForm extends Component {
                     <Form.Row>
                         {/**  Swimming Season */}
                         <Form.Group >
-                            <Form.Control name="ddl_season" id="ddl_season" value={this.state.ddl_season} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_season" id="ddl_season" defaultValue={this.state.ddl_season} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option value="" disabled>Season</option>
                                 <option value="2007-2008">2007-2008</option>
                                 <option value="2008-2009">2008-2009</option>
@@ -282,14 +273,14 @@ class SwimForm extends Component {
                         {/** Club */}
 
                         <Form.Group>
-                            <Form.Control name="ddl_club" id="ddl_club" value={this.state.ddl_club} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
                                 <option value="72542">Oakville Aquatic Club</option>
                             </Form.Control>
                         </Form.Group>
                         {/**  Course */}
                         <Form.Group >
-                            <Form.Control name="ddl_course" id="ddl_course" value={this.state.ddl_course} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_course" id="ddl_course" defaultValue={this.state.ddl_course} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Course</option>
                                 <option value="LCM">Long Course (50m)</option>
                                 <option value="SCM">Short Course (25m)</option>
@@ -299,7 +290,7 @@ class SwimForm extends Component {
 
                         {/**  Gender */}
                         <Form.Group >
-                            <Form.Control name="ddl_gender" id="ddl_gender" value={this.state.ddl_gender} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_gender" id="ddl_gender" defaultValue={this.state.ddl_gender} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Gender</option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
@@ -308,7 +299,7 @@ class SwimForm extends Component {
 
                         {/**  Age */}
                         <Form.Group >
-                            <Form.Control name="ddl_age" id="ddl_age" value={this.state.ddl_age} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_age" id="ddl_age" defaultValue={this.state.ddl_age} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
                                 <option value="X_X">Open (All years)</option>
                                 <option value="X_10">10 years and younger</option>
@@ -332,7 +323,7 @@ class SwimForm extends Component {
                         {/**  Event */}
                         {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
                         <Form.Group >
-                            <Form.Control name="ddl_event" id="ddl_event" value={this.state.ddl_event} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Event</option>
                                 <option value="50m Fr">50 Free</option>
                                 <option value="100m Fr">100 Free</option>

@@ -29,6 +29,7 @@ class Dashboard extends Component {
                     //  TODO POTENTIALLY STYLE 1st,2nd,3rd Place to be coloured gold silver bronze to make finding the 
                     label: this.props.swimEvent,
                     backgroundColor: 'rgb(255, 99, 132)',
+                    pointBackgroundColor: ['rgb(255, 99, 132)'],
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
                     data: this.props.swimmerData.time,
@@ -37,9 +38,18 @@ class Dashboard extends Component {
 
             options = {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 animation: {
                     duration: 0 // general animation time
+                },
+                onClick: function (event, item) {
+                    // * Error handling is needed for if a point is not clicked but within the canvas
+                    if (!(item.length === 0)) {
+                        let index = item[0]._index;
+                        // * Set the point that was clicked color to light up
+                        item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][index] = 'white';
+                        this.update();
+                    }
                 },
                 tooltips: {
                     callbacks: {
@@ -80,8 +90,8 @@ class Dashboard extends Component {
         return (
             <div>
                 <div className="App">Canadian Swimming Rankings</div>
-                <div className="Dashboard for Chart">
-                    <Line data={data} options={options}> </Line>
+                <div name="DashboardforChart">
+                    <Line data={data} options={options} height={400}> </Line>
                 </div>
             </div >
         )
