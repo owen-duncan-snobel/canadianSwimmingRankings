@@ -91,13 +91,3 @@ var https = require('https');
     download(link);
     await browser.close();
 })();
-
-
-// * WILL PARSE THE URL INSTEAD OF USING THE INTERNALS and site navigation with puppeteer
-/*
-let link = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?gender=M&agegroup=X_X&course=LCM&season=2008&clubId=72542&Points=fina_2019&Language=us';
-let url2 = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?gender=F&agegroup=X_X&course=LCM&season=2010&clubId=72542&Points=fina_2019&Language=us'
-let x = 'https://www.swimrankings.net/index.php?page=rankingDetail&clubId=72542&gender=2&season=2009&course=LCM&agegroup=X_X&stroke=1'
-let dest = './'
-
- */
