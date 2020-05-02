@@ -1,11 +1,9 @@
 import React from 'react';
-import SwimForm from './components/dashboard/dashboard'
-//import Datasets from "./components/datasets/datasets";
+import Dashboard from './components/dashboard/dashboard'
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Col from 'react-bootstrap/Col';
-import Dashboard from './components/dashboard/dashboard';
 
 function App() {
   return (

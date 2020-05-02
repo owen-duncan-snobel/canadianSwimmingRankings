@@ -199,7 +199,7 @@ class Dashboard extends Component {
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
         } else {
-            chart = <Dashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
+            chart = <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
         }
 
 
