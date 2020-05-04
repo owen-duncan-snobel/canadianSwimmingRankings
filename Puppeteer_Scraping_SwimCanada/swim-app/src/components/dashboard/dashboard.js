@@ -1,14 +1,14 @@
 import React from 'react'
-import Form from 'react-bootstrap/Form'
 import { Component } from 'react'
+import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Linegraph from '../linegraph/linegraph'
 import Piechart from '../piechart/piechart'
 import XLSX from 'xlsx'
+import SwimmerTable from '../swimmertable/swimmertable'
 
 class Dashboard extends Component {
 
@@ -21,7 +21,7 @@ class Dashboard extends Component {
             swimmerData: null,
             meetData: null,
             swimEventName: '',
-            tableBody: []
+            tableBody: null
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -90,21 +90,6 @@ class Dashboard extends Component {
                 // * Remove the first row so that the default values aren't used
                 toJSON.shift();
 
-                // * Converting the JSON To working usable data to graph (Shifts and pop are for removing the default row)
-                let athletes = toJSON.map(athlete => athlete.__EMPTY_3);
-                let rank = toJSON.map(rank => rank.__EMPTY_9).reverse();
-
-                // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
-                // * In the following format MM:SS:ss
-                const standardize_times = (time) => {
-                    // * Ensures that all time strings given are in an appropriate ISO String format
-                    if (time.length === 5) time = '00:' + time;
-                    if (time.length === 7) time = '0' + time;
-                    let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-                    return milli;
-                }
-
-                let time = toJSON.map(time => standardize_times(time.__EMPTY_7)).reverse();
 
                 let meets = toJSON.map(meet => meet.__EMPTY_12);
 
@@ -126,88 +111,12 @@ class Dashboard extends Component {
                 let meetData = mostMeetOccurences(meets);
                 let meetName = meetData.meetName;
                 let meetNumber = meetData.meetNumber;
-
-                console.log(meetName)
-                console.log(meetNumber)
-
-                this.setState({ swimmerData: { time, athletes, rank }, meetData: { meetName, meetNumber }, swimEventName: event, tableBody: toJSON })
+                // swimmerData: { time, athletes, rank }
+                this.setState({ swimmerData: toJSON, meetData: { meetName, meetNumber }, swimEventName: event, tableBody: toJSON })
             })
     }
 
-
-    // * Updates the table header from graph data
-    updateTableHeader() {
-        if (this.state.tableBody.length === 0) {
-            return;
-        }
-        else {
-            return (
-                <thead>
-                    <tr>
-                        <th>Fullname</th>
-                        <th>Nation</th>
-                        <th>Clubcode</th>
-                        <th>Time</th>
-                        <th>Place</th>
-                        <th>Meetcity</th>
-                        <th>Meet</th>
-                        <th>Clubname</th>
-
-                    </tr>
-                </thead>)
-        }
-    }
-
-    // * Updates the table bodys data from graph (aka. Swimmer Name times ... from excel sheet)
-    updateTableBody() {
-        // * If no data has been given table header remains empty
-        if (this.state.tableBody.length === 0) {
-            return;
-        }
-        else {
-            let allowedKeys = [
-                // '__EMPTY',               GENDER IS REDUNDANT
-                // '__EMPTY_1',             DISTANCE IS REDUNDANT   
-                // '__EMPTY_2',             STROKE IS REDUNDANT
-                '__EMPTY_3',
-                //  '__EMPTY_4',            BIRTHDATE NOT IMPORTANT CURRENTLY EITHER
-                '__EMPTY_5',
-                '__EMPTY_6',
-                '__EMPTY_7',
-                '__EMPTY_9',
-                //                          MEETDATE NOT IMPORTANT CURRENTLY AS DATE IS UNREADABLE  '__EMPTY_10',
-                '__EMPTY_11',
-                '__EMPTY_12',
-                '__EMPTY_13']
-            return (
-                <tbody name="swimTableData">
-                    {
-                        this.state.tableBody.map(item => {
-                            return (<tr name={item.__EMPTY_9}>{
-                                Object.entries(item).filter(([key, value]) => allowedKeys.includes(key))
-                                    .map(([key, value]) => {
-                                        return (<td>{value}</td>)
-                                    })
-                            }
-                            </tr>)
-                        })
-                    }
-                </tbody>
-            )
-
-        }
-    }
-
-
     render() {
-        let linegraph;
-        let piechart;
-        // * Don't display chart if no data has been provided yet
-        if (this.state.swimmerData == null) {
-        } else {
-            linegraph = <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
-            piechart = <Piechart meetData={this.state.meetData} />
-        }
 
         return (
             <>
@@ -286,8 +195,8 @@ class Dashboard extends Component {
                                 <option value="2021-2022">2021-2022</option>
                             </Form.Control>
                         </Form.Group>
-                        {/** Club */}
 
+                        {/** Club */}
                         <Form.Group>
                             <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
@@ -371,18 +280,17 @@ class Dashboard extends Component {
                 <Container className="rankingsContainer">
                     <Row>
                         <Col lg={8}>
-                            {linegraph}
+                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
                         </Col>
+
                         <Col lg={4}>
-                            <Table className="swimTable">
-                                {this.updateTableHeader()}
-                                {this.updateTableBody()}
-                            </Table>
+                            <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
                         </Col>
                     </Row>
+
                     <Row>
                         <Col>
-                            {piechart}
+                            <Piechart meetData={this.state.meetData} />
                         </Col>
                     </Row>
                 </Container>
