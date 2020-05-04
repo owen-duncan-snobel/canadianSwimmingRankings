@@ -19,7 +19,6 @@ class Dashboard extends Component {
             ddl_club: '72542',
             ddl_course: 'SCM',
             swimmerData: null,
-            meetData: null,
             swimEventName: '',
             tableBody: null
         };
@@ -91,28 +90,9 @@ class Dashboard extends Component {
                 toJSON.shift();
 
 
-                let meets = toJSON.map(meet => meet.__EMPTY_12);
 
-                // * Finds the Swim Meet with the most occurences of best times from the top 50 Swimmers
-                const mostMeetOccurences = (list) => {
-                    let map = new Map();
-                    while (list.length !== 0) {
-                        if (!map.has(list[0])) {
-                            map.set(list[0], 1);
-                        } else {
-                            map.set(list[0], map.get(list[0]) + 1);
-                        }
-                        list.shift();
-                    }
-                    let meetName = Array.from(map.keys())
-                    let meetNumber = Array.from(map.values())
-                    return { meetName, meetNumber }
-                }
-                let meetData = mostMeetOccurences(meets);
-                let meetName = meetData.meetName;
-                let meetNumber = meetData.meetNumber;
                 // swimmerData: { time, athletes, rank }
-                this.setState({ swimmerData: toJSON, meetData: { meetName, meetNumber }, swimEventName: event, tableBody: toJSON })
+                this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
             })
     }
 
@@ -290,7 +270,7 @@ class Dashboard extends Component {
 
                     <Row>
                         <Col>
-                            <Piechart meetData={this.state.meetData} />
+                            <Piechart meetData={this.state.swimmerData} />
                         </Col>
                     </Row>
                 </Container>
