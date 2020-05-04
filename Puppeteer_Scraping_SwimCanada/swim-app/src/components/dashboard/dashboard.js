@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Linegraph from '../linegraph/linegraph'
+import Piechart from '../piechart/piechart'
 import XLSX from 'xlsx'
 
 class Dashboard extends Component {
@@ -18,9 +19,8 @@ class Dashboard extends Component {
             ddl_club: '72542',
             ddl_course: 'SCM',
             swimmerData: null,
-            occurenceData: null,
+            meetData: null,
             swimEventName: '',
-            currentPoint: -1,
             tableBody: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -113,19 +113,24 @@ class Dashboard extends Component {
                     let map = new Map();
                     while (list.length !== 0) {
                         if (!map.has(list[0])) {
-                            map.set(list[0], 0);
+                            map.set(list[0], 1);
                         } else {
                             map.set(list[0], map.get(list[0]) + 1);
                         }
                         list.shift();
                     }
-                    return map;
+                    let meetName = Array.from(map.keys())
+                    let meetNumber = Array.from(map.values())
+                    return { meetName, meetNumber }
                 }
-                let meetOccurences = mostMeetOccurences(meets);
-                let meetName = meetOccurences.keys();
-                let numberOfOccurences = meetOccurences.values();
+                let meetData = mostMeetOccurences(meets);
+                let meetName = meetData.meetName;
+                let meetNumber = meetData.meetNumber;
 
-                this.setState({ swimmerData: { time, athletes, rank }, occurenceData: { meetName, numberOfOccurences }, swimEventName: event, tableBody: toJSON })
+                console.log(meetName)
+                console.log(meetNumber)
+
+                this.setState({ swimmerData: { time, athletes, rank }, meetData: { meetName, meetNumber }, swimEventName: event, tableBody: toJSON })
             })
     }
 
@@ -175,34 +180,34 @@ class Dashboard extends Component {
                 '__EMPTY_12',
                 '__EMPTY_13']
             return (
-                <tbody>
+                <tbody name="swimTableData">
                     {
                         this.state.tableBody.map(item => {
-                            return (<tr name={item.__EMPTY_9} > {
+                            return (<tr name={item.__EMPTY_9}>{
                                 Object.entries(item).filter(([key, value]) => allowedKeys.includes(key))
                                     .map(([key, value]) => {
                                         return (<td>{value}</td>)
                                     })
                             }
-                            </tr>
-                            )
+                            </tr>)
                         })
                     }
                 </tbody>
             )
+
         }
     }
 
 
     render() {
-        let chart;
+        let linegraph;
+        let piechart;
         // * Don't display chart if no data has been provided yet
         if (this.state.swimmerData == null) {
         } else {
-            chart = <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
+            linegraph = <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
+            piechart = <Piechart meetData={this.state.meetData} />
         }
-
-
 
         return (
             <>
@@ -234,12 +239,19 @@ class Dashboard extends Component {
                         width:80px;
                         font-size:13px;
                     }
-                    .table{
+                    .swimTable{
                         font-size:0.8rem !important;
-                
+                        width:100%;
                     }    
-                    thead{display:block;}
-                    tbody{height: 400px; width:100%; overflow-y: scroll; display:block}    
+                    thead{
+                        display:inherit;
+                        width:inherit;
+                    }
+                    tbody{
+                        height: 400px; 
+                        width:100%; 
+                        overflow-y: scroll;
+                        display:block}    
     
                     .rankingsContainer{
                         margin:0% !important;
@@ -359,13 +371,18 @@ class Dashboard extends Component {
                 <Container className="rankingsContainer">
                     <Row>
                         <Col lg={8}>
-                            {chart}
+                            {linegraph}
                         </Col>
                         <Col lg={4}>
-                            <Table className="table" hover size="sm">
+                            <Table className="swimTable">
                                 {this.updateTableHeader()}
                                 {this.updateTableBody()}
                             </Table>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            {piechart}
                         </Col>
                     </Row>
                 </Container>

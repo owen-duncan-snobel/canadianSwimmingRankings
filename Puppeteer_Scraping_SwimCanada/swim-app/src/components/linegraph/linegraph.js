@@ -50,6 +50,14 @@ class Linegraph extends Component {
                         }
                         // * Sets the point clicked colour to highlighted color
                         item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][index] = 'white';
+
+
+                        /*                     
+                                              TODO Need to go back and get the functionality and logic more polished for scrolling to and highlight the correct points        
+                                               // * 49 - Index is needed since the datasets index's are reversed to graph, + 1 is for correct place (1st, 2nd, ...)
+                                              document.getElementsByTagName('table')[0].style.backgroundColor = 'none';
+                                              document.getElementsByTagName('tr').namedItem((49 - index) + 1).style.backgroundColor = 'yellow';
+                       */
                         this.update();
                     }
                 },
