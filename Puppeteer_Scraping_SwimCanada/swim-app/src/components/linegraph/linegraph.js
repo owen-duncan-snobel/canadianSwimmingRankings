@@ -14,23 +14,37 @@ class Linegraph extends Component {
         let options;
         // * If no data has been passed down from the form or invalid display empty form
         if (this.props.swimmerData == null) {
-            data = {
-                datasets: [
-                    {
-                        label: ''
-                    }
-                ]
-            }
+            return (
+                <div name="DashboardforChart"> </div>
+            )
         } else {
+
+            // * Converting the JSON To working usable data to graph (Shifts and pop are for removing the default row)
+            let athletes = this.props.swimmerData.map(athlete => athlete.__EMPTY_3);
+            let rank = this.props.swimmerData.map(rank => rank.__EMPTY_9).reverse();
+
+            // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
+            // * In the following format MM:SS:ss
+            const standardize_times = (time) => {
+                // * Ensures that all time strings given are in an appropriate ISO String format
+                if (time.length === 5) time = '00:' + time;
+                if (time.length === 7) time = '0' + time;
+                let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+                return milli;
+            }
+
+            let time = this.props.swimmerData.map(time => standardize_times(time.__EMPTY_7)).reverse();
+
+            // * Data that will be passed to the Linegraph Component
             data = {
-                labels: this.props.swimmerData.rank,
+                labels: rank,
                 datasets: [{
                     label: this.props.swimEvent,
                     backgroundColor: 'rgb(255, 99, 132)',
                     pointBackgroundColor: ['rgb(255, 99, 132)'],
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
-                    data: this.props.swimmerData.time,
+                    data: time,
                 }]
             }
 
@@ -67,7 +81,7 @@ class Linegraph extends Component {
                         label: (tooltipItem, data) => {
                             // * Label Array is used to create multiple labels inside of data element in graph. 
                             let labelArr = [];
-                            labelArr.push(this.props.swimmerData.athletes[tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
+                            labelArr.push(athletes[tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
                             return labelArr;
                         }
                     }
