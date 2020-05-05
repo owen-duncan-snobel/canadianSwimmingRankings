@@ -19,13 +19,21 @@ class Dashboard extends Component {
             ddl_club: '72542',
             ddl_course: 'SCM',
             swimmerData: null,
+            swimmerName: '',
+            swimmerTime: '',
             swimEventName: '',
             tableBody: null
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateSwimmer = this.updateSwimmer.bind(this);
     }
 
+    updateSwimmer(swimmer) {
+        // TODO NEED TO FIX HOW THESE ARE COLLECTED IT IS VERY UGLY
+        this.setState({ swimmerName: swimmer.name, swimmerTime: swimmer.time })
+        console.log(swimmer)
+    }
     // * Handles the state selection for when you select a new dropdown from the Form 
     handleInputChange(onEvent) {
         this.setState({ [onEvent.target.name]: onEvent.target.value });
@@ -79,19 +87,14 @@ class Dashboard extends Component {
                 let workbook = XLSX.read(bookBuffer, {
                     type: "array"
                 })
-
                 // * Finds the correct sheet within the workbook based on the name of the event
                 let data = workbook.Sheets[event];
 
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-
-                // * Remove the first row so that the default values aren't used
+                // * Removes the first row so that the default values aren't used
                 toJSON.shift();
 
-
-
-                // swimmerData: { time, athletes, rank }
                 this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
             })
     }
@@ -156,7 +159,7 @@ class Dashboard extends Component {
                     <Form.Row>
                         {/**  Swimming Season */}
                         <Form.Group >
-                            <Form.Control name="ddl_season" id="ddl_season" defaultValue={this.state.ddl_season} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_season" id="ddl_season" defaultValue={this.state.ddl_season} className="dropdownBox custom-select" as="select">
                                 <option value="" disabled>Season</option>
                                 <option value="2007-2008">2007-2008</option>
                                 <option value="2008-2009">2008-2009</option>
@@ -178,7 +181,7 @@ class Dashboard extends Component {
 
                         {/** Club */}
                         <Form.Group>
-                            <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
                                 <option value="72542">Oakville Aquatic Club</option>
                             </Form.Control>
@@ -186,7 +189,7 @@ class Dashboard extends Component {
 
                         {/**  Course */}
                         <Form.Group >
-                            <Form.Control name="ddl_course" id="ddl_course" defaultValue={this.state.ddl_course} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_course" id="ddl_course" defaultValue={this.state.ddl_course} className="dropdownBox custom-select" as="select">
                                 <option disabled>Course</option>
                                 <option value="LCM">Long Course (50m)</option>
                                 <option value="SCM">Short Course (25m)</option>
@@ -195,7 +198,7 @@ class Dashboard extends Component {
 
                         {/**  Gender */}
                         <Form.Group >
-                            <Form.Control name="ddl_gender" id="ddl_gender" defaultValue={this.state.ddl_gender} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_gender" id="ddl_gender" defaultValue={this.state.ddl_gender} className="dropdownBox custom-select" as="select">
                                 <option disabled>Gender</option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
@@ -204,7 +207,7 @@ class Dashboard extends Component {
 
                         {/**  Age */}
                         <Form.Group >
-                            <Form.Control name="ddl_age" id="ddl_age" defaultValue={this.state.ddl_age} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_age" id="ddl_age" defaultValue={this.state.ddl_age} className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
                                 <option value="X_X">Open (All years)</option>
                                 <option value="X_10">10 years and younger</option>
@@ -228,7 +231,7 @@ class Dashboard extends Component {
                         {/**  Event */}
                         {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
                         <Form.Group >
-                            <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} onEvent={this.handleInputChange} className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} className="dropdownBox custom-select" as="select">
                                 <option disabled>Event</option>
                                 <option value="50m Fr">50 Free</option>
                                 <option value="100m Fr">100 Free</option>
@@ -260,7 +263,7 @@ class Dashboard extends Component {
                 <Container className="rankingsContainer">
                     <Row>
                         <Col lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} />
+                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} updateSwimmer={this.updateSwimmer} />
                         </Col>
 
                         <Col lg={4}>
@@ -270,7 +273,7 @@ class Dashboard extends Component {
 
                     <Row>
                         <Col>
-                            <Piechart meetData={this.state.swimmerData} />
+                            <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
                         </Col>
                     </Row>
                 </Container>
