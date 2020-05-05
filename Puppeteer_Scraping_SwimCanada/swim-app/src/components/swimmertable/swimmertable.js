@@ -42,13 +42,13 @@ class SwimmerTable extends Component {
                         </tr>
                     </thead>
 
-                    <tbody name="swimTableData">
+                    <tbody key="swimTableData" name="swimTableData">
                         {
                             this.props.tableBody.map(item => {
-                                return (<tr name={item.__EMPTY_9}>{
+                                return (<tr key={item.__EMPTY_9} name={item.__EMPTY_9}>{
                                     Object.entries(item).filter(([key, value]) => allowedKeys.includes(key))
                                         .map(([key, value]) => {
-                                            return (<td>{value}</td>)
+                                            return (<td key={value}>{value}</td>)
                                         })
                                 }
                                 </tr>)
