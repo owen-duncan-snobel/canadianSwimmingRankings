@@ -12,6 +12,20 @@ class Linegraph extends Component {
     render() {
         let data;
         let options;
+        let times;
+        let athletes;
+        let rank;
+
+        // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
+        // * In the following format MM:SS:ss
+        const standardize_times = (time) => {
+            // * Ensures that all time strings given are in an appropriate ISO String format
+            if (time.length === 5) time = '00:' + time;
+            if (time.length === 7) time = '0' + time;
+            let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+            return milli;
+        }
+
         // * If no data has been passed down from the form or invalid display empty form
         if (this.props.swimmerData == null) {
             return (
@@ -20,20 +34,9 @@ class Linegraph extends Component {
         } else {
 
             // * Converting the JSON To working usable data to graph (Shifts and pop are for removing the default row)
-            let athletes = this.props.swimmerData.map(athlete => athlete.__EMPTY_3);
-            let rank = this.props.swimmerData.map(rank => rank.__EMPTY_9).reverse();
-
-            // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
-            // * In the following format MM:SS:ss
-            const standardize_times = (time) => {
-                // * Ensures that all time strings given are in an appropriate ISO String format
-                if (time.length === 5) time = '00:' + time;
-                if (time.length === 7) time = '0' + time;
-                let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-                return milli;
-            }
-
-            let time = this.props.swimmerData.map(time => standardize_times(time.__EMPTY_7)).reverse();
+            athletes = this.props.swimmerData.map(athlete => athlete.__EMPTY_3);
+            rank = this.props.swimmerData.map(rank => rank.__EMPTY_9).reverse();
+            times = this.props.swimmerData.map(time => standardize_times(time.__EMPTY_7)).reverse();
 
             // * Data that will be passed to the Linegraph Component
             data = {
@@ -44,7 +47,7 @@ class Linegraph extends Component {
                     pointBackgroundColor: ['rgb(255, 99, 132)'],
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
-                    data: time,
+                    data: times,
                 }]
             }
 
@@ -54,27 +57,25 @@ class Linegraph extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                onClick: function (event, item) {
-                    // * Error handling is needed for if a point is not clicked but within the canvas
-                    if (!(item.length === 0)) {
-                        let index = item[0]._index;
-                        // * Resets the point that was clicked prior back to original colour
-                        for (let i = 0; i < item[0]._chart.config.data.datasets[0].data.length; i++) {
-                            item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][i] = 'rgb(255, 99, 132)';
-                        }
-                        // * Sets the point clicked colour to highlighted color
-                        item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][index] = 'white';
-
-
-                        /*                     
-                                              TODO Need to go back and get the functionality and logic more polished for scrolling to and highlight the correct points        
-                                               // * 49 - Index is needed since the datasets index's are reversed to graph, + 1 is for correct place (1st, 2nd, ...)
-                                              document.getElementsByTagName('table')[0].style.backgroundColor = 'none';
-                                              document.getElementsByTagName('tr').namedItem((49 - index) + 1).style.backgroundColor = 'yellow';
-                       */
-                        this.update();
-                    }
-                },
+                /*                 onClick: (event, item) => {
+                                    // * Error handling is needed for if a point is not clicked but within the canvas
+                                                        if (!(item.length === 0)) {
+                                                            let index = item[0]._index;
+                                                            // * Resets the point that was clicked prior back to original colour
+                                                            for (let i = 0; i < item[0]._chart.config.data.datasets[0].data.length; i++) {
+                                                                item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][i] = 'rgb(255, 99, 132)';
+                                                            }
+                                                            // * Sets the point clicked colour to highlighted color
+                                                            item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][index] = 'white';
+                                                                                
+                                                                                  TODO Need to go back and get the functionality and logic more polished for scrolling to and highlight the correct points        
+                                                                                   // * - Index is needed since the datasets index's are reversed to graph, + 1 is for correct place (1st, 2nd, ...)
+                                                                                  document.getElementsByTagName('table')[0].style.backgroundColor = 'none';
+                                                                                
+                                                           
+                                                            this.update();
+                                                        } 
+                                } , */
                 tooltips: {
                     callbacks: {
                         // * Updates the Tooltips (Graph Points) with the Name,Time 
@@ -108,13 +109,23 @@ class Linegraph extends Component {
                 }
             }
         }
-
-
         return (
             <div>
                 <div className="App">Canadian Swimming Rankings</div>
                 <div name="DashboardforChart">
-                    <Line data={data} options={options} height={400}> </Line>
+                    <Line data={data} options={options} height={400} onElementsClick={(elems) => {
+
+                        // * Updates The Selected Swimmer Time and Swimmer Name
+                        try {
+                            this.props.updateSwimmer({
+                                time: new Date(times[elems[0]._index]).toISOString().substr(14, 8),
+                                name: athletes[(athletes.length - 1) - elems[0]._index]
+                            });
+                        } catch {
+                            // * If graph is clicked, but not a point on the graph it returns an empty array
+                        }
+
+                    }} />
                 </div>
             </div >
         )
