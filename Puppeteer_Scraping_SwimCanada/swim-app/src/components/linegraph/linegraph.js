@@ -57,25 +57,6 @@ class Linegraph extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                /*                 onClick: (event, item) => {
-                                    // * Error handling is needed for if a point is not clicked but within the canvas
-                                                        if (!(item.length === 0)) {
-                                                            let index = item[0]._index;
-                                                            // * Resets the point that was clicked prior back to original colour
-                                                            for (let i = 0; i < item[0]._chart.config.data.datasets[0].data.length; i++) {
-                                                                item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][i] = 'rgb(255, 99, 132)';
-                                                            }
-                                                            // * Sets the point clicked colour to highlighted color
-                                                            item[0]._chart.config.data.datasets[0]['pointBackgroundColor'][index] = 'white';
-                                                                                
-                                                                                  TODO Need to go back and get the functionality and logic more polished for scrolling to and highlight the correct points        
-                                                                                   // * - Index is needed since the datasets index's are reversed to graph, + 1 is for correct place (1st, 2nd, ...)
-                                                                                  document.getElementsByTagName('table')[0].style.backgroundColor = 'none';
-                                                                                
-                                                           
-                                                            this.update();
-                                                        } 
-                                } , */
                 tooltips: {
                     callbacks: {
                         // * Updates the Tooltips (Graph Points) with the Name,Time 
@@ -83,6 +64,7 @@ class Linegraph extends Component {
                             // * Label Array is used to create multiple labels inside of data element in graph. 
                             let labelArr = [];
                             labelArr.push(athletes[tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
+                            // TODO Might add average and median times to the onhighlight / might be when you click on swimmer in graph
                             return labelArr;
                         }
                     }
@@ -111,7 +93,7 @@ class Linegraph extends Component {
         }
         return (
             <div>
-                <div className="App">Canadian Swimming Rankings</div>
+                <div className="App">{this.props.clubName} Rankings</div>
                 <div name="DashboardforChart">
                     <Line data={data} options={options} height={400} onElementsClick={(elems) => {
 

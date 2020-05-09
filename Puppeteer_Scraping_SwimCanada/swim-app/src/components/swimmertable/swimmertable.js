@@ -28,7 +28,7 @@ class SwimmerTable extends Component {
                 '__EMPTY_13']
 
             return (
-                <Table className="swimTable">
+                <Table size='sm' className="swimTable">
                     <thead>
                         <tr>
                             <th>Fullname</th>

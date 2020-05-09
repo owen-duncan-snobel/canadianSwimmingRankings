@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Pie } from 'react-chartjs-2'
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 class Piechart extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
@@ -86,20 +89,27 @@ class Piechart extends Component {
 
         return (
             <div>
-                <h2>Data Insights</h2>
-
-                {/* Average, Median Times */}
-                <h4 name="averageTime">The Average time is: {average}</h4>
-                <h4 name="medianTime">The Median time is: {median}</h4>
-                <h4 name="selectedTime">{this.props.swimmerName.split(',').reverse().join(' ').concat(':')} {this.props.swimmerTime}</h4>
-                {console.log(this.props.swimmerName)}
-
-                {/* * Fastest Meets */}
-                {/**
+                <Container>
+                    <Row className='mt-5 mb-5'>
+                        <Col>
+                            {/* Average, Median Times */}
+                            <h4 name="averageTime">The Average time is: {average}</h4>
+                            <h4 name="medianTime">The Median time is: {median}</h4>
+                            <h4 name="selectedTime">{this.props.swimmerName ? this.props.swimmerName.split(',').reverse().join(' ') : ''} {this.props.swimmerTime}</h4>
+                            {console.log(this.props.swimmerName)}
+                        </Col>
+                    </Row>
+                    {/* * Fastest Meets */}
+                    {/**
                  *  TODO NEED to go back and add a table listing the fastest meets might be easier to view
                  */}
-                <h4>Fastest Swim Meets:</h4>
-                <Pie data={data} options={options} height={100} />
+                    <Row>
+                        <Col>
+                            <h4>Fastest Swim Meets:</h4>
+                            <Pie data={data} options={options} height={100} />
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         )
     }

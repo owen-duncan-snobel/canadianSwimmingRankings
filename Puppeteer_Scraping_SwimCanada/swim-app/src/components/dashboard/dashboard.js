@@ -18,6 +18,7 @@ class Dashboard extends Component {
             ddl_season: '2019-2020',
             ddl_club: '72542',
             ddl_course: 'SCM',
+            clubName: 'Oakville Aquatic Club',
             swimmerData: null,
             swimmerName: '',
             swimmerTime: '',
@@ -29,20 +30,23 @@ class Dashboard extends Component {
         this.updateSwimmer = this.updateSwimmer.bind(this);
     }
 
-    updateSwimmer(swimmer) {
-        // TODO NEED TO FIX HOW THESE ARE COLLECTED IT IS VERY UGLY
-        this.setState({ swimmerName: swimmer.name, swimmerTime: swimmer.time })
-        console.log(swimmer)
-    }
     // * Handles the state selection for when you select a new dropdown from the Form 
     handleInputChange(onEvent) {
         this.setState({ [onEvent.target.name]: onEvent.target.value });
+    }
+
+    updateSwimmer(swimmer) {
+        // TODO NEED TO FIX HOW THESE ARE COLLECTED IT IS VERY UGLY
+        this.setState({ swimmerName: swimmer.name, swimmerTime: swimmer.time })
     }
 
     // * Handles the logic for when you click submit on the form 
     handleSubmit(onEvent) {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         onEvent.preventDefault();
+
+        // * Whenever a new form is submitted resets the Time of selected swimmer that is dispalyed in the data insights (Cancels updateSwimmer)
+        this.setState({ swimmerName: '', swimmerTime: '' });
 
         // * Formed data is used for getting the contents of the submitted form 
         const formdata = new FormData(onEvent.target);
@@ -134,19 +138,11 @@ class Dashboard extends Component {
                     .swimTable{
                         font-size:0.8rem !important;
                         width:100%;
-                    }    
-                    thead{
-                        display:inherit;
-                        width:inherit;
+                        display:table;
                     }
-                    tbody{
-                        height: 400px; 
-                        width:100%; 
-                        overflow-y: scroll;
-                        display:block}    
     
                     .rankingsContainer{
-                        margin:0% !important;
+                       
                     }
                `}
                 </style>
@@ -183,7 +179,7 @@ class Dashboard extends Component {
                         <Form.Group>
                             <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
-                                <option value="72542">Oakville Aquatic Club</option>
+                                <option value="72542" name="Oakville Aquatic Club">Oakville Aquatic Club</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -260,23 +256,25 @@ class Dashboard extends Component {
                 </Form>
 
                 {/* Dashboard with all the logic for the graph **/}
-                <Container className="rankingsContainer">
-                    <Row>
+                <Container fluid className='rankingsContainer'>
+                    <Row className='mb-3'>
                         <Col lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} updateSwimmer={this.updateSwimmer} />
+                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} updateSwimmer={this.updateSwimmer} clubName={this.state.clubName} />
                         </Col>
-
                         <Col lg={4}>
-                            <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col>
                             <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
                         </Col>
                     </Row>
                 </Container>
+
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
+                        </Col>
+                    </Row>
+                </Container>
+
             </>)
     }
 }
