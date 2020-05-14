@@ -91,11 +91,12 @@ class Linegraph extends Component {
                 }
             }
         }
+
         return (
-            <div>
-                <div className="App">{this.props.clubName} Rankings</div>
+            <div className='colBorder'>
+                <div className="App mt-1"><h4>{this.props.clubName} Rankings </h4></div>
                 <div name="DashboardforChart">
-                    <Line data={data} options={options} height={400} onElementsClick={(elems) => {
+                    <Line data={data} options={options} height={500} onElementsClick={(elems) => {
 
                         // * Updates The Selected Swimmer Time and Swimmer Name
                         try {

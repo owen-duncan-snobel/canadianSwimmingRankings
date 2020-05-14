@@ -74,7 +74,7 @@ class Dashboard extends Component {
         searchParameter.append('season', season);
         searchParameter.append('clubID', club);
         url += searchParameter.toString();
-
+        // console.log(url);
         // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
         url = 'https://cors-anywhere.herokuapp.com/' + url;
 
@@ -96,10 +96,15 @@ class Dashboard extends Component {
 
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-                // * Removes the first row so that the default values aren't used
-                toJSON.shift();
 
-                this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
+                // * Error Handling: if the data returned is an empty array
+                if (toJSON.length === 0) {
+                    console.log("Error: Empty Data Array");
+                } else {
+                    // * Removes the first row so that the default values aren't used
+                    toJSON.shift();
+                    this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
+                }
             })
     }
 
@@ -107,7 +112,7 @@ class Dashboard extends Component {
 
         return (
             <>
-                <style type="text/css">
+                <style type='text/css'>
                     {`
                     .dropdownBox{
                         border: 1px solid #00aad8;
@@ -122,7 +127,6 @@ class Dashboard extends Component {
                         background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%2300aad8' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") 
                     }
                     .formTitle{
-                        margin-top:1.5rem;
                         color: #00aad8;
                         font-weight:bold;
                         text-transform: uppercase;
@@ -140,9 +144,12 @@ class Dashboard extends Component {
                         width:100%;
                         display:table;
                     }
-    
-                    .rankingsContainer{
-                       
+                    .colBorder{
+                        border: solid 1px #f0f0f0;  
+                        border-radius: 20px;    
+                    }
+                    .headingColor{
+                        color: #00aad8;
                     }
                `}
                 </style>
@@ -242,8 +249,8 @@ class Dashboard extends Component {
                                 <option value="100m Br">100 Breast</option>
                                 <option value="200m Br">200 Breast</option>
                                 <option value="50m Bu">50 Fly</option>
-                                <option value="100m Me">100 Fly</option>
-                                <option value="200m Me">200 Fly</option>
+                                <option value="100m Bu">100 Fly</option>
+                                <option value="200m Bu">200 Fly</option>
                                 <option value="100m Me">100 I.Medley</option>
                                 <option value="200m Me">200 I.Medley</option>
                                 <option value="400m Me">400 I.Medley</option>
@@ -256,12 +263,12 @@ class Dashboard extends Component {
                 </Form>
 
                 {/* Dashboard with all the logic for the graph **/}
-                <Container fluid className='rankingsContainer'>
+                <Container fluid>
                     <Row className='mb-3'>
-                        <Col lg={8}>
+                        <Col className='pr-0 mt-2' lg={8}>
                             <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} updateSwimmer={this.updateSwimmer} clubName={this.state.clubName} />
                         </Col>
-                        <Col lg={4}>
+                        <Col className='pl-0 mt-2' lg={4}>
                             <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
                         </Col>
                     </Row>
