@@ -7,7 +7,6 @@ import Row from 'react-bootstrap/Row';
 class Piechart extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
     render() {
-
         let data;
         let options;
         let average;
@@ -18,18 +17,20 @@ class Piechart extends Component {
         let meetData;
         let meetName;
         let meetNumber;
-        let timeNumber;
-        let timeName;
+        let meetDate;
+
 
         // * If no data has been passed down from the form or invalid display empty form
-        if (this.props.meetData === null) {
+        // TODO MIGHT NEED TO ADD A CONSTRUCTOR AND TRACK STATE SO THAT IT IS NOT DUBBLING UP ON CALCULATION SUCH AS MOST OCCURENCES. ADDED OVERHEAD
+        if (this.props.meetData === null && (this.props.meetData !== this.state.meetData)) {
             return (
                 <div> </div>
             )
         } else {
-
+            console.log(this.props.meetData)
+            // * Ensures that all time strings given are in an appropriate ISO String format
             const standardize_times = (time) => {
-                // * Ensures that all time strings given are in an appropriate ISO String format
+
                 if (time.length === 5) time = '00:' + time;
                 if (time.length === 7) time = '0' + time;
                 let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
@@ -49,8 +50,6 @@ class Piechart extends Component {
                 }
                 return map;
             }
-
-
 
             // * Average and Median Times
             const averageTime = (time) => {
@@ -113,6 +112,10 @@ class Piechart extends Component {
             median = medianTime(times);
             mode = modeTime(times);
 
+            // * Converts Excel Date Value into a JS date inorder to be graphed
+            meetDate = this.props.meetData.map(date => new Date(Math.floor(date.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth());
+            console.log(mostOccurences(meetDate));
+
 
 
             data = {
@@ -141,33 +144,49 @@ class Piechart extends Component {
                         height:auto;
                         border-radius: 20px;
                         padding-left: 1rem;
-                    }    
+                    } 
+                    .modeCount{
+                        font-size: 0.8rem;
+                    }
                 `}
                     </style>
                 </>
+
 
                 {/* Time Analytics */}
                 <Container>
                     <Row className='pt-0 analytics justify-content-md-center'>
                         <Col className='colBorder m-1' lg={12} md={5} xs={12}>
-                            <h2 className='formTitle'>Swimming Analytics</h2>
+
+                            <h4 className='formTitle'>Swimming Analytics</h4>
                             {/* Average, Median Times, Mode Times */}
-                            <h6 name="averageTime"> Average Time</h6> <h2 className="mb-3">{average}</h2>
-                            <h6 name="medianTime">Median Time</h6> <h2 className="mb-3">{median}</h2>
-                            <h6 name="modeTime">Most Common Time Range</h6>
-                            <h3>{this.props.meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} </h3>
-                            <h6>With {mode.maxCount} Swimmers</h6>
+                            <p name='averageTime'> <b>Average Time </b> <br></br>
+                                {average}
+                            </p>
+
+                            <p name='medianTime'><b>Median Time</b> <br></br>
+                                {median}
+                            </p>
+
+                            <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
+                                {this.props.meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
+                                <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
+                            </p>
+
+                            <p name=''>
+
+                            </p>
 
                         </Col>
 
                         {/* * Fastest Meets */}
                         <Col className='colBorder m-1' lg={12} md={5} xs={12}>
-                            <h2 className=' formTitle'>Fastest Meets</h2>
+                            <h4 className=' formTitle'>Fastest Meets</h4>
                             <Pie data={data} options={options} />
                         </Col>
                     </Row>
                 </Container>
-            </div>
+            </div >
         )
     }
 }

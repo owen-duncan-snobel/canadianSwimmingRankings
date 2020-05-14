@@ -22,7 +22,7 @@ class SwimmerTable extends Component {
                 '__EMPTY_6',
                 '__EMPTY_7',
                 '__EMPTY_9',
-                //                          MEETDATE NOT IMPORTANT CURRENTLY AS DATE IS UNREADABLE  '__EMPTY_10',
+                // '__EMPTY_10'                        MEETDATE NOT IMPORTANT CURRENTLY AS DATE IS UNREADABLE  '__EMPTY_10',
                 '__EMPTY_11',
                 '__EMPTY_12',
                 '__EMPTY_13']
