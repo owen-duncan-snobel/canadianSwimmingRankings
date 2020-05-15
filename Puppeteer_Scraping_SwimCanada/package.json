@@ -14,7 +14,9 @@
     "firebase": "^7.8.0",
     "firebase-admin": "^8.9.2",
     "http2": "^3.3.7",
+    "node-fetch": "^2.6.0",
     "papaparse": "^5.1.1",
-    "puppeteer": "^2.1.1"
+    "puppeteer": "^2.0.0",
+    "xlsx": "^0.15.6"
   }
 }
