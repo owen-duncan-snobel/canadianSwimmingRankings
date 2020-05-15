@@ -96,19 +96,7 @@ class Linegraph extends Component {
             <div className='colBorder'>
                 <div className="App mt-1"><h4>{this.props.clubName} Rankings </h4></div>
                 <div name="DashboardforChart">
-                    <Line data={data} options={options} height={500} onElementsClick={(elems) => {
-
-                        // * Updates The Selected Swimmer Time and Swimmer Name
-                        try {
-                            this.props.updateSwimmer({
-                                time: new Date(times[elems[0]._index]).toISOString().substr(14, 8),
-                                name: athletes[(athletes.length - 1) - elems[0]._index]
-                            });
-                        } catch {
-                            // * If graph is clicked, but not a point on the graph it returns an empty array
-                        }
-
-                    }} />
+                    <Line data={data} options={options} height={500} />
                 </div>
             </div >
         )

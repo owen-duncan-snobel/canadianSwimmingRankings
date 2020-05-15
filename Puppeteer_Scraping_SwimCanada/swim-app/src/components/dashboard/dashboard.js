@@ -141,12 +141,10 @@ class Dashboard extends Component {
                     }
                     .swimTable{
                         font-size:0.8rem !important;
-                        width:100%;
-                        display:table;
                     }
                     .colBorder{
                         border: solid 1px #f0f0f0;  
-                        border-radius: 20px;    
+                        border-radius: 20px;
                     }
                     .headingColor{
                         color: #00aad8;
@@ -274,7 +272,7 @@ class Dashboard extends Component {
                     </Row>
                 </Container>
 
-                <Container fluid>
+                <Container>
                     <Row>
                         <Col>
                             <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>

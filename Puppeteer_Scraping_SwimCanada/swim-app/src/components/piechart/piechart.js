@@ -3,6 +3,8 @@ import { Pie } from 'react-chartjs-2'
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Rainbow from 'rainbowvis.js'
+
 
 class Piechart extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
@@ -19,15 +21,13 @@ class Piechart extends Component {
         let meetNumber;
         let meetDate;
 
-
         // * If no data has been passed down from the form or invalid display empty form
-        // TODO MIGHT NEED TO ADD A CONSTRUCTOR AND TRACK STATE SO THAT IT IS NOT DUBBLING UP ON CALCULATION SUCH AS MOST OCCURENCES. ADDED OVERHEAD
-        if (this.props.meetData === null && (this.props.meetData !== this.state.meetData)) {
+        if (this.props.meetData === null) {
             return (
                 <div> </div>
             )
         } else {
-            console.log(this.props.meetData)
+
             // * Ensures that all time strings given are in an appropriate ISO String format
             const standardize_times = (time) => {
 
@@ -101,28 +101,38 @@ class Piechart extends Component {
                 }
             }
 
+            // * Converts The Time & Meet Data To an Array that can be easily used
             times = this.props.meetData.map(time => standardize_times(time.__EMPTY_7));
             meets = this.props.meetData.map(meet => meet.__EMPTY_12);
 
-            meetData = mostOccurences(meets);
-            meetName = Array.from(meetData.keys());
-            meetNumber = Array.from(meetData.values());
+            // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
+            meetData = Array.from(mostOccurences(meets)).sort((a, b) => a[1] - b[1]);
+            meetName = meetData.map(name => name[0]);
+            meetNumber = meetData.map(number => number[1]);
 
+            // * Variables for the respective 'average' , 'median' and 'mode' from the data
             average = averageTime(times);
             median = medianTime(times);
             mode = modeTime(times);
 
             // * Converts Excel Date Value into a JS date inorder to be graphed
             meetDate = this.props.meetData.map(date => new Date(Math.floor(date.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth());
-            console.log(mostOccurences(meetDate));
 
+            // * Creates The Colors for the PieChart depending on how many distinct meets there are
+            let myRainbow = new Rainbow();
+            myRainbow.setSpectrum('#00aad8', '#ff6384')
+            myRainbow.setNumberRange(1, meetData.length);
+            let colorArray = [];
 
-
+            for (let i = 0; i < meetData.length; i++) {
+                colorArray.push('#' + myRainbow.colorAt(i));
+            }
+            console.log(colorArray)
             data = {
                 labels: meetName,
                 datasets: [{
                     data: meetNumber,
-                    backgroundColor: ['red', 'yellow']
+                    backgroundColor: colorArray
                 }]
             }
             options = {
@@ -173,7 +183,7 @@ class Piechart extends Component {
                                 <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
                             </p>
 
-                            <p name=''>
+                            <p name='modeMonth'> <b></b>
 
                             </p>
 
