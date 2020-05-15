@@ -1,10 +1,10 @@
-import React from 'react'
-import Form from 'react-bootstrap/Form'
-import { Component } from 'react'
-import Button from 'react-bootstrap/Button'
+import React from './node_modules/react'
+import Form from './node_modules/react-bootstrap/Form'
+import { Component } from './node_modules/react'
+import Button from './node_modules/react-bootstrap/Button'
 import Dashboard from '../dashboard/dashboard'
-import * as firebase from "firebase/app";
-import "firebase/storage";
+import * as firebase from "./node_modules/firebase/app";
+import "./node_modules/firebase/storage";
 
 
 // * General Firebase config, does not matter if the api key is leaked(needed to fetch files), as long as it is not the ADMIN SDK FOR FIREBASE

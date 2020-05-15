@@ -272,7 +272,7 @@ class Dashboard extends Component {
                     </Row>
                 </Container>
 
-                <Container>
+                <Container fluid>
                     <Row>
                         <Col>
                             <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
