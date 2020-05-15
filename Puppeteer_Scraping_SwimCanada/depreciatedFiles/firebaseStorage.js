@@ -1,6 +1,6 @@
-var fs = require('fs');
-var admin = require("firebase-admin");
-var serviceAccount = require("../../canadian-swimming-ranks-firebase-adminsdk-7x0t5-f65824ad6d");
+const fs = require('fs');
+const admin = require("firebase-admin");
+const serviceAccount = require("../../canadian-swimming-ranks-firebase-adminsdk-7x0t5-f65824ad6d");
 
 // * Initialize the app with the credentials for the storage and bucket from Firebase
 admin.initializeApp({
