@@ -4,9 +4,9 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Dashboard from './components/dashboard/dashboard';
-
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
+import Clubs from './components/clubs/clubs';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 
 
@@ -19,22 +19,23 @@ function App() {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='mr-auto'>
-              <Link to='/swimmers'> <Nav.Link href='/swimmers'>Swimmers</Nav.Link> </Link>
-              <Link to='/clubs'> <Nav.Link href='/clubs'>Clubs</Nav.Link> </Link>
-              <Link to='/about'> <Nav.Link href='/about'>About</Nav.Link> </Link>
-              <Link to='/contact'> <Nav.Link>Contact</Nav.Link> </Link>
+              <Link to='/swimmers' className='nav-link'>Swimmers </Link>
+              <Link to='/clubs' className='nav-link'> Clubs </Link>
+              <Link to='/about' className='nav-link'>About </Link>
+              <Link to='/contact' className='nav-link'>Contact </Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
+        <hr></hr>
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path='/swimmers'>
-            <Dashboard></Dashboard>
+            <Dashboard />
           </Route>
           <Route path='/clubs'>
-
+            <Clubs />
           </Route>
           <Route path='/about'>
 
