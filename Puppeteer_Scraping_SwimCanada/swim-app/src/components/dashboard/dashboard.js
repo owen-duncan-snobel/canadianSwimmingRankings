@@ -62,8 +62,8 @@ class Dashboard extends Component {
         season = season.split('-')[1];
 
         // TODO Allow for language and point system changes if required
-        //   const language = 'us';
-        // const points = 'fina_2019';
+        const language = 'us';
+        const points = 'fina_2019';
 
         // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
         let url = new URL('https://www.swimrankings.net/services/RankingXls/ranking.xls?');
@@ -73,11 +73,13 @@ class Dashboard extends Component {
         searchParameter.append('course', course);
         searchParameter.append('season', season);
         searchParameter.append('clubID', club);
+        searchParameter.append('Language', language);
+        searchParameter.append('Points', points);
         url += searchParameter.toString();
         // console.log(url);
         // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
         url = 'https://cors-anywhere.herokuapp.com/' + url;
-
+        console.log(url)
         // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
         fetch(url, {
             method: "GET"
@@ -93,7 +95,6 @@ class Dashboard extends Component {
                 })
                 // * Finds the correct sheet within the workbook based on the name of the event
                 let data = workbook.Sheets[event];
-
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
 
@@ -152,7 +153,6 @@ class Dashboard extends Component {
                `}
                 </style>
                 <div>
-                    <hr></hr>
                     <h1 className="formTitle">Canadian Swimming Rankings</h1>
                 </div>
 
