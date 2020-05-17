@@ -43,16 +43,16 @@ or
 
 The Following is a breakdown of how the Columns in the JSON Array / Excel tables sheets rows are named. **REFER** to this when looking for what attribute property is needed for the corresponding data graphing or collection.
 
-| JSON Attribute / Excel Column Name   | Data Column Holds   |
+| JSON Attribute / Excel Column Name   | Data Column Holds   | INDEX
 | ------------ | ------------ |
-| __EMPTY  | "GENDER"   |
-| __EMPTY_1 | "DISTANCE"   | 
-| __EMPTY_2  | "STROKE"  |
-| __EMPTY_3  | "FULLNAME"   |
-| __EMPTY_4 | "BIRTHDATE"   |
-| __EMPTY_5 | "NATION"  |
-| __EMPTY_6   | "CLUBCODE"  |
-| __EMPTY_7  | "SWIMTIME" **(Time as a string)  **|
+| __EMPTY  | "GENDER"   |     0
+| __EMPTY_1 | "DISTANCE"   |  1
+| __EMPTY_2  | "STROKE"  |    2
+| __EMPTY_3  | "FULLNAME"   | 3
+| __EMPTY_4 | "BIRTHDATE"   | 4
+| __EMPTY_5 | "NATION"  |     5
+| __EMPTY_6   | "CLUBCODE"  | 6
+| __EMPTY_7  | "SWIMTIME" **(Time as a string)  **| 7
 | __EMPTY_8  | "SWIMTIME_N" **(Time as a number) ** |  
 | __EMPTY9  | "PLACE"   |
 | __EMPTY_10  | "MEETDATE"  |
