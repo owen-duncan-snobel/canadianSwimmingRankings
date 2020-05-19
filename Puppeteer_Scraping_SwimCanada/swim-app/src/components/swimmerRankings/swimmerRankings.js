@@ -10,7 +10,7 @@ import Piechart from '../piechart/piechart'
 import XLSX from 'xlsx'
 import SwimmerTable from '../swimmertable/swimmertable'
 
-class Dashboard extends Component {
+class SwimmerRankings extends Component {
 
     constructor(props) {
         super(props);
@@ -27,7 +27,6 @@ class Dashboard extends Component {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.updateSwimmer = this.updateSwimmer.bind(this);
     }
 
     // * Handles the state selection for when you select a new dropdown from the Form 
@@ -35,10 +34,6 @@ class Dashboard extends Component {
         this.setState({ [onEvent.target.name]: onEvent.target.value });
     }
 
-    updateSwimmer(swimmer) {
-        // TODO NEED TO FIX HOW THESE ARE COLLECTED IT IS VERY UGLY
-        this.setState({ swimmerName: swimmer.name, swimmerTime: swimmer.time })
-    }
 
     // * Handles the logic for when you click submit on the form 
     handleSubmit(onEvent) {
@@ -50,7 +45,7 @@ class Dashboard extends Component {
 
         // * Formed data is used for getting the contents of the submitted form 
         const formdata = new FormData(onEvent.target);
-        let club = formdata.get('ddl_club');
+        let clubID = formdata.get('ddl_club');
         let season = formdata.get('ddl_season');
         let course = formdata.get('ddl_course');
         let gender = formdata.get('ddl_gender');
@@ -72,7 +67,7 @@ class Dashboard extends Component {
         searchParameter.append('agegroup', agegroup);
         searchParameter.append('course', course);
         searchParameter.append('season', season);
-        searchParameter.append('clubID', club);
+        searchParameter.append('clubID', clubID);
         searchParameter.append('Language', language);
         searchParameter.append('Points', points);
         url += searchParameter.toString();
@@ -153,7 +148,7 @@ class Dashboard extends Component {
                `}
                 </style>
                 <div>
-                    <h1 className="formTitle">Canadian Swimming Rankings</h1>
+                    <h1 className="formTitle">Swimmer Rankings</h1>
                 </div>
 
                 <Form className='rankingsForm' onSubmit={this.handleSubmit}>
@@ -264,7 +259,7 @@ class Dashboard extends Component {
                 <Container fluid>
                     <Row className='mb-3'>
                         <Col className='pr-0 mt-2' lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} updateSwimmer={this.updateSwimmer} clubName={this.state.clubName} />
+                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
                             <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
@@ -283,4 +278,4 @@ class Dashboard extends Component {
             </>)
     }
 }
-export default Dashboard;
+export default SwimmerRankings;
