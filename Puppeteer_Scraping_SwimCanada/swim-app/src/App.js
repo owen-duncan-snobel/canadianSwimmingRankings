@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Dashboard from './components/dashboard/dashboard';
+import SwimmerRankings from './components/swimmerRankings/swimmerRankings';
 import Clubs from './components/clubs/clubs';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -32,7 +32,7 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path='/swimmers'>
-            <Dashboard />
+            <SwimmerRankings />
           </Route>
           <Route path='/clubs'>
             <Clubs />
@@ -44,7 +44,7 @@ function App() {
 
           </Route>
           <Route path='/'>
-            <Dashboard></Dashboard>
+            <SwimmerRankings />
           </Route>
         </Switch>
       </Router>
