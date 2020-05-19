@@ -95,7 +95,7 @@ class Linegraph extends Component {
 
         return (
             <div className='colBorder'>
-                <div className="App mt-1"><h4>{this.props.clubName} Rankings </h4></div>
+                <div className="App mt-1"><h6>{this.props.clubName} Rankings </h6></div>
                 <div name="DashboardforChart">
                     <Line data={data} options={options} height={500} />
                 </div>

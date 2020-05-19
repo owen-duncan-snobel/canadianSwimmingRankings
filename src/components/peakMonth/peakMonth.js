@@ -3,7 +3,11 @@ import { EVENTS } from '../../constants/swimming/swimming';
 import * as SwimAnalytics from '../../constants/swimAnalytics/swimAnalytics';
 import { Bar } from 'react-chartjs-2';
 import Rainbow from 'rainbowvis.js';
-import { defaults } from 'react-chartjs-2'
+import { defaults } from 'react-chartjs-2';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 defaults.global.legend.display = false;
 
 class PeakMonth extends Component {
@@ -330,18 +334,24 @@ class PeakMonth extends Component {
             }
 
 
-            //console.log(SwimAnalytics.mostOccurences(data));
             return (
-                <div>
-                    <div>
-                        <h4 className="text-center">{this.props.event + ': Best Times Meetdates'} </h4>
-                    </div>
-                    <Bar data={data} options={options} height={75} />
-                    <div>
-                        <h4 className="text-center">{'All Events: Meetdates'} </h4>
-                    </div>
-                    <Bar data={data2} option={options2} height={75} />
-                </div >
+                <Container fluid>
+                    <Row>
+                        <Col md={6} xs={12}>
+                            <div>
+                                <h6 className="text-center">{this.props.event + ': Best Times Meetdates (Contains all events from selected year/age and gender'} </h6>
+                            </div>
+                            <Bar data={data} options={options} height={200} />
+                        </Col>
+
+                        <Col md={6} xs={12}>
+                            <div>
+                                <h6 className="text-center">{'All Events: Meetdates'} </h6>
+                            </div>
+                            <Bar data={data2} option={options2} height={200} />
+                        </Col>
+                    </Row>
+                </Container>
             )
         }
     }
