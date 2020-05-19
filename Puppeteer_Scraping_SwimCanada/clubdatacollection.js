@@ -1,8 +1,12 @@
 const fetch = require('node-fetch');
 const XLSX = require('xlsx')
-const Papa = require('papaparse');
+
+let start = new Date()
+let hrstart = process.hrtime()
+let simulateTime = 5
 
 // * Constants 
+
 let ages = [
     'X_X', '11_11', '11_12', '12_12', '13_13', '13_14', '15_15',
     '15_16', '15_17', '16_16', '17_17', '17_18', '18_18', '18_24'
@@ -26,14 +30,12 @@ let genders = ['M', 'F'];
 // * Urls will contain all the URLS to fetch from swimmingrankings.net to get all the excel files
 // * File names will contain all the file names when we go to write files back they will keep corresponding name
 
-var start = new Date()
-var hrstart = process.hrtime()
-var simulateTime = 5
 
 let urls = [];
 let fileNames = [];
-let wb = XLSX.utils.book_new();
+let alldata = [];
 
+// *  Creates an array of all possible names of files that you are able to fetch data from
 for (let age of ages) {
     for (let season of seasons) {
         for (let course of courses) {
@@ -54,9 +56,11 @@ for (let age of ages) {
 }
 
 // * Will use filtering to allow them to find which are allowed
-urls = urls.filter(el => el.includes('X_X') && el.includes('2018-2019') && el.includes('M') && el.includes('SCM'));
+urls = urls.filter(url => url.includes('13_14') && url.includes('2018-2019') && url.includes('M') && url.includes('SCM'));
 console.log(urls)
-// * Will fetch all files then return at once preserving order with Promise.all() 
+
+/*
+// * Will fetch all files then return at once preserving order with Promise.all()
 let jsonFiles = Promise.all(urls.map(url =>
     fetch(url, {
         method: "GET"
@@ -74,25 +78,31 @@ let jsonFiles = Promise.all(urls.map(url =>
             let workbook = XLSX.read(bookBuffer, {
                 type: "array"
             })
-            let names = [];
-            //for (sheet in workbook.Sheets) {
-            let data = XLSX.utils.sheet_to_csv(workbook.Sheets['50m fr']);
-            let csvData = Papa.parse(data);
-            names.push(csvData.data.map(el => el[4]));
-            //}
-            // console.log(names);
-            // XLSX.writeFile(workbook, './testing/' + fileNames[0]);
-            fileNames.shift();
+            let data = [];
+            for (sheet in workbook.Sheets) {
+                // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                // * removes place holder for top of file
+                sheetData.shift();
+                data.push(sheetData);
+            }
+            return data;
         })
-)).then(() => {
-    console.log('WORKIGN')
-    setTimeout(function (argument) {
-        // execution time simulated with setTimeout function
-        var end = new Date() - start,
-            hrend = process.hrtime(hrstart)
+))
+    .then((allData) => {
+        let arr = [];
+        allData.forEach(sheet => {
+            sheet.forEach(event => {
+                event.forEach(swimmer => console.log(swimmer.__EMPTY_11));
+            })
+        })
 
-        console.info('Execution time: %dms', end)
-        console.info('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000)
-    }, simulateTime)
-})
-
+        // * Function runtime
+        setTimeout(function (argument) {
+            let end = new Date() - start,
+                hrend = process.hrtime(hrstart)
+            console.info('Execution time: %dms', end)
+            console.info('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000)
+        }, simulateTime)
+    })
+ */

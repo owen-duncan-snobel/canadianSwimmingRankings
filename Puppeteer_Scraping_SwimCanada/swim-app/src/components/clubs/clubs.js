@@ -1,8 +1,133 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/constant';
+
+const XLSX = require('xlsx')
 
 class Clubs extends Component {
+    /*     let clubID = formdata.get('ddl_club');
+        let season = formdata.get('ddl_season');
+        let course = formdata.get('ddl_course');
+        let gender = formdata.get('ddl_gender');
+        let agegroup = formdata.get('ddl_age');
+        let event = formdata.get('ddl_event');
+        let stroke = event.split(' ')[1];
+         */
+    constructor(props) {
+        super(props);
+        this.state = {
+            ddl_season: '2019-2020',
+            ddl_course: 'SCM',
+            ddl_club: '72542',
+            data: null,
+        }
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleInputChange(onEvent) {
+        this.setState({ [onEvent.target.name]: onEvent.target.value });
+    }
+
+    handleSubmit(onEvent) {
+        // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
+        onEvent.preventDefault();
+
+        // * Get the Form Data 
+        const formdata = new FormData(onEvent.target);
+        let clubID = formdata.get('ddl_club');
+        let season = formdata.get('ddl_season');
+        let course = formdata.get('ddl_course');
+        let gender = formdata.get('ddl_gender');
+        let agegroup = formdata.get('ddl_age');
+        let event = formdata.get('ddl_event');
+        let stroke = event.split(' ')[1];
+
+        // * Event is not relevant as the excel file will include all events (Files are distinguishable without the event)
+        let tempQueryString = clubID + season + course + gender + agegroup;
+
+        // * Logic For when a rerender is required (aka. Do not rerender if only event changes)
+        /*         ddl_season: '2019-2020',
+                ddl_course: 'SCM',
+                ddl_gender: '',
+                ddl_age: '',
+                ddl_event: '',
+                ddl_club: '72542', */
+
+        // * Urls will contain all the URLS to fetch from swimmingrankings.net to get all the excel files
+        // * File names will contain all the file names when we go to write files back they will keep corresponding name
+        let urls = [];
+        let fileNames = [];
+        let alldata = [];
+
+        // *  Creates an array of all possible links to the data that you are want to fetch data from
+        // TODO will need to make it so you can fetch over years span so an update to the form and logic will be needed
+        for (let age of AGES) {
+            for (let season of SEASONS) {
+                for (let course of COURSES) {
+                    for (let gender of GENDERS) {
+                        let url = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
+                        let param = new URLSearchParams();
+                        param.append('gender', gender);
+                        param.append('agegroup', age);
+                        param.append('course', course);
+                        param.append('season', season);
+                        param.append('clubID', clubID);
+                        url += param.toString();
+                        urls.push(url);
+                        fileNames.push(url.split('?')[1] + '.xlsx');
+                    }
+                }
+            }
+        }
+
+        // * Will use filtering to allow them to find which are allowed
+        urls = urls.filter(url => url.includes('clubID=' + clubID)
+            && url.includes('season=' + season)
+            && url.includes('course=' + course)
+            && url.includes('gender=' + gender)
+            && url.includes('agegroup=' + agegroup)
+        );
+        console.log(urls)
+
+        // * Will fetch all files then return at once preserving order with Promise.all() 
+        let jsonFiles = Promise.all(urls.map(url =>
+            // * Need Heroku for 'ORS header “Access-Control-Allow-Origin” missing'
+            fetch('https://cors-anywhere.herokuapp.com/' + url, {
+                method: "GET"
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('Error: Could not display file ' + response.url)
+                        throw new Error("Unable to fetch file");
+                    }
+                    return response.arrayBuffer();
+                })
+                .then(buffer => {
+                    // * Converts The Array Buffer into a Workbook then saves the file
+                    let bookBuffer = new Uint8Array(buffer);
+                    let workbook = XLSX.read(bookBuffer, {
+                        type: "array"
+                    })
+                    let data = [];
+                    for (let sheet in workbook.Sheets) {
+                        // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                        let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                        // * removes place holder for top of file
+                        sheetData.shift();
+                        data.push(sheetData);
+                    }
+                    return data;
+                })
+        ))
+            .then((allData) => {
+                //  console.log(allData)
+                this.setState({ data: allData });
+            })
+
+        // * Need to check and see if form attributes changed or just event (if event reparse data otherwise reload)
+    }
 
     render() {
         return (
@@ -50,11 +175,11 @@ class Clubs extends Component {
                     <h1 className='formTitle'>Club Analytics</h1>
                 </div>
 
-                <Form className='rankingsForm' >
+                <Form className='rankingsForm' onSubmit={this.handleSubmit} >
                     <Form.Row>
                         {/**  Swimming Season */}
                         <Form.Group >
-                            <Form.Control className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_season" id="ddl_season" defaultValue={this.state.ddl_season} className="dropdownBox custom-select" as="select">
                                 <option value="" disabled>Season</option>
                                 <option value="2007-2008">2007-2008</option>
                                 <option value="2008-2009">2008-2009</option>
@@ -76,24 +201,32 @@ class Clubs extends Component {
 
                         {/** Club */}
                         <Form.Group>
-                            <Form.Control className="dropdownBox custom-select" as="select">
+                            <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
                                 <option value="72542" name="Oakville Aquatic Club">Oakville Aquatic Club</option>
                             </Form.Control>
                         </Form.Group>
 
+                        {/**  Course */}
+                        <Form.Group >
+                            <Form.Control name="ddl_course" id="ddl_course" defaultValue={this.state.ddl_course} className="dropdownBox custom-select" as="select">
+                                <option disabled>Course</option>
+                                <option value="LCM">Long Course (50m)</option>
+                                <option value="SCM">Short Course (25m)</option>
+                            </Form.Control>
+                        </Form.Group>
+
                         {/**  Gender */}
-                        {/*                         <Form.Group >
-                            <Form.Control className="dropdownBox custom-select" as="select">
+                        <Form.Group >
+                            <Form.Control name="ddl_gender" id="ddl_gender" defaultValue={this.state.ddl_gender} className="dropdownBox custom-select" as="select">
                                 <option disabled>Gender</option>
-                                <option value='B'>Both</option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
                             </Form.Control>
-                        </Form.Group> */}
+                        </Form.Group>
 
                         {/**  Age */}
-                        {/* <Form.Group >
+                        <Form.Group >
                             <Form.Control name="ddl_age" id="ddl_age" defaultValue={this.state.ddl_age} className="dropdownBox custom-select" as="select">
                                 <option disabled>Age</option>
                                 <option value="X_X">Open (All years)</option>
@@ -113,11 +246,11 @@ class Clubs extends Component {
                                 <option value="18_18">18 years</option>
                                 <option value="18_24">18 - 24 years</option>
                             </Form.Control>
-                        </Form.Group> */}
+                        </Form.Group>
 
                         {/**  Event */}
                         {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
-                        {/* <Form.Group >
+                        <Form.Group >
                             <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} className="dropdownBox custom-select" as="select">
                                 <option disabled>Event</option>
                                 <option value="50m Fr">50 Free</option>
@@ -139,7 +272,7 @@ class Clubs extends Component {
                                 <option value="200m Me">200 I.Medley</option>
                                 <option value="400m Me">400 I.Medley</option>
                             </Form.Control>
-                        </Form.Group> */}
+                        </Form.Group>
                         <Button className="formButton" type="submit">
                             SHOW
                         </Button>
