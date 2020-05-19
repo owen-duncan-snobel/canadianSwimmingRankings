@@ -21,3 +21,11 @@
 .App-link {
   color: #61dafb;
 }
+
+#footer {
+  position: inherit;
+  font-size: 0.8rem;
+  bottom: 0;
+  height: 30px;
+  width: 98%;
+}
