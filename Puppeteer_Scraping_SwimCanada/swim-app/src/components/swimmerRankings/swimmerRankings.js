@@ -220,7 +220,6 @@ class SwimmerRankings extends Component {
                                 <option value="17_17">17 years</option>
                                 <option value="17_18">17 - 18 years</option>
                                 <option value="18_18">18 years</option>
-                                <option value="18_24">18 - 24 years</option>
                             </Form.Control>
                         </Form.Group>
 
