@@ -54,7 +54,7 @@ The Following is a breakdown of how the Columns in the JSON Array / Excel tables
 | __EMPTY_6   | "CLUBCODE"  | 6
 | __EMPTY_7  | "SWIMTIME" **(Time as a string)  **| 7
 | __EMPTY_8  | "SWIMTIME_N" **(Time as a number) ** |  
-| __EMPTY9  | "PLACE"   |
+| __EMPTY_9  | "PLACE"   |
 | __EMPTY_10  | "MEETDATE"  |
 | __EMPTY_11  | "MEETCITY"  |
 |  __EMPTY_12 | "MEETNAME"  |
