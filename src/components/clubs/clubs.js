@@ -277,7 +277,11 @@ class Clubs extends Component {
                     </Form.Row>
                 </Form>
                 <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
+                <div id="footer">
+                    <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank"> swimrankings.net </a> </p>
+                </div>
             </>
+
         )
     }
 }

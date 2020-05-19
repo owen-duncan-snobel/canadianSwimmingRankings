@@ -271,8 +271,13 @@ class SwimmerRankings extends Component {
                         <Col>
                             <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
                         </Col>
+                        <div id="footer">
+                            <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank"> swimrankings.net </a> </p>
+                        </div>
                     </Row>
+
                 </Container>
+
 
             </>)
     }
