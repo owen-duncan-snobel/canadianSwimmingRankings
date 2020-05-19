@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
+
 /**
  *   The dashboard is responsible for housing the Chart and styling for the chart
  *   it also will pass the chart back to the main app.
