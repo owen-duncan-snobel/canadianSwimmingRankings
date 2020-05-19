@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/constant';
+import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/constants';
+import PeakMonth from '../peakMonth/peakMonth';
 
 const XLSX = require('xlsx')
 
@@ -20,7 +21,8 @@ class Clubs extends Component {
             ddl_season: '2019-2020',
             ddl_course: 'SCM',
             ddl_club: '72542',
-            data: null,
+            ddl_event: '',
+            swimmerData: null,
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,16 +46,8 @@ class Clubs extends Component {
         let event = formdata.get('ddl_event');
         let stroke = event.split(' ')[1];
 
-        // * Event is not relevant as the excel file will include all events (Files are distinguishable without the event)
-        let tempQueryString = clubID + season + course + gender + agegroup;
-
-        // * Logic For when a rerender is required (aka. Do not rerender if only event changes)
-        /*         ddl_season: '2019-2020',
-                ddl_course: 'SCM',
-                ddl_gender: '',
-                ddl_age: '',
-                ddl_event: '',
-                ddl_club: '72542', */
+        // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
+        season = season.split('-')[1];
 
         // * Urls will contain all the URLS to fetch from swimmingrankings.net to get all the excel files
         // * File names will contain all the file names when we go to write files back they will keep corresponding name
@@ -72,7 +66,7 @@ class Clubs extends Component {
                         param.append('gender', gender);
                         param.append('agegroup', age);
                         param.append('course', course);
-                        param.append('season', season);
+                        param.append('season', season.split('-')[1]);
                         param.append('clubID', clubID);
                         url += param.toString();
                         urls.push(url);
@@ -84,7 +78,7 @@ class Clubs extends Component {
 
         // * Will use filtering to allow them to find which are allowed
         urls = urls.filter(url => url.includes('clubID=' + clubID)
-            && url.includes('season=' + season)
+            && (url.includes('season=' + season))
             && url.includes('course=' + course)
             && url.includes('gender=' + gender)
             && url.includes('agegroup=' + agegroup)
@@ -122,8 +116,13 @@ class Clubs extends Component {
                 })
         ))
             .then((allData) => {
-                //  console.log(allData)
-                this.setState({ data: allData });
+                if (allData.length === 0) {
+                    console.log('Error: No Swimmer Data was returned');
+                } else if (allData.length === 1) {
+                    // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
+                    allData = [allData];
+                }
+                this.setState({ swimmerData: allData, ddl_event: event });
             })
 
         // * Need to check and see if form attributes changed or just event (if event reparse data otherwise reload)
@@ -278,7 +277,7 @@ class Clubs extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
-
+                <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} />
             </>
         )
     }
