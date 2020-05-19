@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/constants';
+import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
 import PeakMonth from '../peakMonth/peakMonth';
 
 const XLSX = require('xlsx')
@@ -23,6 +23,7 @@ class Clubs extends Component {
             ddl_club: '72542',
             ddl_event: '',
             swimmerData: null,
+            swimEvent: ''
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -78,12 +79,11 @@ class Clubs extends Component {
 
         // * Will use filtering to allow them to find which are allowed
         urls = urls.filter(url => url.includes('clubID=' + clubID)
-            && (url.includes('season=' + season))
+            && (url.includes('season=' + season) /* || url.includes('season=' + 2017) */)
             && url.includes('course=' + course)
             && url.includes('gender=' + gender)
             && url.includes('agegroup=' + agegroup)
         );
-        console.log(urls)
 
         // * Will fetch all files then return at once preserving order with Promise.all() 
         let jsonFiles = Promise.all(urls.map(url =>
@@ -243,7 +243,6 @@ class Clubs extends Component {
                                 <option value="17_17">17 years</option>
                                 <option value="17_18">17 - 18 years</option>
                                 <option value="18_18">18 years</option>
-                                <option value="18_24">18 - 24 years</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -277,7 +276,7 @@ class Clubs extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
-                <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} />
+                <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
             </>
         )
     }
