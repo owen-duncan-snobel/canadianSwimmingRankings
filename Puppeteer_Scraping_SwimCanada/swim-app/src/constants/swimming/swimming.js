@@ -15,7 +15,7 @@ export const COURSES = ['LCM', 'SCM'];
 export const EVENTS = [
     "50m Fr", "100m Fr", "200m Fr", "400m Fr", "800m Fr", "1500m Fr",
     "50m Bk", "100m Bk", "200m Bk", "50m Br", "100m Br", "200m Br",
-    "50m Bu", "100m Bu", "200m Bu", "200m Me", "400m Me"
+    "50m Bu", "100m Bu", "200m Bu", "100 Me", "200m Me", "400m Me"
 ]
 
 export const GENDERS = ['M', 'F'];

@@ -12,6 +12,36 @@ export const mostOccurences = (list) => {
     return map;
 };
 
+// * Converts time stored exceldate timeformat into a specific month
+export const meetMonth = (meets) => {
+    try {
+        return meets.map(date => new Date(Math.floor(date.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth());
+    } catch {
+        console.log('Error: Unable to map the array');
+        return;
+    }
+}
+
+export const peakDistribution = (data) => {
+    try {
+        // * Data for most common meet occurence month
+        let months = Array(12).fill(0);
+        let meets = mostOccurences(meetMonth(data));
+        meets.forEach((value, key) => {
+            months[key] = value
+        });
+
+        // * Shifts the Months so that is graphed about September-August
+        for (let i = 0; i < 4; i++) {
+            months.unshift(months.pop());
+        }
+        return months;
+    } catch {
+        console.log('Error: Unable to map the array');
+        return;
+    }
+}
+
 // * Average and Median Times
 export const averageTime = (time) => {
     try {
