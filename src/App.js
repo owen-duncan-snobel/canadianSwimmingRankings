@@ -8,7 +8,7 @@ import Contact from './components/contact/contact';
 import Clubs from './components/clubs/clubs';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Col from 'react-bootstrap/Col';
+
 
 
 function App() {
