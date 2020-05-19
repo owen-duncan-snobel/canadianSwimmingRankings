@@ -4,6 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import SwimmerRankings from './components/swimmerRankings/swimmerRankings';
+import Contact from './components/contact/contact';
 import Clubs from './components/clubs/clubs';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -12,7 +13,7 @@ import Col from 'react-bootstrap/Col';
 
 function App() {
   return (
-    <div className='ml-2 overflow-hidden'>
+    <div className='ml-2 overflow-hidden '>
       <Router>
         <Navbar expand='lg'>
           <Link to='/'>  <Navbar.Brand>Canadian Swimming Rankings</Navbar.Brand> </Link>
@@ -41,18 +42,16 @@ function App() {
 
           </Route>
           <Route path='/contact'>
-
+            <Contact />
           </Route>
           <Route path='/'>
             <SwimmerRankings />
           </Route>
         </Switch>
       </Router>
+      { /*  <a href='./src/components/swimmerData.zip' download>Click to download</a> */}
 
-      <Col className='d-xs-none'>
 
-        { /*  <a href='./src/components/swimmerData.zip' download>Click to download</a> */}
-      </Col>
     </div >
   );
 }
