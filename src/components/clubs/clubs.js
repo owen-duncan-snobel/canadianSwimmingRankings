@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
 import PeakMonth from '../peakMonth/peakMonth';
-
 const XLSX = require('xlsx')
 
 class Clubs extends Component {
