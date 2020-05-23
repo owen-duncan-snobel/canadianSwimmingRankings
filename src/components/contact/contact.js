@@ -25,7 +25,7 @@ class Contact extends Component {
                                 <div class="">
                                     <h3 className="navbar-light">Owen Duncan-Snobel</h3>
                                     <h3> <a href="mailto:owenduncansnobel@gmail.com"> owenduncansnobel@gmail.com</a></h3>
-                                    <h3> <a href="https://github.com/owen-duncan-snobel" target="_blank">github.com/owen-duncan-snobel</a></h3>
+                                    <h3> <a href="https://github.com/owen-duncan-snobel" rel="noopener noreferrer" target="_blank">github.com/owen-duncan-snobel</a></h3>
                                 </div>
                             </Col>
                         </Row >

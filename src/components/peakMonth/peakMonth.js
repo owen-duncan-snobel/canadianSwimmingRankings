@@ -27,7 +27,7 @@ class PeakMonth extends Component {
         let options = [];
         let options2 = [];
 
-        if (this.props.swimmerData == null) {
+        if (this.props.swimmerData === null) {
             return (
                 <div name="PeakMonth"> </div>
             )
@@ -325,7 +325,7 @@ class PeakMonth extends Component {
                             if (index > 11) {
                                 index -= 12;
                             }
-                            let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() == index);
+                            let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() === index);
                             swimmers.forEach(el => labelArr.push(el.__EMPTY_9 + ' ' + el.__EMPTY_3 + ' ' + el.__EMPTY_7))
                             return labelArr;
                         }

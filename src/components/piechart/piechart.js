@@ -20,6 +20,7 @@ class Piechart extends Component {
         let meetName;
         let meetNumber;
         let meetMonth;
+        let standardDeviaton;
 
         // * If no data has been passed down from the form or invalid display empty form
         if (this.props.meetData === null) {
@@ -48,9 +49,15 @@ class Piechart extends Component {
 
             // * Variables for the respective 'average' , 'median' and 'mode' from the data
             average = SwimAnalytics.averageTime(times);
+            console.log(average)
             median = SwimAnalytics.medianTime(times);
             mode = SwimAnalytics.modeTime(times);
 
+            /*      
+                  * Need to only standardize the times once the sd has been calculated
+             standardDeviaton = this.props.meetDat.map(time => Math.sqrt((time.__EMPTY_7 - ); */
+            console.log(standardDeviaton)
+            standardDeviaton = Math.sqrt(SwimAnalytics.averageTime(standardDeviaton));
             // * Converts Excel Date Value into a JS date inorder to be graphed
             meetMonth = SwimAnalytics.meetMonth(this.props.meetData);
 
@@ -116,8 +123,9 @@ class Piechart extends Component {
                                 <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
                             </p>
 
-                            <p name='modeMonth'> <b></b>
-
+                            <p name='standardDeviation'> <b> Standard Deviation of Times </b>
+                                <br></br>
+                                {standardDeviaton}
                             </p>
 
                         </Col>

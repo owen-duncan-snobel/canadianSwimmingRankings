@@ -87,7 +87,7 @@ class Clubs extends Component {
         // * Will fetch all files then return at once preserving order with Promise.all() 
         let jsonFiles = Promise.all(urls.map(url =>
             // * Need Heroku for 'ORS header “Access-Control-Allow-Origin” missing'
-            fetch('https://cors-anywhere.herokuapp.com/' + url, {
+            fetch(url, {
                 method: "GET"
             })
                 .then(response => {
