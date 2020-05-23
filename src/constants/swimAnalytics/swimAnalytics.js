@@ -1,15 +1,22 @@
 // * Finds the element in an Array returns a Map (key,value) of the number of occurences of each distinctive element 
-export const mostOccurences = (list) => {
-    let map = new Map();
-    while (list.length !== 0) {
-        if (!map.has(list[0])) {
-            map.set(list[0], 1);
-        } else {
-            map.set(list[0], map.get(list[0]) + 1);
+export const mostOccurences = (arr) => {
+    try {
+        let map = new Map();
+        if (arr !== undefined && Array.isArray(arr) && arr.length >= 0) {
+            while (arr.length !== 0) {
+                if (!map.has(arr[0])) {
+                    map.set(arr[0], 1);
+                } else {
+                    map.set(arr[0], map.get(arr[0]) + 1);
+                }
+                arr.shift();
+            }
         }
-        list.shift();
+        return map;
+    } catch {
+        console.log('Error: Data Array was empty, cannot calculate the occurences of null')
+        return
     }
-    return map;
 };
 
 // * Converts time stored exceldate timeformat into a specific month
