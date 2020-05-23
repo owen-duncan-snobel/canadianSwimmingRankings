@@ -73,7 +73,7 @@ class SwimmerRankings extends Component {
         url += searchParameter.toString();
         // console.log(url);
         // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
-        //  url = 'https://cors-anywhere.herokuapp.com/' + url;
+        url = 'https://cors-anywhere.herokuapp.com/' + url;
         console.log(url)
         // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
         fetch(url, {
