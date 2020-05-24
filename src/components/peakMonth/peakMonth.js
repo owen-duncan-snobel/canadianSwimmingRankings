@@ -21,11 +21,11 @@ class PeakMonth extends Component {
         let swimmerData = [];
         let allSwimmerData = [];
         let allSwimmerDataSubComponents = [];
-        let data = [];
-        let data2 = [];
+        let event = [];
+        let allEvents = [];
         let allData = [];
-        let options = [];
-        let options2 = [];
+        let eventOptions = [];
+        let allEventsOptions = [];
 
         if (this.props.swimmerData === null) {
             return (
@@ -68,7 +68,7 @@ class PeakMonth extends Component {
             })
 
             try {
-                console.log(SwimAnalytics.peakDistribution(allSwimmerDataSubComponents.entries()));
+                // * Hard Coding of the events needed in order to stack the bars and events appropriately and match to a color
                 let fiftyFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[0]);
                 let oneHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[1]);
                 let twoHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[2]);
@@ -91,7 +91,7 @@ class PeakMonth extends Component {
                 let months = SwimAnalytics.peakDistribution(swimmerData);
 
                 // * Data that will be passed to the Linegraph Component
-                data = {
+                event = {
                     labels: ['September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',],
                     datasets: [{
                         label: this.props.event,
@@ -113,7 +113,7 @@ class PeakMonth extends Component {
                     colorArray.push('#' + myRainbow.colorAt(i));
                 }
 
-                data2 = {
+                allEvents = {
                     labels: ['September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',],
                     datasets: [{
                         stack: '2',
@@ -298,7 +298,7 @@ class PeakMonth extends Component {
                 console.log('Error: ' + error + ' unable data graph data')
             }
 
-            const options2 = {
+            const allEventsOptions = {
                 scales: {
                     xAxes: [
                         {
@@ -313,7 +313,7 @@ class PeakMonth extends Component {
                 },
             };
 
-            options = {
+            eventOptions = {
                 tooltips: {
                     callbacks: {
                         // * Updates the Tooltips (Graph Points) with the Name,Time
@@ -341,14 +341,14 @@ class PeakMonth extends Component {
                             <div>
                                 <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
                             </div>
-                            <Bar data={data} options={options} height={200} />
+                            <Bar data={event} options={eventOptions} height={200} />
                         </Col>
 
                         <Col md={6} xs={12}>
                             <div>
                                 <h6 className="text-center">{'All Events: (all events month of when swimmer swam best time from selected year/age and gender'} </h6>
                             </div>
-                            <Bar data={data2} option={options2} height={200} />
+                            <Bar data={allEvents} option={allEventsOptions} height={200} />
                         </Col>
                     </Row>
                 </Container>
