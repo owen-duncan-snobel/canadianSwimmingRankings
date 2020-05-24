@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { EVENTS } from '../../constants/swimming/swimming';
 import * as SwimAnalytics from '../../constants/swimAnalytics/swimAnalytics';
+import Analytics from '../analytics/analytics';
 import { Bar } from 'react-chartjs-2';
 import Rainbow from 'rainbowvis.js';
 import { defaults } from 'react-chartjs-2';
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 defaults.global.legend.display = false;
 

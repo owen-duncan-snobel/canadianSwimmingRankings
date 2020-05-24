@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Linegraph from '../linegraph/linegraph'
-import Piechart from '../piechart/piechart'
+import Analytics from '../analytics/analytics'
 import XLSX from 'xlsx'
 import SwimmerTable from '../swimmertable/swimmertable'
 
@@ -264,7 +264,7 @@ class SwimmerRankings extends Component {
                             <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
-                            <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
+                            <Analytics meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
                         </Col>
                     </Row>
                 </Container >

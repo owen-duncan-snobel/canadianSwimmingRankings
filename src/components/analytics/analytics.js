@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Rainbow from 'rainbowvis.js';
 import * as SwimAnalytics from '../../constants/swimAnalytics/swimAnalytics';
 
-class Piechart extends Component {
+class Analytics extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
     render() {
         let data;
@@ -139,4 +139,4 @@ class Piechart extends Component {
         )
     }
 }
-export default Piechart;
+export default Analytics;

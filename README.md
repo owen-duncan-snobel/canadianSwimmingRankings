@@ -53,9 +53,9 @@ If you find any bugs / the data does not seem to correct for the graph. If you a
  - **peakMonth** (Takes data from clubs and parses and passes it to graph)
 	 - peakMonth.js
 	 - [peakMonth.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/peakMonth/peakMonth.md)
- - **piechart** (Takes data and returns the fastest meets in a piechart component)  
-	 - piechart.js
-	 - [pieChart.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/piechart/PieChart.md)
+ - **analytics** (Takes data and returns the fastest meets in a analytics component)  
+	 - analytics.js
+	 - [analytics.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.md)
  - **swimmerRankings** (Fetches Swimmer Data and passes to line graph and piechart)
 	 - swimmerRankings.js
 	 - [ProcessingData.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmerRankings/ProcessingData.md)
