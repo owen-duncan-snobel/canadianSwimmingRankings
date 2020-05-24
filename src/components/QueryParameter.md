@@ -1,4 +1,4 @@
-#  Canadian Swimming Rankings
+# Canadian Swimming Rankings   <img src="https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png" width="50" height="50">
 ###  How to use Parameters for Queries:
 ##### Inorder to get the excel file that is wanted from the database, the following Parameters listed are used to specify which file is wanted. The corresponding value used are listed as well.
 
