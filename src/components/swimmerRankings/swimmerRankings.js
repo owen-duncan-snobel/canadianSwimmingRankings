@@ -51,7 +51,6 @@ class SwimmerRankings extends Component {
         let gender = formdata.get('ddl_gender');
         let agegroup = formdata.get('ddl_age');
         let event = formdata.get('ddl_event');
-        let stroke = event.split(' ')[1];
 
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
         season = season.split('-')[1];
