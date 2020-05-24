@@ -8,7 +8,7 @@ import Contact from './components/contact/contact';
 import Clubs from './components/clubs/clubs';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-
+import logo from './images/favicon.ico'
 
 
 function App() {
@@ -16,7 +16,19 @@ function App() {
     <div className='ml-2 overflow-hidden '>
       <Router>
         <Navbar expand='lg'>
-          <Link to='/'>  <Navbar.Brand>Canadian Swimming Rankings</Navbar.Brand> </Link>
+          <Link to='/'> <Navbar.Brand>
+            {/* Logo */}
+            <img
+              src={logo}
+              width="35"
+              height="35"
+              className="d-inline-block align-top"
+              alt="Canadian Swimming Rankings Logo"
+            />
+            Canadian Swimming Rankings
+
+          </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='mr-auto'>
@@ -27,7 +39,6 @@ function App() {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <hr></hr>
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}

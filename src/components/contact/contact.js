@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import logo from '../../images/favicon.ico';
 
 class Contact extends Component {
     render() {
@@ -26,6 +27,7 @@ class Contact extends Component {
                                     <h3 className="navbar-light">Owen Duncan-Snobel</h3>
                                     <h3> <a href="mailto:owenduncansnobel@gmail.com"> owenduncansnobel@gmail.com</a></h3>
                                     <h3> <a href="https://github.com/owen-duncan-snobel" rel="noopener noreferrer" target="_blank">github.com/owen-duncan-snobel</a></h3>
+                                    <img src={logo} width="50" height="50" />
                                 </div>
                             </Col>
                         </Row >
