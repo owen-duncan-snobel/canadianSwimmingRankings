@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 
-/**
- *   The dashboard is responsible for housing the Chart and styling for the chart
- *   it also will pass the chart back to the main app.
- */
 
+// *   The dashboard is responsible for housing the Chart and styling for the chart 
+// *   it also will pass the chart back to the main app.
 
-// TODO NEED TO RECREATE THE TABLE THAT IS USED ON THE MAIN PAGE FOR THE SELECTION OF DATA TO GRAB THE LINK FROM
 
 class Linegraph extends Component {
     render() {

@@ -6,14 +6,6 @@ import PeakMonth from '../peakMonth/peakMonth';
 const XLSX = require('xlsx')
 
 class Clubs extends Component {
-    /*     let clubID = formdata.get('ddl_club');
-        let season = formdata.get('ddl_season');
-        let course = formdata.get('ddl_course');
-        let gender = formdata.get('ddl_gender');
-        let agegroup = formdata.get('ddl_age');
-        let event = formdata.get('ddl_event');
-        let stroke = event.split(' ')[1];
-         */
     constructor(props) {
         super(props);
         this.state = {
@@ -93,7 +85,6 @@ class Clubs extends Component {
                 .then(response => {
                     if (!response.ok) {
                         console.log('Error: Could not display file ' + response.url)
-                        throw new Error("Unable to fetch file");
                     }
                     return response.arrayBuffer();
                 })
@@ -113,6 +104,11 @@ class Clubs extends Component {
                     }
                     return data;
                 })
+                .catch((error) => {
+                    console.log(error);
+                    throw new Error("Unable to fetch file");
+                })
+
         ))
             .then((allData) => {
                 if (allData.length === 0) {
@@ -277,7 +273,7 @@ class Clubs extends Component {
                 </Form>
                 <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
                 <div id="footer">
-                    <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank"> swimrankings.net </a> </p>
+                    <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank" rel="noopener noreferrer"> swimrankings.net </a> </p>
                 </div>
             </>
 

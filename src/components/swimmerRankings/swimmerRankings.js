@@ -71,10 +71,10 @@ class SwimmerRankings extends Component {
         searchParameter.append('Language', language);
         searchParameter.append('Points', points);
         url += searchParameter.toString();
-        // console.log(url);
+
         // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
         url = 'https://cors-anywhere.herokuapp.com/' + url;
-        console.log(url)
+
         // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
         fetch(url, {
             method: "GET"
@@ -90,6 +90,7 @@ class SwimmerRankings extends Component {
                 })
                 // * Finds the correct sheet within the workbook based on the name of the event
                 let data = workbook.Sheets[event];
+
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
 
@@ -97,10 +98,13 @@ class SwimmerRankings extends Component {
                 if (toJSON.length === 0) {
                     console.log("Error: Empty Data Array");
                 } else {
+
                     // * Removes the first row so that the default values aren't used
                     toJSON.shift();
                     this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
                 }
+            }).catch((error) => {
+                console.log(error)
             })
     }
 
@@ -223,7 +227,7 @@ class SwimmerRankings extends Component {
                             </Form.Control>
                         </Form.Group>
 
-                        {/**  Event */}
+                        {/**   Event */}
                         {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
                         <Form.Group >
                             <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} className="dropdownBox custom-select" as="select">
@@ -255,7 +259,7 @@ class SwimmerRankings extends Component {
                 </Form>
 
                 {/* Dashboard with all the logic for the graph **/}
-                <Container fluid>
+                < Container fluid >
                     <Row className='mb-3'>
                         <Col className='pr-0 mt-2' lg={8}>
                             <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
@@ -264,7 +268,7 @@ class SwimmerRankings extends Component {
                             <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
                         </Col>
                     </Row>
-                </Container>
+                </Container >
 
                 <Container fluid>
                     <Row>

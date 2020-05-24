@@ -339,14 +339,14 @@ class PeakMonth extends Component {
                     <Row>
                         <Col md={6} xs={12}>
                             <div>
-                                <h6 className="text-center">{this.props.event + ': Best Times Meetdates (Contains all events from selected year/age and gender'} </h6>
+                                <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
                             </div>
                             <Bar data={data} options={options} height={200} />
                         </Col>
 
                         <Col md={6} xs={12}>
                             <div>
-                                <h6 className="text-center">{'All Events: Meetdates'} </h6>
+                                <h6 className="text-center">{'All Events: (all events month of when swimmer swam best time from selected year/age and gender'} </h6>
                             </div>
                             <Bar data={data2} option={options2} height={200} />
                         </Col>
