@@ -4,6 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import SwimmerRankings from './components/swimmerRankings/swimmerRankings';
+import About from './components/about/about';
 import Contact from './components/contact/contact';
 import Clubs from './components/clubs/clubs';
 import Navbar from 'react-bootstrap/Navbar';
@@ -50,7 +51,7 @@ function App() {
             <Clubs />
           </Route>
           <Route path='/about'>
-
+            <About />
           </Route>
           <Route path='/contact'>
             <Contact />
