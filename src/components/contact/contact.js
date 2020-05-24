@@ -27,7 +27,8 @@ class Contact extends Component {
                                     <h3 className="navbar-light">Owen Duncan-Snobel</h3>
                                     <h3> <a href="mailto:owenduncansnobel@gmail.com"> owenduncansnobel@gmail.com</a></h3>
                                     <h3> <a href="https://github.com/owen-duncan-snobel" rel="noopener noreferrer" target="_blank">github.com/owen-duncan-snobel</a></h3>
-                                    <img src={logo} width="50" height="50" />
+                                    <h3> <a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings" rel="noopener noreferrer" target="_blank">github.com/owen-duncan-snobel/canadianSwimmingRankings</a></h3>
+                                    <img src={logo} width="50" height="50" alt="Canadian Swimming Rankings Logo" />
                                 </div>
                             </Col>
                         </Row >

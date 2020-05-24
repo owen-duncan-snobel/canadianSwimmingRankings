@@ -335,18 +335,21 @@ class PeakMonth extends Component {
 
 
             return (
-                <Container fluid>
+                <Container fluid className="colBorder mt-1">
                     <Row>
-                        <Col md={6} xs={12}>
+                        <Col className="text-center"> <b><h4 className="formTitle">Distribution Of Best Times Over the Year  </h4></b> </Col>
+                    </Row>
+                    <Row>
+                        <Col className="mt-1" md={6} xs={12}>
                             <div>
                                 <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
                             </div>
                             <Bar data={event} options={eventOptions} height={200} />
                         </Col>
 
-                        <Col md={6} xs={12}>
+                        <Col className="mt-1" md={6} xs={12}>
                             <div>
-                                <h6 className="text-center">{'All Events: (all events month of when swimmer swam best time from selected year/age and gender'} </h6>
+                                <h6 className="text-center">{'All Events: (For selected age group and gender)'} </h6>
                             </div>
                             <Bar data={allEvents} option={allEventsOptions} height={200} />
                         </Col>
