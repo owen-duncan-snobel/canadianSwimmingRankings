@@ -1,8 +1,17 @@
+<<<<<<< HEAD
 # Canadian Swimming Rankings    ![Canadian Swimming Rankings](https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png =50x50)
 
 [Canadian Swimming Rankings](https://canadian-swimming-rankings.herokuapp.com/) is a graphing website that allows Swimmers and Coaches to take a closer look at the trends and insights from the results across all **age groups**, **events** and **genders** from **Current** & **Previous Years**.  
 
 All Data on this site has been provided by Christian Kaufmann, the owner of swimrankings.net   If you or your club are looking for **Team Management** software or **Meet Management** software, refer to https://www.swimrankings.net/index.php?page=splashsoftware 
+=======
+# Canadian Swimming Rankings    <img src="https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png" width="50" height="50">
+
+[Canadian Swimming Rankings](https://canadian-swimming-rankings.herokuapp.com/) is a graphing website that allows Swimmers and Coaches to take a closer look at the trends and insights from the results across all **age groups**, **events** and **genders** from **Current** & **Previous Years**.  
+
+All Data on this site has been provided by Christian Kaufmann, the owner of www.swimrankings.net .
+If you or your club are looking for **Team Management** software or **Meet Management** software, refer to https://www.swimrankings.net/index.php?page=splashsoftware 
+>>>>>>> b8fba7f7075e8d73ab3bc9fc05be01e81329a41c
 
 ![](https://i.gyazo.com/3661799f4dc89864365ef27b378aadad.png)
 ![](https://i.gyazo.com/d3b117de58b1325a42bd3f4e6d7b45ff.png)
@@ -11,7 +20,11 @@ All Data on this site has been provided by Christian Kaufmann, the owner of swim
 1. [Request Club Listing](#RequestClubListing)
 2. [Feedback / Feature Request](#feedback)
 3. [Report Bug](#bugs)
+<<<<<<< HEAD
 4. [File Structure / Documentation](#filestructure)
+=======
+4. [File Structure](#filestructure)
+>>>>>>> b8fba7f7075e8d73ab3bc9fc05be01e81329a41c
 
 
 
@@ -37,6 +50,7 @@ If you find any bugs / the data does not seem to correct for the graph. If you a
 
  You can also email me and describe how to replicate it or how the bug happened if you are not.
 
+<<<<<<< HEAD
 <a id="filestructure"> </a>
 # File Structure / Documentation
 
@@ -69,3 +83,10 @@ List of the possible Parameters that can be used for fetching swimmer data.
 
 **Useful if you want to begin fetching your own excel files.**
 [QueryParameter.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/QueryParameter.md)
+=======
+<a id="RequestClubListing"> </a>
+# File Structure
+
+
+
+>>>>>>> b8fba7f7075e8d73ab3bc9fc05be01e81329a41c
