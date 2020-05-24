@@ -1,4 +1,5 @@
-# Canadian Swimming Rankings    ![Canadian Swimming Rankings](https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png =50x50)
+# Canadian Swimming Rankings   
+![Canadian Swimming Rankings](https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png =50x50)
 
 [Canadian Swimming Rankings](https://canadian-swimming-rankings.herokuapp.com/) is a graphing website that allows Swimmers and Coaches to take a closer look at the trends and insights from the results across all **age groups**, **events** and **genders** from **Current** & **Previous Years**.  
 
