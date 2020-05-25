@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import * as SwimFormulas from '../../constants/swimFormulas/swimFormulas';
+import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 
 class Analytics extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}

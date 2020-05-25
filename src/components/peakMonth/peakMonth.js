@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { EVENTS } from '../../constants/swimming/swimming';
-import * as SwimFormulas from '../../constants/swimFormulas/swimFormulas';
+import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 import { Bar, Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';

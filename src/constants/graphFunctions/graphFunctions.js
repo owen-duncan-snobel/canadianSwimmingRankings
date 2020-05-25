@@ -1,5 +1,6 @@
 import Rainbow from 'rainbowvis.js';
 
+
 // * Finds the element in an Array returns a Map (key,value) of the number of occurences of each distinctive element 
 export const mostOccurences = (arr) => {
     try {
