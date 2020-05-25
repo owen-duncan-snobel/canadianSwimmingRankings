@@ -6,6 +6,7 @@ import { defaults } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Analytics from '../../components/analytics/analytics';
 
 defaults.global.legend.display = false;
 
@@ -340,43 +341,55 @@ class PeakMonth extends Component {
             meetCityKey = Array.from(meetCity.keys());
             meetCityNum = Array.from(meetCity.values());
 
-            let data = {
+            let cityColors = SwimFormulas.colorArray(meetCityKey.length);
+            let cityData = {
                 labels: meetCityKey,
                 datasets: [{
                     data: meetCityNum,
-                }]
+                    backgroundColor: cityColors
+                }],
             }
 
             return (
-                <Container fluid className="colBorder mt-1">
+                <div>
+                    <Container fluid className="colBorder mt-1">
 
-                    <Row>
-                        <Col className="text-center"> <b><h4 className="formTitle">Distribution Of Best Times Over the Year  </h4></b> </Col>
-                    </Row>
-                    <Row>
+                        <Row>
+                            <Col className="text-center"> <b><h4 className="formTitle">Distribution Of Best Times Over the Year  </h4></b> </Col>
+                        </Row>
+                        <Row>
 
-                        <Col className="mt-1" md={6} xs={12}>
-                            <div>
-                                <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
-                            </div>
-                            <Bar name="Selected Events Best time over months chart" data={event} options={eventOptions} height={200} />
-                        </Col>
+                            <Col className="mt-1" md={6} xs={12}>
+                                <div>
+                                    <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
+                                </div>
+                                <Bar name="Selected Events Best time over months chart" data={event} options={eventOptions} height={200} />
+                            </Col>
 
-                        <Col className="mt-1" md={6} xs={12}>
-                            <div>
-                                <h6 className="text-center">{'All Events: (For selected age group and gender)'} </h6>
-                            </div>
-                            <Bar name="All Events Best time over months chart" data={allEvents} option={allEventsOptions} height={200} />
-                        </Col>
-                    </Row>
+                            <Col className="mt-1" md={6} xs={12}>
+                                <div>
+                                    <h6 className="text-center">{'All Events: (For selected age group and gender)'} </h6>
+                                </div>
+                                <Bar name="All Events Best time over months chart" data={allEvents} option={allEventsOptions} height={200} />
+                            </Col>
+                        </Row>
+                    </Container>
 
-                    <Row>
-                        <Col>
-                            <Pie name="Meet City Piechart" data={data} />
-                        </Col>
-                    </Row>
-
-                </Container>
+                    <Container className=" mt-1">
+                        <Row>
+                            <Col className="text-center"> </Col>
+                        </Row>
+                        <Row>
+                            <Col className="colBorder" md={6} xs={12}>
+                                <b><h4 className="formTitle">Location of Meet City  </h4></b>
+                                <Pie name="Meet City Piechart" data={cityData} />
+                            </Col>
+                            <Col>
+                                <Analytics swimmerData={allSwimmerData} swimEvent={swimmerData} />
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
             )
         }
     }

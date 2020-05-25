@@ -20,9 +20,8 @@ class Swimmer extends Component {
             ddl_course: 'SCM',
             clubName: 'Oakville Aquatic Club',
             swimmerData: null,
-            swimmerName: '',
-            swimmerTime: '',
-            swimEventName: '',
+            event: null,
+            swimEvent: '',
             tableData: null
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -40,8 +39,6 @@ class Swimmer extends Component {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         onEvent.preventDefault();
 
-        // * Whenever a new form is submitted resets the Time of selected swimmer that is dispalyed in the data insights (Cancels updateSwimmer)
-        this.setState({ swimmerName: '', swimmerTime: '' });
 
         // * Formed data is used for getting the contents of the submitted form 
         const formdata = new FormData(onEvent.target);
@@ -100,7 +97,7 @@ class Swimmer extends Component {
 
                     // * Removes the first row so that the default values aren't used
                     toJSON.shift();
-                    this.setState({ swimmerData: toJSON, swimEventName: event, tableData: toJSON })
+                    this.setState({ swimmerData: toJSON, swimEvent: event, tableData: toJSON })
                 }
             }).catch((error) => {
                 console.log(error)
@@ -222,10 +219,10 @@ class Swimmer extends Component {
                 < Container fluid >
                     <Row className='mb-3'>
                         <Col className='pr-0 mt-2' lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
+                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
-                            <Analytics swimmerData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
+                            <Analytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
                         </Col>
                     </Row>
                 </Container >

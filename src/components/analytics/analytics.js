@@ -99,9 +99,10 @@ class Analytics extends Component {
                 {/* Time Analytics */}
                 <Container>
                     <Row className='pt-0 analytics justify-content-md-center'>
-                        <Col className='colBorder m-1' lg={12} md={5} xs={12}>
-                            {/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
-                            {meetData.length > 50 ? '' :
+                        {meetData.length > 50 ? '' :
+                            <Col className='colBorder m-1' lg={12} md={5} xs={12}>
+                                {/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
+
                                 <div>
                                     <h4 className='formTitle'>Swimming Analytics</h4>
 
@@ -123,9 +124,9 @@ class Analytics extends Component {
                                         {standardDeviaton}
                                     </p>
                                 </div>
-                            }
-                        </Col>
 
+                            </Col>
+                        }
                         {/* * Fastest Meets */}
                         <Col className='colBorder m-1' lg={12} md={5} xs={12}>
                             <h4 className=' formTitle'>Fastest Meets</h4> Based on location of best time.

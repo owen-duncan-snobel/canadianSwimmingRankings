@@ -5,6 +5,10 @@ import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
 import PeakMonth from '../../components/peakMonth/peakMonth';
 import Analytics from '../../components/analytics/analytics';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 const XLSX = require('xlsx')
 
 class Clubs extends Component {
@@ -236,8 +240,12 @@ class Clubs extends Component {
                 </Form>
                 <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
 
-                <Analytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
-
+                <Container className="justify-content-center">
+                    <Row>
+                        <Col>
+                        </Col>
+                    </Row>
+                </Container>
                 <div id="footer">
                     <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank" rel="noopener noreferrer"> swimrankings.net </a> </p>
                 </div>
