@@ -9,6 +9,8 @@ import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 class Analytics extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
     render() {
+        let meetData = this.props.swimmerData;
+
         let data;
         let options;
         let average;
@@ -16,7 +18,6 @@ class Analytics extends Component {
         let mode;
         let times;
         let meets;
-        let meetData;
         let meetName;
         let meetNumber;
         let meetMonth;
@@ -24,7 +25,7 @@ class Analytics extends Component {
         let standardDeviaton;
 
         // * If no data has been passed down from the form or invalid display empty form
-        if (this.props.meetData === null) {
+        if (meetData === null) {
             return (
                 <div> </div>
             )
@@ -32,7 +33,6 @@ class Analytics extends Component {
 
             // * Ensures that all time strings given are in an appropriate ISO String format
             const standardize_times = (time) => {
-
                 if (time.length === 5) time = '00:' + time;
                 if (time.length === 7) time = '0' + time;
                 let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
@@ -40,13 +40,13 @@ class Analytics extends Component {
             }
 
             // * Converts The Time & Meet Data To an Array that can be easily used
-            times = this.props.meetData.map(time => standardize_times(time.__EMPTY_7));
-            meets = this.props.meetData.map(meet => meet.__EMPTY_12);
+            times = meetData.map(time => standardize_times(time.__EMPTY_7));
+            meets = meetData.map(meet => meet.__EMPTY_12);
 
             // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-            meetData = Array.from(SwimFormulas.mostOccurences(meets)).sort((a, b) => a[1] - b[1]);
-            meetName = meetData.map(name => name[0]);
-            meetNumber = meetData.map(number => number[1]);
+            meets = Array.from(SwimFormulas.mostOccurences(meets)).sort((a, b) => a[1] - b[1]);
+            meetName = meets.map(name => name[0]);
+            meetNumber = meets.map(number => number[1]);
 
             // * Variables for the respective 'average' , 'median' and 'mode' from the data
             average = SwimFormulas.averageTime(times);
@@ -57,11 +57,9 @@ class Analytics extends Component {
                   * Need to only standardize the times once the sd has been calculated
              standardDeviaton = this.props.meetDat.map(time => Math.sqrt((time.__EMPTY_7 - ); */
             //     standardDeviaton = Math.sqrt(SwimFormulas.averageTime(standardDeviaton));
-            // * Converts Excel Date Value into a JS date inorder to be graphed
-            meetMonth = SwimFormulas.meetMonth(this.props.meetData);
 
             // * Creates The Colors for the PieChart depending on how many distinct meets there are
-            colorArray = SwimFormulas.colorArray(meetData.length);
+            colorArray = SwimFormulas.colorArray(meets.length);
 
             data = {
                 labels: meetName,
@@ -95,7 +93,7 @@ class Analytics extends Component {
                             </p>
 
                             <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
-                                {this.props.meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
+                                {meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
                                 <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
                             </p>
 

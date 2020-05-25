@@ -27,6 +27,9 @@ class PeakMonth extends Component {
         let eventOptions = [];
         let allEventsOptions;
         let colorArray;
+        let meetCity;
+        let meetCityKey;
+        let meetCityNum;
 
         if (this.props.swimmerData === null) {
             return (
@@ -294,7 +297,7 @@ class PeakMonth extends Component {
                 console.log('Error: ' + error + ' unable data graph data')
             }
 
-
+            // * Options for the selected events graph
             eventOptions = {
                 tooltips: {
                     callbacks: {
@@ -308,6 +311,7 @@ class PeakMonth extends Component {
                             if (index > 11) {
                                 index -= 12;
                             }
+                            // * Converts Excel data to usable date then filters if it matches the correct month
                             let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() === index);
                             swimmers.forEach(el => labelArr.push(el.__EMPTY_9 + ' ' + el.__EMPTY_3 + ' ' + el.__EMPTY_7))
                             return labelArr;
@@ -315,7 +319,7 @@ class PeakMonth extends Component {
                     }
                 },
             }
-
+            // * Options for the all events graph 
             const allEventsOptions = {
                 scales: {
                     xAxes: [
@@ -331,9 +335,10 @@ class PeakMonth extends Component {
                 },
             }
 
-            let meetCity = SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData));
-            let meetCityKey = Array.from(meetCity.keys());
-            let meetCityNum = Array.from(meetCity.values());
+            // * Converts all the events data into the labels and data for the piechart of meet city
+            meetCity = SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData));
+            meetCityKey = Array.from(meetCity.keys());
+            meetCityNum = Array.from(meetCity.values());
 
             let data = {
                 labels: meetCityKey,
@@ -354,20 +359,20 @@ class PeakMonth extends Component {
                             <div>
                                 <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
                             </div>
-                            <Bar data={event} options={eventOptions} height={200} />
+                            <Bar name="Selected Events Best time over months chart" data={event} options={eventOptions} height={200} />
                         </Col>
 
                         <Col className="mt-1" md={6} xs={12}>
                             <div>
                                 <h6 className="text-center">{'All Events: (For selected age group and gender)'} </h6>
                             </div>
-                            <Bar data={allEvents} option={allEventsOptions} height={200} />
+                            <Bar name="All Events Best time over months chart" data={allEvents} option={allEventsOptions} height={200} />
                         </Col>
                     </Row>
 
                     <Row>
                         <Col>
-                            <Pie data={data} />
+                            <Pie name="Meet City Piechart" data={data} />
                         </Col>
                     </Row>
 

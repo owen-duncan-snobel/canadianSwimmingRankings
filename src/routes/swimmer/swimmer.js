@@ -1,17 +1,17 @@
-import React from 'react'
-import { Component } from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Linegraph from '../../components/linegraph/linegraph'
-import Analytics from '../../components/analytics/analytics'
-import XLSX from 'xlsx'
-import SwimmerTable from '../../components/swimmertable/swimmertable'
+import React from 'react';
+import { Component } from 'react';
+import './swimmer.css';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Linegraph from '../../components/linegraph/linegraph';
+import Analytics from '../../components/analytics/analytics';
+import XLSX from 'xlsx';
+import SwimmerTable from '../../components/swimmertable/swimmertable';
 
 class Swimmer extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -225,7 +225,7 @@ class Swimmer extends Component {
                             <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
-                            <Analytics meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
+                            <Analytics swimmerData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
                         </Col>
                     </Row>
                 </Container >

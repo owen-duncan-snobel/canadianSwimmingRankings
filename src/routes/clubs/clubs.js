@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './clubs.css'
+import './clubs.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
