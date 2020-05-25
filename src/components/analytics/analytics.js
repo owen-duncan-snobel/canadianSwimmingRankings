@@ -5,11 +5,14 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
+import { EVENTS } from '../../constants/swimming/swimming';
 
 class Analytics extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
     render() {
-        let meetData = this.props.swimmerData;
+        let allData = this.props.swimmerData;
+        let meetData = [];
+        let event = this.props.swimEvent;
 
         let data;
         let options;
@@ -25,11 +28,27 @@ class Analytics extends Component {
         let standardDeviaton;
 
         // * If no data has been passed down from the form or invalid display empty form
-        if (meetData === null) {
+        if (allData === null) {
             return (
                 <div> </div>
             )
         } else {
+
+            if (event === 'all') {
+                allData.forEach(Workbook => {
+                    let Sheet = Workbook[0];
+                    Sheet.forEach(sheet => {
+                        sheet.forEach(swimmer => {
+                            meetData.push(swimmer)
+                        })
+                    })
+                })
+
+            } else if (event !== 'all' && event !== '') {
+                allData.forEach(swimmer => {
+                    meetData.push(swimmer);
+                })
+            }
 
             // * Ensures that all time strings given are in an appropriate ISO String format
             const standardize_times = (time) => {
@@ -81,27 +100,30 @@ class Analytics extends Component {
                 <Container>
                     <Row className='pt-0 analytics justify-content-md-center'>
                         <Col className='colBorder m-1' lg={12} md={5} xs={12}>
+                            {/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
+                            {meetData.length > 50 ? '' :
+                                <div>
+                                    <h4 className='formTitle'>Swimming Analytics</h4>
 
-                            <h4 className='formTitle'>Swimming Analytics</h4>
-                            {/* Average, Median Times, Mode Times */}
-                            <p name='averageTime'> <b>Average Time </b> <br></br>
-                                {average}
-                            </p>
+                                    <p name='averageTime'> <b>Average Time </b> <br></br>
+                                        {average}
+                                    </p>
 
-                            <p name='medianTime'><b>Median Time</b> <br></br>
-                                {median}
-                            </p>
+                                    <p name='medianTime'><b>Median Time</b> <br></br>
+                                        {median}
+                                    </p>
 
-                            <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
-                                {meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
-                                <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
-                            </p>
+                                    <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
+                                        {meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
+                                        <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
+                                    </p>
 
-                            <p name='standardDeviation'> <b> Standard Deviation of Times </b>
-                                <br></br>
-                                {standardDeviaton}
-                            </p>
-
+                                    <p name='standardDeviation'> <b> Standard Deviation of Times </b>
+                                        <br></br>
+                                        {standardDeviaton}
+                                    </p>
+                                </div>
+                            }
                         </Col>
 
                         {/* * Fastest Meets */}
