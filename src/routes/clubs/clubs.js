@@ -1,49 +1,34 @@
-import React from 'react'
-import { Component } from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Linegraph from '../linegraph/linegraph'
-import Analytics from '../analytics/analytics'
-import XLSX from 'xlsx'
-import SwimmerTable from '../swimmertable/swimmertable'
+import React, { Component } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
+import PeakMonth from '../../components/peakMonth/peakMonth';
+const XLSX = require('xlsx')
 
-class SwimmerRankings extends Component {
-
+class Clubs extends Component {
     constructor(props) {
         super(props);
         this.state = {
             ddl_season: '2019-2020',
-            ddl_club: '72542',
             ddl_course: 'SCM',
-            clubName: 'Oakville Aquatic Club',
+            ddl_club: '72542',
+            ddl_event: '',
             swimmerData: null,
-            swimmerName: '',
-            swimmerTime: '',
-            swimEventName: '',
-            tableBody: null
-        };
+            swimEvent: ''
+        }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // * Handles the state selection for when you select a new dropdown from the Form 
     handleInputChange(onEvent) {
         this.setState({ [onEvent.target.name]: onEvent.target.value });
     }
 
-
-    // * Handles the logic for when you click submit on the form 
     handleSubmit(onEvent) {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         onEvent.preventDefault();
 
-        // * Whenever a new form is submitted resets the Time of selected swimmer that is dispalyed in the data insights (Cancels updateSwimmer)
-        this.setState({ swimmerName: '', swimmerTime: '' });
-
-        // * Formed data is used for getting the contents of the submitted form 
+        // * Get the Form Data 
         const formdata = new FormData(onEvent.target);
         let clubID = formdata.get('ddl_club');
         let season = formdata.get('ddl_season');
@@ -51,68 +36,97 @@ class SwimmerRankings extends Component {
         let gender = formdata.get('ddl_gender');
         let agegroup = formdata.get('ddl_age');
         let event = formdata.get('ddl_event');
+        let stroke = event.split(' ')[1];
 
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
         season = season.split('-')[1];
 
-        // TODO Allow for language and point system changes if required
-        const language = 'us';
-        const points = 'fina_2019';
+        // * Urls will contain all the URLS to fetch from swimmingrankings.net to get all the excel files
+        // * File names will contain all the file names when we go to write files back they will keep corresponding name
+        let urls = [];
+        let fileNames = [];
+        let alldata = [];
 
-        // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
-        let url = new URL('https://www.swimrankings.net/services/RankingXls/ranking.xls?');
-        let searchParameter = new URLSearchParams(url);
-        searchParameter.append('gender', gender);
-        searchParameter.append('agegroup', agegroup);
-        searchParameter.append('course', course);
-        searchParameter.append('season', season);
-        searchParameter.append('clubID', clubID);
-        searchParameter.append('Language', language);
-        searchParameter.append('Points', points);
-        url += searchParameter.toString();
-
-        // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
-        url = 'https://cors-anywhere.herokuapp.com/' + url;
-
-        // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
-        fetch(url, {
-            method: "GET"
-        })
-            .then(response => {
-                if (!response.ok) throw new Error("Unable to fetch file");
-                return response.arrayBuffer();
-            })
-            .then(buffer => {
-                let bookBuffer = new Uint8Array(buffer);
-                let workbook = XLSX.read(bookBuffer, {
-                    type: "array"
-                })
-                // * Finds the correct sheet within the workbook based on the name of the event
-                let data = workbook.Sheets[event];
-
-                // * Converts the XLS (Excel File to JSON to allow us to graph data)
-                let toJSON = XLSX.utils.sheet_to_json(data);
-
-                // * Error Handling: if the data returned is an empty array
-                if (toJSON.length === 0) {
-                    console.log("Error: Empty Data Array");
-                } else {
-
-                    // * Removes the first row so that the default values aren't used
-                    toJSON.shift();
-                    this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
+        // *  Creates an array of all possible links to the data that you are want to fetch data from
+        // TODO will need to make it so you can fetch over years span so an update to the form and logic will be needed
+        for (let age of AGES) {
+            for (let season of SEASONS) {
+                for (let course of COURSES) {
+                    for (let gender of GENDERS) {
+                        let url = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
+                        let param = new URLSearchParams();
+                        param.append('gender', gender);
+                        param.append('agegroup', age);
+                        param.append('course', course);
+                        param.append('season', season.split('-')[1]);
+                        param.append('clubID', clubID);
+                        url += param.toString();
+                        urls.push(url);
+                        fileNames.push(url.split('?')[1] + '.xlsx');
+                    }
                 }
-            }).catch((error) => {
-                console.log(error)
+            }
+        }
+
+        // * Will use filtering to allow them to find which are allowed
+        urls = urls.filter(url => url.includes('clubID=' + clubID)
+            && (url.includes('season=' + season) /* || url.includes('season=' + 2017) */)
+            && url.includes('course=' + course)
+            && url.includes('gender=' + gender)
+            && url.includes('agegroup=' + agegroup)
+        );
+
+        // * Will fetch all files then return at once preserving order with Promise.all() 
+        let jsonFiles = Promise.all(urls.map(url =>
+            // * Need Heroku for 'ORS header “Access-Control-Allow-Origin” missing'
+            fetch('https://cors-anywhere.herokuapp.com/' + url, {
+                method: "GET"
             })
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('Error: Could not display file ' + response.url)
+                    }
+                    return response.arrayBuffer();
+                })
+                .then(buffer => {
+                    // * Converts The Array Buffer into a Workbook then saves the file
+                    let bookBuffer = new Uint8Array(buffer);
+                    let workbook = XLSX.read(bookBuffer, {
+                        type: "array"
+                    })
+                    let data = [];
+                    for (let sheet in workbook.Sheets) {
+                        // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                        let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                        // * removes place holder for top of file
+                        sheetData.shift();
+                        data.push(sheetData);
+                    }
+                    return data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    throw new Error("Unable to fetch file");
+                })
+
+        ))
+            .then((allData) => {
+                if (allData.length === 0) {
+                    console.log('Error: No Swimmer Data was returned');
+                } else if (allData.length === 1) {
+                    // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
+                    allData = [allData];
+                }
+                this.setState({ swimmerData: allData, ddl_event: event });
+            })
+
+        // * Need to check and see if form attributes changed or just event (if event reparse data otherwise reload)
     }
 
     render() {
-
         return (
             <>
-                <style type='text/css'>
-                    {`
+                <style type='text/css'> {`
                     .dropdownBox{
                         border: 1px solid #00aad8;
                         border-radius: 0px;
@@ -148,13 +162,14 @@ class SwimmerRankings extends Component {
                     .headingColor{
                         color: #00aad8;
                     }
-               `}
+                `}
                 </style>
+
                 <div>
-                    <h1 className="formTitle">Swimmer Rankings</h1>
+                    <h1 className='formTitle'>Club Analytics</h1>
                 </div>
 
-                <Form className='rankingsForm' onSubmit={this.handleSubmit}>
+                <Form className='rankingsForm' onSubmit={this.handleSubmit} >
                     <Form.Row>
                         {/**  Swimming Season */}
                         <Form.Group >
@@ -226,7 +241,7 @@ class SwimmerRankings extends Component {
                             </Form.Control>
                         </Form.Group>
 
-                        {/**   Event */}
+                        {/**  Event */}
                         {/* Values for events are named as such inorder to match naming convention of the worksheets from excel workbook */}
                         <Form.Group >
                             <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} className="dropdownBox custom-select" as="select">
@@ -256,33 +271,13 @@ class SwimmerRankings extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
+                <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
+                <div id="footer">
+                    <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank" rel="noopener noreferrer"> swimrankings.net </a> </p>
+                </div>
+            </>
 
-                {/* Dashboard with all the logic for the graph **/}
-                < Container fluid >
-                    <Row className='mb-3'>
-                        <Col className='pr-0 mt-2' lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
-                        </Col>
-                        <Col className='pl-0 mt-2' lg={4}>
-                            <Analytics meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
-                        </Col>
-                    </Row>
-                </Container >
-
-                <Container fluid>
-                    <Row>
-                        <Col>
-                            <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
-                        </Col>
-                        <div id="footer">
-                            <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" rel="noopener noreferrer" target="_blank"> swimrankings.net </a> </p>
-                        </div>
-                    </Row>
-
-                </Container>
-
-
-            </>)
+        )
     }
 }
-export default SwimmerRankings;
+export default Clubs;

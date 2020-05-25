@@ -1,4 +1,4 @@
-import { mostOccurences } from './swimAnalytics';
+import { mostOccurences } from './swimFormulas';
 
 test('Most Occurences Empty/Null/Undefined Tests', () => {
     expect(mostOccurences([]).size).toBeUndefined;
