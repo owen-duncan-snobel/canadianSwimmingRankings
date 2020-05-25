@@ -23,7 +23,7 @@ class Swimmer extends Component {
             swimmerName: '',
             swimmerTime: '',
             swimEventName: '',
-            tableBody: null
+            tableData: null
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -100,7 +100,7 @@ class Swimmer extends Component {
 
                     // * Removes the first row so that the default values aren't used
                     toJSON.shift();
-                    this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
+                    this.setState({ swimmerData: toJSON, swimEventName: event, tableData: toJSON })
                 }
             }).catch((error) => {
                 console.log(error)
@@ -110,46 +110,7 @@ class Swimmer extends Component {
     render() {
 
         return (
-            <>
-                <style type='text/css'>
-                    {`
-                    .dropdownBox{
-                        border: 1px solid #00aad8;
-                        border-radius: 0px;
-                        color: #00aad8;
-                        margin-left:0.5rem;
-                        margin-right:0.5rem;
-                        width:auto;
-                        font-size:13px;
-                    }
-                    .custom-select {
-                        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%2300aad8' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") 
-                    }
-                    .formTitle{
-                        color: #00aad8;
-                        font-weight:bold;
-                        text-transform: uppercase;
-                    }
-                    .formButton{
-                        background-color:#00aad8;
-                        border: 1px solid #00aad8;
-                        border-radius: 0px;
-                        height:38px;
-                        width:80px;
-                        font-size:13px;
-                    }
-                    .swimTable{
-                        font-size:0.8rem !important;
-                    }
-                    .colBorder{
-                        border: solid 1px #f0f0f0;  
-                        border-radius: 20px;
-                    }
-                    .headingColor{
-                        color: #00aad8;
-                    }
-               `}
-                </style>
+            <div>
                 <div>
                     <h1 className="formTitle">Swimmer Rankings</h1>
                 </div>
@@ -272,7 +233,7 @@ class Swimmer extends Component {
                 <Container fluid>
                     <Row>
                         <Col>
-                            <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
+                            <SwimmerTable tableData={this.state.tableData}></SwimmerTable>
                         </Col>
                         <div id="footer">
                             <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" rel="noopener noreferrer" target="_blank"> swimrankings.net </a> </p>
@@ -281,8 +242,8 @@ class Swimmer extends Component {
 
                 </Container>
 
-
-            </>)
+            </div>
+        )
     }
 }
 export default Swimmer;

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { EVENTS } from '../../constants/swimming/swimming';
-import * as SwimAnalytics from '../../constants/swimAnalytics/swimAnalytics';
-import Analytics from '../analytics/analytics';
-import { Bar } from 'react-chartjs-2';
-import Rainbow from 'rainbowvis.js';
+import * as SwimFormulas from '../../constants/swimFormulas/swimFormulas';
+import { Bar, Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -19,14 +17,16 @@ class PeakMonth extends Component {
         }
     }
     render() {
+
         let swimmerData = [];
         let allSwimmerData = [];
         let allSwimmerDataSubComponents = [];
         let event = [];
         let allEvents = [];
-        let allData = [];
+        let allData;
         let eventOptions = [];
-        let allEventsOptions = [];
+        let allEventsOptions;
+        let colorArray;
 
         if (this.props.swimmerData === null) {
             return (
@@ -34,7 +34,7 @@ class PeakMonth extends Component {
             )
         } else {
 
-            let allData = this.props.swimmerData;
+            allData = this.props.swimmerData;
 
             // * Need to process data from Workbook -> Worksheets -> Event -> Swimmers
             try {
@@ -50,7 +50,7 @@ class PeakMonth extends Component {
             } catch {
                 console.log('Error: Unable to convert workboot data into sheets');
             }
-            // * For gettign Data of the subcomponents that will add up to all events
+            // * For getting Data of the subcomponents that will add up to all events
             allData.forEach(Workbook => {
                 let Sheet = Workbook[0];
                 Sheet.forEach(sheet => {
@@ -69,27 +69,28 @@ class PeakMonth extends Component {
             })
 
             try {
-                // * Hard Coding of the events needed in order to stack the bars and events appropriately and match to a color
-                let fiftyFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[0]);
-                let oneHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[1]);
-                let twoHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[2]);
-                let fourHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[3]);
-                let eightHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[4]);
-                let fifteenHundredFr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[5]);
-                let fiftyBk = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[6]);
-                let oneHundredBk = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[7]);
-                let twoHundredBk = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[8]);
-                let fiftyBr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[9]);
-                let oneHundredBr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[10]);
-                let twoHundredBr = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[11]);
-                let fiftyBu = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[12]);
-                let oneHundredBu = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[13]);
-                let twoHundredBu = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[14]);
-                let oneHundredMe = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[15]);
-                let twoHundredMe = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[16]);
-                let fourHundredMe = SwimAnalytics.peakDistribution(allSwimmerDataSubComponents[17]);
 
-                let months = SwimAnalytics.peakDistribution(swimmerData);
+                // * Hard Coding of the events needed in order to stack the bars and events appropriately and match to a color
+                let fiftyFr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[0]);
+                let oneHundredFr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[1]);
+                let twoHundredFr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[2]);
+                let fourHundredFr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[3]);
+                let eightHundredFr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[4]);
+                let fifteenHundredFr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[5]);
+                let fiftyBk = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[6]);
+                let oneHundredBk = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[7]);
+                let twoHundredBk = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[8]);
+                let fiftyBr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[9]);
+                let oneHundredBr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[10]);
+                let twoHundredBr = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[11]);
+                let fiftyBu = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[12]);
+                let oneHundredBu = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[13]);
+                let twoHundredBu = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[14]);
+                let oneHundredMe = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[15]);
+                let twoHundredMe = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[16]);
+                let fourHundredMe = SwimFormulas.peakDistribution(allSwimmerDataSubComponents[17]);
+
+                let months = SwimFormulas.peakDistribution(swimmerData);
 
                 // * Data that will be passed to the Linegraph Component
                 event = {
@@ -105,14 +106,7 @@ class PeakMonth extends Component {
                 }
 
                 // * Creates The Colors for the PieChart depending on how many distinct meets there are
-                let myRainbow = new Rainbow();
-                myRainbow.setSpectrum('#00aad8', '#ff6384')
-                myRainbow.setNumberRange(1, 18);
-                let colorArray = [];
-
-                for (let i = 0; i < 18; i++) {
-                    colorArray.push('#' + myRainbow.colorAt(i));
-                }
+                colorArray = SwimFormulas.colorArray(18)
 
                 allEvents = {
                     labels: ['September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',],
@@ -295,8 +289,31 @@ class PeakMonth extends Component {
                     }
                     ]
                 }
+
             } catch (error) {
                 console.log('Error: ' + error + ' unable data graph data')
+            }
+
+
+            eventOptions = {
+                tooltips: {
+                    callbacks: {
+                        // * Updates the Tooltips (Graph Points) with the Name,Time
+                        label: (tooltipItem, d) => {
+                            let labelArr = [];
+                            labelArr.push('PLACE   SWIMMER   TIME')
+                            // * Label Array is used to create multiple labels inside of data element in graph.
+                            // * Index needs to be shifted to match the correct data. TODO Need to see if I can standardize data and index
+                            let index = tooltipItem.index + 8;
+                            if (index > 11) {
+                                index -= 12;
+                            }
+                            let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() === index);
+                            swimmers.forEach(el => labelArr.push(el.__EMPTY_9 + ' ' + el.__EMPTY_3 + ' ' + el.__EMPTY_7))
+                            return labelArr;
+                        }
+                    }
+                },
             }
 
             const allEventsOptions = {
@@ -312,35 +329,27 @@ class PeakMonth extends Component {
                         },
                     ],
                 },
-            };
-
-            eventOptions = {
-                tooltips: {
-                    callbacks: {
-                        // * Updates the Tooltips (Graph Points) with the Name,Time
-                        label: (tooltipItem, d) => {
-                            let labelArr = [];
-                            labelArr.push('PLACE   SWIMMER   TIME')
-                            // * Label Array is used to create multiple labels inside of data element in graph.
-                            let index = tooltipItem.index + 8;
-                            if (index > 11) {
-                                index -= 12;
-                            }
-                            let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() === index);
-                            swimmers.forEach(el => labelArr.push(el.__EMPTY_9 + ' ' + el.__EMPTY_3 + ' ' + el.__EMPTY_7))
-                            return labelArr;
-                        }
-                    }
-                },
             }
 
+            let meetCity = SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData));
+            let meetCityKey = Array.from(meetCity.keys());
+            let meetCityNum = Array.from(meetCity.values());
+
+            let data = {
+                labels: meetCityKey,
+                datasets: [{
+                    data: meetCityNum,
+                }]
+            }
 
             return (
                 <Container fluid className="colBorder mt-1">
+
                     <Row>
                         <Col className="text-center"> <b><h4 className="formTitle">Distribution Of Best Times Over the Year  </h4></b> </Col>
                     </Row>
                     <Row>
+
                         <Col className="mt-1" md={6} xs={12}>
                             <div>
                                 <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
@@ -355,6 +364,13 @@ class PeakMonth extends Component {
                             <Bar data={allEvents} option={allEventsOptions} height={200} />
                         </Col>
                     </Row>
+
+                    <Row>
+                        <Col>
+                            <Pie data={data} />
+                        </Col>
+                    </Row>
+
                 </Container>
             )
         }

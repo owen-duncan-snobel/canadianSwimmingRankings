@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 
 class SwimmerTable extends Component {
     render() {
-        if (this.props.tableBody === null) {
+        if (this.props.tableData === null) {
             return (
                 <div>
                 </div>
@@ -13,7 +13,7 @@ class SwimmerTable extends Component {
         } else {
             // * Convert all Meet Dates into a readable string from Date Value in excel
             try {
-                this.props.tableBody.map(item => item.__EMPTY_10 = new Date(Math.floor(item.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).toDateString().substring(4));
+                this.props.tableData.map(item => item.__EMPTY_10 = new Date(Math.floor(item.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).toDateString().substring(4));
             } catch {
                 console.log('Error: Data Array is Empty');
             }
@@ -52,7 +52,7 @@ class SwimmerTable extends Component {
 
                     <tbody key="swimTableData" name="swimTableData">
                         {
-                            this.props.tableBody.map(item => {
+                            this.props.tableData.map(item => {
                                 return (<tr key={item.__EMPTY_9} name={item.__EMPTY_9}>{
                                     Object.entries(item).filter(([key, value]) => allowedKeys.includes(key))
                                         .map(([key, value]) => {

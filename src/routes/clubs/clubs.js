@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './clubs.css'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
@@ -125,46 +126,7 @@ class Clubs extends Component {
 
     render() {
         return (
-            <>
-                <style type='text/css'> {`
-                    .dropdownBox{
-                        border: 1px solid #00aad8;
-                        border-radius: 0px;
-                        color: #00aad8;
-                        margin-left:0.5rem;
-                        margin-right:0.5rem;
-                        width:auto;
-                        font-size:13px;
-                    }
-                    .custom-select {
-                        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%2300aad8' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") 
-                    }
-                    .formTitle{
-                        color: #00aad8;
-                        font-weight:bold;
-                        text-transform: uppercase;
-                    }
-                    .formButton{
-                        background-color:#00aad8;
-                        border: 1px solid #00aad8;
-                        border-radius: 0px;
-                        height:38px;
-                        width:80px;
-                        font-size:13px;
-                    }
-                    .swimTable{
-                        font-size:0.8rem !important;
-                    }
-                    .colBorder{
-                        border: solid 1px #f0f0f0;  
-                        border-radius: 20px;
-                    }
-                    .headingColor{
-                        color: #00aad8;
-                    }
-                `}
-                </style>
-
+            <div>
                 <div>
                     <h1 className='formTitle'>Club Analytics</h1>
                 </div>
@@ -275,8 +237,7 @@ class Clubs extends Component {
                 <div id="footer">
                     <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank" rel="noopener noreferrer"> swimrankings.net </a> </p>
                 </div>
-            </>
-
+            </div>
         )
     }
 }

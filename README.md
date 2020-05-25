@@ -43,7 +43,7 @@ If you find any bugs / the data does not seem to correct for the graph. If you a
  - **clubs**
  
     - clubs.js
-    - [clubs.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/tree/master/src/components/clubs/clubs.md)
+    - [clubs.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/tree/master/src/routes/clubs/clubs.md)
   
  - **contact**
 	 - contact.js
@@ -56,9 +56,9 @@ If you find any bugs / the data does not seem to correct for the graph. If you a
  - **analytics** (Takes data and returns the fastest meets in a analytics component)  
 	 - analytics.js
 	 - [analytics.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.md)
- - **swimmerRankings** (Fetches Swimmer Data and passes to line graph and piechart)
-	 - swimmerRankings.js
-	 - [ProcessingData.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmerRankings/ProcessingData.md)
+ - **swimmer** (Fetches Swimmer Data and passes to line graph and piechart)
+	 - swimmer.js
+	 - [ProcessingData.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/ProcessingData.md)
  - **swimmertable**  (Converts the data from the fetch JSON and returns it in a table in html) 
 	- swimmertable.js
 	- [swimmertable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmertable/swimmertable.md)

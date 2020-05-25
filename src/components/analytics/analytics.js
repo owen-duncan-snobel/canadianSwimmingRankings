@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { Pie } from 'react-chartjs-2'
+import React, { Component } from 'react';
+import './analytics.css';
+import { Pie } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Rainbow from 'rainbowvis.js';
-import * as SwimAnalytics from '../../constants/swimAnalytics/swimAnalytics';
+import * as SwimFormulas from '../../constants/swimFormulas/swimFormulas';
 
 class Analytics extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
@@ -20,6 +20,7 @@ class Analytics extends Component {
         let meetName;
         let meetNumber;
         let meetMonth;
+        let colorArray;
         let standardDeviaton;
 
         // * If no data has been passed down from the form or invalid display empty form
@@ -43,31 +44,24 @@ class Analytics extends Component {
             meets = this.props.meetData.map(meet => meet.__EMPTY_12);
 
             // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-            meetData = Array.from(SwimAnalytics.mostOccurences(meets)).sort((a, b) => a[1] - b[1]);
+            meetData = Array.from(SwimFormulas.mostOccurences(meets)).sort((a, b) => a[1] - b[1]);
             meetName = meetData.map(name => name[0]);
             meetNumber = meetData.map(number => number[1]);
 
             // * Variables for the respective 'average' , 'median' and 'mode' from the data
-            average = SwimAnalytics.averageTime(times);
-            median = SwimAnalytics.medianTime(times);
-            mode = SwimAnalytics.modeTime(times);
+            average = SwimFormulas.averageTime(times);
+            median = SwimFormulas.medianTime(times);
+            mode = SwimFormulas.modeTime(times);
 
             /*      
                   * Need to only standardize the times once the sd has been calculated
              standardDeviaton = this.props.meetDat.map(time => Math.sqrt((time.__EMPTY_7 - ); */
-            //     standardDeviaton = Math.sqrt(SwimAnalytics.averageTime(standardDeviaton));
+            //     standardDeviaton = Math.sqrt(SwimFormulas.averageTime(standardDeviaton));
             // * Converts Excel Date Value into a JS date inorder to be graphed
-            meetMonth = SwimAnalytics.meetMonth(this.props.meetData);
+            meetMonth = SwimFormulas.meetMonth(this.props.meetData);
 
             // * Creates The Colors for the PieChart depending on how many distinct meets there are
-            let myRainbow = new Rainbow();
-            myRainbow.setSpectrum('#00aad8', '#ff6384')
-            myRainbow.setNumberRange(1, meetData.length);
-            let colorArray = [];
-
-            for (let i = 0; i < meetData.length; i++) {
-                colorArray.push('#' + myRainbow.colorAt(i));
-            }
+            colorArray = SwimFormulas.colorArray(meetData.length);
 
             data = {
                 labels: meetName,
@@ -85,22 +79,6 @@ class Analytics extends Component {
 
         return (
             <div>
-                <>
-                    <style type='text/css'>
-                        {`
-                    .analytics{
-                        height:auto;
-                        border-radius: 20px;
-                        padding-left: 1rem;
-                    } 
-                    .modeCount{
-                        font-size: 0.8rem;
-                    }
-                `}
-                    </style>
-                </>
-
-
                 {/* Time Analytics */}
                 <Container>
                     <Row className='pt-0 analytics justify-content-md-center'>
