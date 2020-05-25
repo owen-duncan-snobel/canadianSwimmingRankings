@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
 import PeakMonth from '../../components/peakMonth/peakMonth';
+import Analytics from '../../components/analytics/analytics';
 const XLSX = require('xlsx')
 
 class Clubs extends Component {
@@ -118,7 +119,7 @@ class Clubs extends Component {
                     // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
                     allData = [allData];
                 }
-                this.setState({ swimmerData: allData, ddl_event: event });
+                this.setState({ swimmerData: allData, ddl_event: event, swimEvent: 'all' });
             })
 
         // * Need to check and see if form attributes changed or just event (if event reparse data otherwise reload)
@@ -234,6 +235,9 @@ class Clubs extends Component {
                     </Form.Row>
                 </Form>
                 <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
+
+                <Analytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
+
                 <div id="footer">
                     <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank" rel="noopener noreferrer"> swimrankings.net </a> </p>
                 </div>
