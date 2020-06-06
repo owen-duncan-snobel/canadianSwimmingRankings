@@ -107,6 +107,12 @@ export const meetCity = (meets) => {
     }
 }
 
+export const meetName = (meets) => {
+    if (Array.isArray(meets)) {
+        return meets.map(meet => meet.__EMPTY_12);
+    }
+}
+
 
 // * Color Array Take input as a number, and returns an array of gradient colors
 export const colorArray = (arrayLength) => {

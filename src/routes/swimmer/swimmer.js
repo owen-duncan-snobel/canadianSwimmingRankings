@@ -7,9 +7,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Linegraph from '../../components/linegraph/linegraph';
-import Analytics from '../../components/analytics/analytics';
+import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
+import TimeAnalytics from '../../components/analytics/timeAnalytics/timeAnalytics';
 import XLSX from 'xlsx';
-import SwimmerTable from '../../components/swimmertable/swimmertable';
+import SwimmerTable from '../../controllers/swimmertable/swimmertable';
 
 class Swimmer extends Component {
     constructor(props) {
@@ -222,7 +223,10 @@ class Swimmer extends Component {
                             <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
-                            <Analytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
+
+                            <TimeAnalytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
+                            <FastestMeets swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
+
                         </Col>
                     </Row>
                 </Container >
@@ -232,9 +236,6 @@ class Swimmer extends Component {
                         <Col>
                             <SwimmerTable tableData={this.state.tableData}></SwimmerTable>
                         </Col>
-                        <div id="footer">
-                            <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" rel="noopener noreferrer" target="_blank"> swimrankings.net </a> </p>
-                        </div>
                     </Row>
 
                 </Container>

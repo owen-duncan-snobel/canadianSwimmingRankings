@@ -14,7 +14,7 @@ import logo from './images/favicon.ico'
 
 function App() {
   return (
-    <div className='ml-2 overflow-hidden '>
+    <div className='pl-2 '>
       <Router>
         <Navbar expand='lg'>
           <Link to='/'> <Navbar.Brand>
@@ -27,7 +27,6 @@ function App() {
               alt="Canadian Swimming Rankings Logo"
             />
             Canadian Swimming Rankings
-
           </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import './clubs.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimming/swimming';
-import PeakMonth from '../../components/peakMonth/peakMonth';
-import Analytics from '../../components/analytics/analytics';
+import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
+import ClubDashboard from '../../controllers/clubDashboard/clubDashboard';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -20,6 +19,8 @@ class Clubs extends Component {
             ddl_club: '72542',
             ddl_event: '',
             swimmerData: null,
+            url: '',
+            urlIndex: null,
             swimEvent: ''
         }
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,6 +44,11 @@ class Clubs extends Component {
         let agegroup = formdata.get('ddl_age');
         let event = formdata.get('ddl_event');
         let stroke = event.split(' ')[1];
+
+        // * Needed to select correct file in Peak Month when multiple urls are passed
+        let selectedURL = []
+        selectedURL.push('gender=' + gender, 'agegroup=' + agegroup, 'course=' + course, 'season=' + season.split('-')[1], 'clubID=' + clubID);
+        selectedURL = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?' + selectedURL.join('&');
 
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
         season = season.split('-')[1];
@@ -76,7 +82,7 @@ class Clubs extends Component {
 
         // * Will use filtering to allow them to find which are allowed
         urls = urls.filter(url => url.includes('clubID=' + clubID)
-            && (url.includes('season=' + season) /* || url.includes('season=' + 2017) */)
+            && (url.includes('season=' + season) || url.includes('season=' + parseInt(season) - 1))
             && url.includes('course=' + course)
             && url.includes('gender=' + gender)
             && url.includes('agegroup=' + agegroup)
@@ -112,18 +118,17 @@ class Clubs extends Component {
                 })
                 .catch((error) => {
                     console.log(error);
-                    throw new Error("Unable to fetch file");
                 })
 
         ))
             .then((allData) => {
-                if (allData.length === 0) {
+                if (allData[0] === undefined) {
                     console.log('Error: No Swimmer Data was returned');
-                } else if (allData.length === 1) {
+                } else {
                     // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
                     allData = [allData];
+                    this.setState({ swimmerData: allData, ddl_event: event, swimEvent: 'all', selectedData: allData[0][urls.indexOf(selectedURL)] });
                 }
-                this.setState({ swimmerData: allData, ddl_event: event, swimEvent: 'all' });
             })
 
         // * Need to check and see if form attributes changed or just event (if event reparse data otherwise reload)
@@ -238,17 +243,7 @@ class Clubs extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
-                <PeakMonth swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} />
-
-                <Container className="justify-content-center">
-                    <Row>
-                        <Col>
-                        </Col>
-                    </Row>
-                </Container>
-                <div id="footer">
-                    <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" target="_blank" rel="noopener noreferrer"> swimrankings.net </a> </p>
-                </div>
+                <ClubDashboard swimmerData={this.state.swimmerData} event={this.state.ddl_event} swimEvent={this.state.swimEvent} selectedData={this.state.selectedData} />
             </div>
         )
     }
