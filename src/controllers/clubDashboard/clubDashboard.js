@@ -29,10 +29,6 @@ class ClubDashboard extends Component {
         let allData;
         let selectedData;
 
-        let meets;
-        let meetName;
-        let meetNumber;
-
         if (this.props.swimmerData === null) {
             return (
                 <div name="PeakMonth"> </div>
@@ -95,7 +91,7 @@ class ClubDashboard extends Component {
 
 
 
-
+            // * Pass it the keys that will be used as the header for the table in React Table
             let meetKeys = [
                 '__EMPTY_12',
                 '__EMPTY_14',
@@ -116,12 +112,12 @@ class ClubDashboard extends Component {
                             <Col className="text-center colBorder"> <PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSubComponents} event={this.props.event} />
                             </Col>
                         </Row>
-                        <Row>
-                            <Col className="colBorder m-1">
+                        <Row className="colBorder mt-2 mb-">
+                            <Col sm={6}>
                                 <FastestCity swimmerData={allSwimmerData} />
                                 <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
                             </Col>
-                            <Col className="colBorder m-1">
+                            <Col sm={6}>
                                 <FastestMeets swimmerData={allSwimmerData} swimEvent={this.state.swimEvent} />
                                 <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
                             </Col>
