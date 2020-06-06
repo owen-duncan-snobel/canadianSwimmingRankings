@@ -1,0 +1,5 @@
+# Canadian Swimming Rankings   <img src="https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png" width="50" height="50">
+
+Takes props: 
+
+swimmerData={this.state.swimmerData}   (JSON of swimmer data )

@@ -29,3 +29,9 @@
   height: 30px;
   width: 98%;
 }
+
+.formTitle {
+  color: #00aad8;
+  font-weight: bold;
+  text-transform: uppercase;
+}

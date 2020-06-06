@@ -19,3 +19,22 @@ export const EVENTS = [
 ]
 
 export const GENDERS = ['M', 'F'];
+
+export const JSON_ATTRIBUTES = {
+    __EMPTY: "Gender",
+    __EMPTY_1: "Distance",
+    __EMPTY_2: "Stroke",
+    __EMPTY_3: "Fullname",
+    __EMPTY_4: "Birthdate",
+    __EMPTY_5: "Nation",
+    __EMPTY_6: "Clubcode",
+    __EMPTY_7: "Time",
+    __EMPTY_8: "Swimtime",
+    __EMPTY_9: "Place",
+    __EMPTY_10: "Meetdate",
+    __EMPTY_11: "Meetcity",
+    __EMPTY_12: "Meetname",
+    __EMPTY_13: "Clubname",
+    __EMPTY_14: '# Occurences',
+    __EMPTY_15: ''
+};

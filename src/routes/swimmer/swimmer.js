@@ -1,17 +1,18 @@
-import React from 'react'
-import { Component } from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Linegraph from '../linegraph/linegraph'
-import Piechart from '../piechart/piechart'
-import XLSX from 'xlsx'
-import SwimmerTable from '../swimmertable/swimmertable'
+import React from 'react';
+import { Component } from 'react';
+import './swimmer.css';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Linegraph from '../../components/linegraph/linegraph';
+import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
+import TimeAnalytics from '../../components/analytics/timeAnalytics/timeAnalytics';
+import XLSX from 'xlsx';
+import SwimmerTable from '../../controllers/swimmertable/swimmertable';
 
-class SwimmerRankings extends Component {
-
+class Swimmer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,10 +21,9 @@ class SwimmerRankings extends Component {
             ddl_course: 'SCM',
             clubName: 'Oakville Aquatic Club',
             swimmerData: null,
-            swimmerName: '',
-            swimmerTime: '',
-            swimEventName: '',
-            tableBody: null
+            event: null,
+            swimEvent: '',
+            tableData: null
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,8 +40,6 @@ class SwimmerRankings extends Component {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         onEvent.preventDefault();
 
-        // * Whenever a new form is submitted resets the Time of selected swimmer that is dispalyed in the data insights (Cancels updateSwimmer)
-        this.setState({ swimmerName: '', swimmerTime: '' });
 
         // * Formed data is used for getting the contents of the submitted form 
         const formdata = new FormData(onEvent.target);
@@ -100,7 +98,7 @@ class SwimmerRankings extends Component {
 
                     // * Removes the first row so that the default values aren't used
                     toJSON.shift();
-                    this.setState({ swimmerData: toJSON, swimEventName: event, tableBody: toJSON })
+                    this.setState({ swimmerData: toJSON, swimEvent: event, tableData: toJSON })
                 }
             }).catch((error) => {
                 console.log(error)
@@ -110,46 +108,7 @@ class SwimmerRankings extends Component {
     render() {
 
         return (
-            <>
-                <style type='text/css'>
-                    {`
-                    .dropdownBox{
-                        border: 1px solid #00aad8;
-                        border-radius: 0px;
-                        color: #00aad8;
-                        margin-left:0.5rem;
-                        margin-right:0.5rem;
-                        width:auto;
-                        font-size:13px;
-                    }
-                    .custom-select {
-                        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%2300aad8' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") 
-                    }
-                    .formTitle{
-                        color: #00aad8;
-                        font-weight:bold;
-                        text-transform: uppercase;
-                    }
-                    .formButton{
-                        background-color:#00aad8;
-                        border: 1px solid #00aad8;
-                        border-radius: 0px;
-                        height:38px;
-                        width:80px;
-                        font-size:13px;
-                    }
-                    .swimTable{
-                        font-size:0.8rem !important;
-                    }
-                    .colBorder{
-                        border: solid 1px #f0f0f0;  
-                        border-radius: 20px;
-                    }
-                    .headingColor{
-                        color: #00aad8;
-                    }
-               `}
-                </style>
+            <div>
                 <div>
                     <h1 className="formTitle">Swimmer Rankings</h1>
                 </div>
@@ -261,10 +220,13 @@ class SwimmerRankings extends Component {
                 < Container fluid >
                     <Row className='mb-3'>
                         <Col className='pr-0 mt-2' lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEventName} clubName={this.state.clubName} />
+                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
-                            <Piechart meetData={this.state.swimmerData} swimmerName={this.state.swimmerName} swimmerTime={this.state.swimmerTime} />
+
+                            <TimeAnalytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
+                            <FastestMeets swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
+
                         </Col>
                     </Row>
                 </Container >
@@ -272,17 +234,14 @@ class SwimmerRankings extends Component {
                 <Container fluid>
                     <Row>
                         <Col>
-                            <SwimmerTable tableBody={this.state.tableBody}></SwimmerTable>
+                            <SwimmerTable tableData={this.state.tableData}></SwimmerTable>
                         </Col>
-                        <div id="footer">
-                            <p>All Data on this site has been provided by Christian Kaufmann, the owner of <a href="https://www.swimrankings.net" rel="noopener noreferrer" target="_blank"> swimrankings.net </a> </p>
-                        </div>
                     </Row>
 
                 </Container>
 
-
-            </>)
+            </div>
+        )
     }
 }
-export default SwimmerRankings;
+export default Swimmer;

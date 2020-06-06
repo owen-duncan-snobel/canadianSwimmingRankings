@@ -37,7 +37,6 @@ class Linegraph extends Component {
             times = this.props.swimmerData.map(time => standardize_times(time.__EMPTY_7)).reverse();
 
             // * Data that will be passed to the Linegraph Component
-            console.log(this.props.swimEvent)
             data = {
                 labels: rank,
                 datasets: [{
