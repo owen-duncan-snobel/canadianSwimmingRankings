@@ -35,3 +35,14 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+
+.navbar-light .navbar-brand {
+  color: rgba(0, 0, 0, .7) !important;
+}
+
+.navbar-toggler {
+  border-color: transparent !important;
+  /* Removes border color */
+  float: left;
+  /* Move navbar toggle to left */
+}
