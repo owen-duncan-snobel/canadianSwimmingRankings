@@ -56,7 +56,7 @@ class FastestMeets extends Component {
         }
         return (
             <Container >
-                <Row className='pt-0 analytics justify-content-md-center m-1'>
+                <Row className='pt-0 analytics justify-content-md-center m-1 colBorder'>
                     {/* * Fastest Meets */}
                     < Col >
                         <h4 className=' formTitle'>Fastest Meets</h4> Based on Meet where best times were swam.

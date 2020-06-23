@@ -223,10 +223,8 @@ class Swimmer extends Component {
                             <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} clubName={this.state.clubName} />
                         </Col>
                         <Col className='pl-0 mt-2' lg={4}>
-
                             <TimeAnalytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
                             <FastestMeets swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
-
                         </Col>
                     </Row>
                 </Container >
@@ -240,7 +238,7 @@ class Swimmer extends Component {
 
                 </Container>
 
-            </div>
+            </div >
         )
     }
 }
