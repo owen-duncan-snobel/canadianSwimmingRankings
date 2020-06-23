@@ -54,7 +54,7 @@ class TimeAnalytics extends Component {
                 <div>
                     {/* Time Analytics */}
                     <Container>
-                        <Row className='pt-0 analytics justify-content-md-center colBorder m-1'>
+                        <Row className='pt-0 analytics colBorder m-1'>
                             {meetData.length > 50 ? '' :
                                 <Col className='m-1' lg={12} md={5} xs={12}>
                                     {/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
