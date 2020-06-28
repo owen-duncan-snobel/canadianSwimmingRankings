@@ -85,8 +85,6 @@ class Swimmer extends Component {
 
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-                console.log(toJSON[0])
-                // * Error Handling: if the data returned is an empty array
 
                 // * Removes the first row so that the default values aren't used
                 toJSON.shift();
@@ -207,7 +205,7 @@ class Swimmer extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
-                <SwimDashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} tableData={this.state.tableData}></SwimDashboard>
+                <SwimDashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} tableData={this.state.tableData} clubName={this.state.clubName}></SwimDashboard>
             </div >
         )
     }

@@ -30,10 +30,14 @@
   width: 98%;
 }
 
-.formTitle {
+.bigTitle {
   color: #00aad8;
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.formTitle {
+  font-weight: bold;
 }
 
 .navbar-light .navbar-brand {

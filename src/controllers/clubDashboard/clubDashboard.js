@@ -57,7 +57,6 @@ class ClubDashboard extends Component {
                         })
                     })
 
-
                     // * For getting the Data of all sheets containing all events (Workbook holds each fetch file)
                     // * Each fetch file contains 18 Sheets (aka arrays of events) in each, it contains 50 swimmers (Objects) (Max)
                     allData.forEach(Workbook => {
@@ -74,12 +73,11 @@ class ClubDashboard extends Component {
                     console.log('Error: Unable to convert workbook data into sheets');
                 }
 
-
                 // * Pass it the keys that will be used as the header for the table in React Table
                 let meetCityKeys = [
                     '__EMPTY_11',
                     '__EMPTY_14',
-                ]
+                ];
 
                 // * Converts all the events data into the labels and data for the piechart of meet city
                 let meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => b[1] - a[1]);
@@ -87,16 +85,13 @@ class ClubDashboard extends Component {
                 let meetCityNum = meetCity.map(number => number[1]);
                 // * Converts it into array that holds objects with properties that can be used by the ReactTable Component
                 let meetCityArr = [];
-                meetCity.forEach((city, index) => meetCityArr.push(Object({ '__EMPTY_11': meetCityKey[index], '__EMPTY_14': meetCityNum[index] })))
-
-
+                meetCity.forEach((city, index) => meetCityArr.push(Object({ '__EMPTY_11': meetCityKey[index], '__EMPTY_14': meetCityNum[index] })));
 
                 // * Pass it the keys that will be used as the header for the table in React Table
                 let meetKeys = [
                     '__EMPTY_12',
                     '__EMPTY_14',
-                ]
-
+                ];
 
                 // * Converts all events data into label for Meet data. (Meet Name and occurence of best time)
                 // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing

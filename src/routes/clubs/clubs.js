@@ -51,9 +51,7 @@ class Clubs extends Component {
         season = season.split('-')[1];
 
         // * Urls will contain all the URLS to fetch from swimmingrankings.net to get all the excel files
-        // * File names will contain all the file names when we go to write files back they will keep corresponding name
         let urls = [];
-        let fileNames = [];
 
         // *  Creates an array of all possible links to the data that you are want to fetch data from
         // TODO will need to make it so you can fetch over years span so an update to the form and logic will be needed
@@ -70,19 +68,20 @@ class Clubs extends Component {
                         param.append('clubID', clubID);
                         url += param.toString();
                         urls.push(url);
-                        fileNames.push(url.split('?')[1] + '.xlsx');
                     }
                 }
             }
         }
 
+
         // * Will use filtering to allow them to find which are allowed
         urls = urls.filter(url => url.includes('clubID=' + clubID)
-            && (url.includes('season=' + season) || url.includes('season=' + parseInt(season) - 1))
+            && (url.includes('season=' + season))
             && url.includes('course=' + course)
             && url.includes('gender=' + gender)
             && url.includes('agegroup=' + agegroup)
         );
+        console.log(urls)
 
         // * Will fetch all files then return at once preserving order with Promise.all() 
         Promise.all(urls.map(url =>

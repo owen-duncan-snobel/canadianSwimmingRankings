@@ -16,7 +16,6 @@ class SwimDashboard extends Component {
     }
 
     render() {
-        console.log(this.props.swimmerData)
         if (this.props.swimmerData === null || this.props.swimmerData.length === 0) {
             return (
                 <div name="InvalidYearNoData">  </div>
@@ -31,10 +30,15 @@ class SwimDashboard extends Component {
                                 <Linegraph swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} clubName={this.props.clubName} />
                             </Col>
                             <Col className='pl-0 mt-2' lg={4}>
-                                <TimeAnalytics swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} />
-                                <div className="colBorder ml-2">
-                                    <FastestMeets swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} />
+
+                                <div className='colBorder ml-2'>
+                                    <TimeAnalytics swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} />
                                 </div>
+
+                                <div className='colBorder ml-2 mt-2'>
+                                    <FastestMeets className="" swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} />
+                                </div>
+
                             </Col>
                         </Row>
                     </Container >

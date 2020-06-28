@@ -23,7 +23,7 @@ function App() {
               src={logo}
               width="35"
               height="35"
-              className="d-inline-block align-top"
+              className=" align-top formTitle"
               alt="Canadian Swimming Rankings Logo"
             />
             Canadian Swimming Rankings

@@ -2,6 +2,9 @@ import React from 'react';
 import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 class FastestMeets extends Component {
 
@@ -52,11 +55,18 @@ class FastestMeets extends Component {
         }
         return (
             <div>
-                <h4 className='formTitle'>Fastest Meets</h4> Based on Meet where best times were swam.
+                <Container>
+                    <Row>
+                        <Col lg={12} md={5} xs={12}>
+                            <h4 className='formTitle'>Fastest Meets</h4> Based On Meet Where Best Times Were Swam.
                 < div >
-                    <Pie data={data} options={options} height={200} />
-                </div >
+                                <Pie data={data} options={options} height={200} />
+                            </div >
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         )
     }
-} export default FastestMeets
+}
+export default FastestMeets;
