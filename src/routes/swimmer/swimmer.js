@@ -3,14 +3,9 @@ import { Component } from 'react';
 import './swimmer.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Linegraph from '../../components/linegraph/linegraph';
-import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
-import TimeAnalytics from '../../components/analytics/timeAnalytics/timeAnalytics';
+import SwimDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 import XLSX from 'xlsx';
-import SwimmerTable from '../../controllers/swimmertable/swimmertable';
+
 
 class Swimmer extends Component {
     constructor(props) {
@@ -92,14 +87,11 @@ class Swimmer extends Component {
                 let toJSON = XLSX.utils.sheet_to_json(data);
                 console.log(toJSON[0])
                 // * Error Handling: if the data returned is an empty array
-                if (toJSON.length === 0) {
-                    console.log("Error: Empty Data Array");
-                } else {
 
-                    // * Removes the first row so that the default values aren't used
-                    toJSON.shift();
-                    this.setState({ swimmerData: toJSON, swimEvent: event, tableData: toJSON })
-                }
+                // * Removes the first row so that the default values aren't used
+                toJSON.shift();
+                this.setState({ swimmerData: toJSON, swimEvent: event, tableData: toJSON })
+
             }).catch((error) => {
                 console.log(error)
             })
@@ -215,29 +207,7 @@ class Swimmer extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
-
-                {/* Dashboard with all the logic for the graph **/}
-                < Container fluid >
-                    <Row className='mb-3'>
-                        <Col className='pr-0 mt-2' lg={8}>
-                            <Linegraph swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} clubName={this.state.clubName} />
-                        </Col>
-                        <Col className='pl-0 mt-2' lg={4}>
-                            <TimeAnalytics swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
-                            <FastestMeets swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} />
-                        </Col>
-                    </Row>
-                </Container >
-
-                <Container fluid>
-                    <Row>
-                        <Col>
-                            <SwimmerTable tableData={this.state.tableData}></SwimmerTable>
-                        </Col>
-                    </Row>
-
-                </Container>
-
+                <SwimDashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} tableData={this.state.tableData}></SwimDashboard>
             </div >
         )
     }
