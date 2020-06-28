@@ -1,6 +1,5 @@
 import React from 'react';
 import { Component } from 'react'
-import Table from 'react-bootstrap/Table';
 import ReactTable from '../../components/reactTable/reactTable';
 
 class SwimmerTable extends Component {

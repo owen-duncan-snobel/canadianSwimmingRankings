@@ -13,7 +13,6 @@ class FastestCity extends Component {
         let meetCityKey;
         let meetCityNum;
         let data = {};
-        let options = {};
         if (allSwimmerData === null) {
             return (
                 <div> </div>
@@ -25,7 +24,6 @@ class FastestCity extends Component {
                 meetCityKey = meetCity.map(city => city[0]);
                 meetCityNum = meetCity.map(number => number[1]);
 
-                console.log(meetCity)
                 // * Creates The Colors for the PieChart depending on how many distinct meets there are
                 colorArray = SwimFormulas.colorArray(meetCity.length);
 
@@ -35,11 +33,6 @@ class FastestCity extends Component {
                         data: meetCityNum,
                         backgroundColor: colorArray
                     }]
-                }
-                options = {
-                    legend: {
-                        display: false
-                    }
                 }
             }
             catch {

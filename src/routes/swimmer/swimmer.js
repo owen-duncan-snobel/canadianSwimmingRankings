@@ -90,7 +90,7 @@ class Swimmer extends Component {
 
                 // * Converts the XLS (Excel File to JSON to allow us to graph data)
                 let toJSON = XLSX.utils.sheet_to_json(data);
-
+                console.log(toJSON[0])
                 // * Error Handling: if the data returned is an empty array
                 if (toJSON.length === 0) {
                     console.log("Error: Empty Data Array");

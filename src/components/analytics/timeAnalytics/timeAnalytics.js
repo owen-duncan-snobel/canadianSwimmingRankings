@@ -14,7 +14,6 @@ class TimeAnalytics extends Component {
         let median;
         let mode;
         let times;
-        let meets;
 
         // * If no data has been passed down from the form or invalid display empty form
         if (allData === null) {

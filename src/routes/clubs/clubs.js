@@ -4,9 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
 import ClubDashboard from '../../controllers/clubDashboard/clubDashboard';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+
 
 const XLSX = require('xlsx')
 
@@ -43,7 +41,6 @@ class Clubs extends Component {
         let gender = formdata.get('ddl_gender');
         let agegroup = formdata.get('ddl_age');
         let event = formdata.get('ddl_event');
-        let stroke = event.split(' ')[1];
 
         // * Needed to select correct file in Peak Month when multiple urls are passed
         let selectedURL = []
@@ -57,7 +54,6 @@ class Clubs extends Component {
         // * File names will contain all the file names when we go to write files back they will keep corresponding name
         let urls = [];
         let fileNames = [];
-        let alldata = [];
 
         // *  Creates an array of all possible links to the data that you are want to fetch data from
         // TODO will need to make it so you can fetch over years span so an update to the form and logic will be needed
@@ -89,7 +85,7 @@ class Clubs extends Component {
         );
 
         // * Will fetch all files then return at once preserving order with Promise.all() 
-        let jsonFiles = Promise.all(urls.map(url =>
+        Promise.all(urls.map(url =>
             // * Need Heroku for 'ORS header “Access-Control-Allow-Origin” missing'
             fetch('https://cors-anywhere.herokuapp.com/' + url, {
                 method: "GET"

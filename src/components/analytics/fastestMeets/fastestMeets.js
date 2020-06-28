@@ -11,7 +11,6 @@ class FastestMeets extends Component {
     render() {
         let allData = this.props.swimmerData;
         let meetData = [];
-        let event = this.props.swimEvent;
         let data;
         let options;
         let meets;

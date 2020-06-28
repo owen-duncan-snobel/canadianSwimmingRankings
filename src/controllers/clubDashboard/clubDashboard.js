@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
-import { Bar, Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -41,7 +40,7 @@ class ClubDashboard extends Component {
             // * Need to process data from Workbook -> Worksheets -> Event -> Swimmers
             try {
                 // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
-                let index = EVENTS.indexOf(this.props.event)
+                let index = EVENTS.indexOf(event)
                 let Sheet = selectedData[index];
                 // * For the selected event collect all the swimmer data
                 Sheet.forEach(swimmer => {
@@ -87,23 +86,23 @@ class ClubDashboard extends Component {
             let meetCityNum = meetCity.map(number => number[1]);
             // * Converts it into array that holds objects with properties that can be used by the ReactTable Component
             let meetCityArr = [];
-            let meetCityTable = meetCity.forEach((city, index) => meetCityArr.push(new Object({ '__EMPTY_11': meetCityKey[index], '__EMPTY_14': meetCityNum[index] })))
+            meetCity.forEach((city, index) => meetCityArr.push(Object({ '__EMPTY_11': meetCityKey[index], '__EMPTY_14': meetCityNum[index] })))
 
 
 
             // * Pass it the keys that will be used as the header for the table in React Table
-            let meetKeys = [
-                '__EMPTY_12',
-                '__EMPTY_14',
-            ]
+            /* let meetKeys = [
+                 '__EMPTY_12',
+                 '__EMPTY_14',
+             ]
+             */
 
             // * Converts all events data into label for Meet data. (Meet Name and occurence of best time)
             // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-            let meets = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetName(allSwimmerData))).sort((a, b) => b[1] - a[1]);
-            let meetName = meets.map(name => name[0]);
-            let meetNumber = meets.map(number => number[1]);
-            let meetArr = [];
-            let meetTable = meets.forEach((meet, index) => meetArr.push(new Object({ '__EMPTY_12': meetName[index], '__EMPTY_14': meetNumber[index] })))
+            //let meets = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetName(allSwimmerData))).sort((a, b) => b[1] - a[1]);
+            //let meetName = meets.map(name => name[0]);
+            //let meetNumber = meets.map(number => number[1]);
+            //let meetArr = [];
             return (
                 <div>
                     <Container fluid className="mt-1">
@@ -119,7 +118,6 @@ class ClubDashboard extends Component {
                             </Col>
                             <Col sm={6}>
                                 <FastestMeets swimmerData={allSwimmerData} swimEvent={this.state.swimEvent} />
-                                <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
                             </Col>
                         </Row>
                     </Container>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { EVENTS } from '../../../constants/swimmingConstants/swimmingConstants';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
-import { Bar, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -13,15 +12,15 @@ class PeakMonth extends Component {
 
     render() {
         let swimmerData = this.props.swimmerData;
-        let allSwimmerData = this.props.allSwimmerData;
+        //let allSwimmerData = this.props.allSwimmerData;
         let allSwimmerDataSubComponents = this.props.allSwimmerDataSubComponents;
         let event = [];
         let allEvents = [];
         let eventOptions = [];
         let colorArray;
-        let meetCity;
-        let meetCityKey;
-        let meetCityNum;
+        //let meetCity;
+        //let meetCityKey;
+        //let meetCityNum;
 
 
         try {
@@ -288,18 +287,19 @@ class PeakMonth extends Component {
         }
 
         // * Converts all the events data into the labels and data for the piechart of meet city
-        meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => a[1] - b[1]);
-        meetCityKey = meetCity.map(city => city[0]);
-        meetCityNum = meetCity.map(number => number[1]);
+        // meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => a[1] - b[1]);
+        // meetCityKey = meetCity.map(city => city[0]);
+        // meetCityNum = meetCity.map(number => number[1]);
 
-        let cityColors = SwimFormulas.colorArray(meetCityKey.length);
-        let cityData = {
-            labels: meetCityKey,
-            datasets: [{
-                data: meetCityNum,
-                backgroundColor: cityColors
-            }],
-        }
+        // let cityColors = SwimFormulas.colorArray(meetCityKey.length);
+        /* let cityData = {
+             labels: meetCityKey,
+             datasets: [{
+                 data: meetCityNum,
+                 backgroundColor: cityColors
+             }],
+         }
+         */
 
         return (
             <div>
