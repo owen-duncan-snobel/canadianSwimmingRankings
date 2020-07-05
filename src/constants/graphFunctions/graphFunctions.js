@@ -2,16 +2,16 @@ import Rainbow from 'rainbowvis.js';
 
 
 /**
- * Takes an array of numbers/strings/dates to find the number of occurences of each distinct element. It finds the number of occurences 
- * each element in the array and returns a Map (key,value) pairs. Key is the element, Value is the number of occurences.
+ * Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element. It finds the number of Occurrences 
+ * each element in the array and returns a Map (key,value) pairs. Key is the element, Value is the number of Occurrences.
  *
- * @param {Array} arr - Takes an array of numbers/strings/dates to find the number of occurences of each distinct element.
- * @returns {Map} Returns Map, where keys are the elements in the array and, value is the number of occurences of each element in the array.
+ * @param {Array} arr - Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element.
+ * @returns {Map} Returns Map, where keys are the elements in the array and, value is the number of Occurrences of each element in the array.
  * 
  * @example 
- *  mostOccurences(['July','Aug','Sept','July','June']) --> Map(['July',2],['Aug',1],['Sept',1],['June',1])
+ *  mostOccurrences(['July','Aug','Sept','July','June']) --> Map(['July',2],['Aug',1],['Sept',1],['June',1])
  */
-export const mostOccurences = (arr) => {
+export const mostOccurrences = (arr) => {
     try {
         let map = new Map();
         if (arr !== undefined && Array.isArray(arr) && arr.length >= 0) {
@@ -26,7 +26,7 @@ export const mostOccurences = (arr) => {
         }
         return map;
     } catch {
-        console.log('Error: Data Array was empty, cannot calculate the occurences of null')
+        console.log('Error: Data Array was empty, cannot calculate the Occurrences of null')
         return;
     }
 };
@@ -54,15 +54,15 @@ export const meetMonth = (meets) => {
 }
 
 /**
- *   Takes the Array of Swimmer Objects and converts the months then finds the most occurences of the month data.
+ *   Takes the Array of Swimmer Objects and converts the months then finds the most Occurrences of the month data.
  * @param {object[]} data - Takes an Array of Swimmer Objects to convert dates and map.
- * @returns {Array} Returns an Array where index[0] is September and the values of occurences in September is the value at the index.
+ * @returns {Array} Returns an Array where index[0] is September and the values of Occurrences in September is the value at the index.
  */
 export const peakDistribution = (data) => {
     try {
         // * Data for most common meet occurence month
         let months = Array(12).fill(0);
-        let meets = mostOccurences(meetMonth(data));
+        let meets = mostOccurrences(meetMonth(data));
         meets.forEach((value, key) => {
             months[key] = value
         });
@@ -117,7 +117,7 @@ export const medianTime = (time) => {
 }
 
 /**
- * Finds the Mode an Array of Numbers (times) and returns an object with the Mode Time and the number of occurences.
+ * Finds the Mode an Array of Numbers (times) and returns an object with the Mode Time and the number of Occurrences.
  * @param {Number[]} time An Array of Numbers (Times)
  * @returns {object} {mostCommonNumber} Returns The Most Common Number in Array
  * @returns {object} {maxCount} Returns the count of the Most Common Number
@@ -126,7 +126,7 @@ export const modeTime = (time) => {
     try {
         // * Times is given in Milliseconds, and from lowest to highest. We will convert to seconds and round down to standardize mode to seconds
         let toModeSeconds = time.map(el => Math.floor(el / 1000));
-        let modeOccurence = mostOccurences(toModeSeconds);
+        let modeOccurence = mostOccurrences(toModeSeconds);
 
         // * Iterates through the map and finds the most occuring time
         let mostCommonNumber = NaN

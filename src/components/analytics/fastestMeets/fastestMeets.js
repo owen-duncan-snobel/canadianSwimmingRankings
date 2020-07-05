@@ -1,8 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
+import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 
+defaults.global.legend.display = false;
 
 class FastestMeets extends Component {
 
@@ -28,7 +30,7 @@ class FastestMeets extends Component {
 
                 meets = meetData.map(meet => meet.__EMPTY_12);
                 // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-                meets = Array.from(SwimFormulas.mostOccurences(meets)).sort((a, b) => b[1] - a[1]);
+                meets = Array.from(SwimFormulas.mostOccurrences(meets)).sort((a, b) => b[1] - a[1]);
                 meetName = meets.map(name => name[0]);
                 meetNumber = meets.map(number => number[1]);
 

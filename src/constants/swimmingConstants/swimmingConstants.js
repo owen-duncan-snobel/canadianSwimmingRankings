@@ -48,6 +48,23 @@ export const JSON_ATTRIBUTES = {
     __EMPTY_11: "Meetcity",
     __EMPTY_12: "Meetname",
     __EMPTY_13: "Clubname",
-    __EMPTY_14: '# Occurences',
-    __EMPTY_15: ''
+    __EMPTY_14: '# Occurrences',
+    __EMPTY_15: '',
+    __EMPTY_16: '% Occurrences'
+
 };
+
+export const MONTH_NAMES = [
+    'September',
+    'October',
+    'November',
+    'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August'
+];

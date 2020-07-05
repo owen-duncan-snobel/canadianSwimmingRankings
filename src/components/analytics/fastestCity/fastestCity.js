@@ -1,7 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
+import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
+
+defaults.global.legend.display = false;
 
 class FastestCity extends Component {
 
@@ -19,7 +22,7 @@ class FastestCity extends Component {
         } else {
 
             try {
-                meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => a[1] - b[1]);
+                meetCity = Array.from(SwimFormulas.mostOccurrences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => a[1] - b[1]);
                 meetCityKey = meetCity.map(city => city[0]);
                 meetCityNum = meetCity.map(number => number[1]);
 
