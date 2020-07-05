@@ -3,7 +3,6 @@ import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 
-
 class FastestCity extends Component {
 
     render() {
@@ -40,8 +39,8 @@ class FastestCity extends Component {
             }
             return (
                 <div>
-                    <b><h4 className="formTitle">Location of Meet City  </h4></b> Based On Meet City For All Events: (of selected age group and gender).
-                    < Pie name="Meet City Piechart" data={data} />
+                    <b><h4 className="formTitle">Location of Meet City  </h4></b> Based On Meet City: (Of selected age group and gender).
+                    < Pie name="Meet City Piechart" data={data} height='150%' />
                 </div >
             )
         }
