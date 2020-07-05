@@ -15,7 +15,7 @@ class Clubs extends Component {
             ddl_season: '2019-2020',
             ddl_course: 'SCM',
             ddl_club: '72542',
-            ddl_event: '',
+            ddl_event: '50m Fr',
             swimmerData: null,
             url: '',
             urlIndex: null,
@@ -213,6 +213,7 @@ class Clubs extends Component {
                         <Form.Group >
                             <Form.Control name="ddl_event" id="ddl_event" defaultValue={this.state.ddl_event} className="dropdownBox custom-select" as="select">
                                 <option disabled>Event</option>
+                                <option value="All">All</option>
                                 <option value="50m Fr">50 Free</option>
                                 <option value="100m Fr">100 Free</option>
                                 <option value="200m Fr">200 Free</option>
