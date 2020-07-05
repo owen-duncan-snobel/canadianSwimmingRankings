@@ -10,7 +10,7 @@ import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import FastestCity from '../../components/analytics/fastestCity/fastestCity';
 import PeakMonth from '../../components/analytics/peakMonth/peakMonth';
 
-defaults.global.legend.display = false;
+
 
 class ClubDashboard extends Component {
     constructor(props) {
@@ -64,7 +64,7 @@ class ClubDashboard extends Component {
                     ];
 
                     // * Converts all the events data into the labels and data for the piechart of meet city
-                    let meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(swimmerData))).sort((a, b) => b[1] - a[1]);
+                    let meetCity = Array.from(SwimFormulas.mostOccurrences(SwimFormulas.meetCity(swimmerData))).sort((a, b) => b[1] - a[1]);
                     let meetCityKey = meetCity.map(city => city[0]);
                     let meetCityNum = meetCity.map(number => number[1]);
                     // * Converts it into array that holds objects with properties that can be used by the ReactTable Component
@@ -79,7 +79,7 @@ class ClubDashboard extends Component {
 
                     // * Converts all events data into label for Meet data. (Meet Name and occurence of best time)
                     // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-                    let meets = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetName(swimmerData))).sort((a, b) => b[1] - a[1]);
+                    let meets = Array.from(SwimFormulas.mostOccurrences(SwimFormulas.meetName(swimmerData))).sort((a, b) => b[1] - a[1]);
                     let meetName = meets.map(name => name[0]);
                     let meetNumber = meets.map(number => number[1]);
                     let meetArr = [];
@@ -141,7 +141,7 @@ class ClubDashboard extends Component {
                 ];
 
                 // * Converts all the events data into the labels and data for the piechart of meet city
-                let meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => b[1] - a[1]);
+                let meetCity = Array.from(SwimFormulas.mostOccurrences(SwimFormulas.meetCity(allSwimmerData))).sort((a, b) => b[1] - a[1]);
                 let meetCityKey = meetCity.map(city => city[0]);
                 let meetCityNum = meetCity.map(number => number[1]);
                 // * Converts it into array that holds objects with properties that can be used by the ReactTable Component
@@ -156,7 +156,7 @@ class ClubDashboard extends Component {
 
                 // * Converts all events data into label for Meet data. (Meet Name and occurence of best time)
                 // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-                let meets = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetName(allSwimmerData))).sort((a, b) => b[1] - a[1]);
+                let meets = Array.from(SwimFormulas.mostOccurrences(SwimFormulas.meetName(allSwimmerData))).sort((a, b) => b[1] - a[1]);
                 let meetName = meets.map(name => name[0]);
                 let meetNumber = meets.map(number => number[1]);
                 let meetArr = [];

@@ -1,46 +1,48 @@
 import React, { Component } from 'react'
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 import { Bar } from 'react-chartjs-2';
+import ReactTable from '../../../components/reactTable/reactTable';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
 
 class PeakMonth extends Component {
 
     render() {
         let swimmerData = this.props.swimmerData;
-        //let allSwimmerData = this.props.allSwimmerData;
         let allSwimmerDataSubComponents = this.props.allSwimmerDataSubComponents;
         let event = [];
+        let months = [];
+        let numSwimmers = [];
+        let monthsPercent = [];
         let allEvents = [];
         let eventOptions = [];
         let allEventsOptions = [];
         let colorArray;
-        //let meetCity;
-        //let meetCityKey;
-        //let meetCityNum;
+
 
         if (allSwimmerDataSubComponents === undefined || allSwimmerDataSubComponents.length === 0) {
             try {
-                let months = SwimFormulas.peakDistribution(swimmerData);
-                let numSwimmers = months.reduce((a, b) => a + b);
-                let monthsPercent = [...months].map(el => (el / numSwimmers) * 100);
+                months = SwimFormulas.peakDistribution(swimmerData);
+                numSwimmers = months.reduce((a, b) => a + b);
+                monthsPercent = [...months].map(el => Math.floor((el / numSwimmers) * 100));
 
                 // * Data that will be passed to the Linegraph Component
                 event = {
-                    labels: ['September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',],
+                    labels: MONTH_NAMES,
                     datasets: [{
                         label: this.props.event,
                         backgroundColor: 'rgb(255, 99, 132)',
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: months,
                         yAxisID: 'left-y-axis'
                     },
                     {
                         data: monthsPercent,
+                        label: '% Occurrence',
                         backgroundColor: 'rgb(0,170,216)',
                         yAxisID: 'right-y-axis'
                     }]
@@ -80,7 +82,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[0],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fiftyFr,
                     },
                     {
@@ -89,7 +91,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[1],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: oneHundredFr,
                     }
                         ,
@@ -99,7 +101,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[2],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: twoHundredFr,
                     }
                         ,
@@ -109,7 +111,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[3],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fourHundredFr,
                     }
                         ,
@@ -119,7 +121,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[4],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: eightHundredFr,
                     }
                         ,
@@ -129,7 +131,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[5],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fifteenHundredFr,
                     }
                         ,
@@ -139,7 +141,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[6],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fiftyBk,
                     }
 
@@ -150,7 +152,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[7],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: oneHundredBk,
                     },
                     {
@@ -159,7 +161,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[8],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: twoHundredBk,
                     },
 
@@ -169,7 +171,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[9],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fiftyBr,
                     },
                     {
@@ -178,7 +180,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[10],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: oneHundredBr,
                     },
                     {
@@ -187,7 +189,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[11],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: twoHundredBr,
                     },
                     {
@@ -196,7 +198,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[12],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fiftyBu,
                     },
 
@@ -206,7 +208,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[13],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: oneHundredBu
                     }
 
@@ -217,7 +219,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[16],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: twoHundredBu,
                     },
 
@@ -227,7 +229,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[14],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: oneHundredMe,
                     },
 
@@ -237,7 +239,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[15],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: twoHundredMe,
                     }
 
@@ -248,7 +250,7 @@ class PeakMonth extends Component {
                         backgroundColor: colorArray[16],
                         pointBackgroundColor: ['rgb(255, 99, 132)'],
                         borderColor: 'rgb(255, 99, 132)',
-                        fill: false,
+                        fill: true,
                         data: fourHundredMe,
                     }
                     ]
@@ -337,14 +339,32 @@ class PeakMonth extends Component {
         // * If a specific event was selected it will only return the specific month distribution
         // * Otherwise it returns all events on as a bargraph with the subcomponents
         let selectedEvents;
+
+        // * Creates the arrays that allow the React table for the distributions
+        let meetKeys = [
+            '__EMPTY_10',
+            '__EMPTY_14',
+            '__EMPTY_16'
+        ];
+        let monthName = [...MONTH_NAMES];
+        let monthNum = [...months];
+        let monthPercent = [...monthsPercent];
+        let monthTable = [];
+
+        months.forEach((month, index) => monthTable.push(Object({ '__EMPTY_10': monthName[index], '__EMPTY_14': monthNum[index], '__EMPTY_16': monthPercent[index] })))
+        monthTable = monthTable.filter(el => el.__EMPTY_14 !== 0);
+
         if (allSwimmerDataSubComponents === undefined || allSwimmerDataSubComponents.length === 0) {
             selectedEvents = (
                 <Row className="justify-content-md-center">
-                    <Col className="mt-1" md={10} xs={12}>
+                    <Col className="mt-1" lg={9} xs={12}>
                         <div>
                             <h6 className="text-center">{this.props.event + ': Month of Best Time'} </h6>
                         </div>
                         <Bar name="Selected Events Best time over months chart" data={event} options={eventOptions} height={175} redraw />
+                    </Col>
+                    <Col lg={3} xs={12}>
+                        <ReactTable tableData={monthTable} allowedKeys={meetKeys} />
                     </Col>
                 </Row>
             )
@@ -358,6 +378,7 @@ class PeakMonth extends Component {
                         <Bar name="All Events Best time over months chart" data={allEvents} option={allEventsOptions} height={175} redraw />
                     </Col>
                 </Row>
+
             )
         }
 
