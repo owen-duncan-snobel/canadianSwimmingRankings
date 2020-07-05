@@ -16,7 +16,8 @@ class ClubDashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allSwimmerDataSubComponents: null
+            allSwimmerDataSubComponents: null,
+            swimmerData: null
         }
     }
     render() {
@@ -35,20 +36,80 @@ class ClubDashboard extends Component {
                     <div name="InvalidYearNoData"> </div>
                 )
             } else {
-
                 allData = this.props.swimmerData;
                 selectedData = this.props.selectedData;
                 event = this.props.event;
+
+                // * If a specific event is selected, it will get the Sheet with the data for that specific event.
+                if (event !== 'All') {
+                    try {
+
+                        allData[0].forEach(workbook => {
+                            // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
+                            let index = EVENTS.indexOf(event)
+                            let Sheet = selectedData[index];
+                            // * For the selected event collect all the swimmer data
+                            Sheet.forEach(swimmer => {
+                                swimmerData.push(swimmer);
+                            })
+                        }
+                        )
+                    } catch (e) {
+                        console.log('Error:' + e);
+                    }
+                    // * Pass it the keys that will be used as the header for the table in React Table
+                    let meetCityKeys = [
+                        '__EMPTY_11',
+                        '__EMPTY_14',
+                    ];
+
+                    // * Converts all the events data into the labels and data for the piechart of meet city
+                    let meetCity = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetCity(swimmerData))).sort((a, b) => b[1] - a[1]);
+                    let meetCityKey = meetCity.map(city => city[0]);
+                    let meetCityNum = meetCity.map(number => number[1]);
+                    // * Converts it into array that holds objects with properties that can be used by the ReactTable Component
+                    let meetCityArr = [];
+                    meetCity.forEach((city, index) => meetCityArr.push(Object({ '__EMPTY_11': meetCityKey[index], '__EMPTY_14': meetCityNum[index] })));
+
+                    // * Pass it the keys that will be used as the header for the table in React Table
+                    let meetKeys = [
+                        '__EMPTY_12',
+                        '__EMPTY_14',
+                    ];
+
+                    // * Converts all events data into label for Meet data. (Meet Name and occurence of best time)
+                    // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
+                    let meets = Array.from(SwimFormulas.mostOccurences(SwimFormulas.meetName(swimmerData))).sort((a, b) => b[1] - a[1]);
+                    let meetName = meets.map(name => name[0]);
+                    let meetNumber = meets.map(number => number[1]);
+                    let meetArr = [];
+                    meets.forEach((city, index) => meetArr.push(Object({ '__EMPTY_12': meetName[index], '__EMPTY_14': meetNumber[index] })))
+
+                    return (
+                        <div>
+                            <Container fluid className="mt-1">
+                                <Row>
+                                    {/* Displays The Distribution of months with best time, aka. Peak Months */}
+                                    <Col className="text-center colBorder"> <PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSubComponents} event={this.props.event} />
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col className="colBorder" sm={6}>
+                                        <FastestCity swimmerData={swimmerData} />
+                                        <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
+                                    </Col>
+                                    <Col className="colBorder" sm={6}>
+                                        <FastestMeets swimmerData={swimmerData} swimEvent={this.state.swimEvent} />
+                                        <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </div>
+                    )
+                }
+
                 // * Need to process data from Workbook -> Worksheets -> Event -> Swimmers
                 try {
-                    // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
-                    let index = EVENTS.indexOf(event)
-                    let Sheet = selectedData[index];
-                    // * For the selected event collect all the swimmer data
-                    Sheet.forEach(swimmer => {
-                        swimmerData.push(swimmer);
-                    })
-
                     // * For getting Data of the subcomponents that will add up to all events
                     allData.forEach(Workbook => {
                         let Sheet = Workbook[0];
@@ -124,7 +185,8 @@ class ClubDashboard extends Component {
                 )
             }
         }
-        catch {
+        catch (e) {
+            console.log(e);
             return (
                 <div></div>
             )
