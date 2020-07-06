@@ -17,11 +17,15 @@ class Linegraph extends Component {
         // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
         // * In the following format MM:SS:ss
         const standardize_times = (time) => {
-            // * Ensures that all time strings given are in an appropriate ISO String format
-            if (time.length === 5) time = '00:' + time;
-            if (time.length === 7) time = '0' + time;
-            let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-            return milli;
+            try {
+                // * Ensures that all time strings given are in an appropriate ISO String format
+                if (time.length === 5) time = '00:' + time;
+                if (time.length === 7) time = '0' + time;
+                let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+                return milli;
+            } catch (e) {
+                console.log('Error:' + e);
+            }
         }
 
         // * If no data has been passed down from the form or invalid display empty form
@@ -98,7 +102,7 @@ class Linegraph extends Component {
             <div className='colBorder'>
                 <div className="App mt-1 formTitle">{this.props.clubName} Rankings</div>
                 <div name="DashboardforChart">
-                    <Line data={data} options={options} height={500} />
+                    <Line data={data} options={options} height={500} redraw />
                 </div>
             </div >
         )

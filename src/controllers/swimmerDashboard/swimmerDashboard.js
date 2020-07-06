@@ -11,7 +11,7 @@ class SwimDashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            swimmerData: null
+
         }
     }
 

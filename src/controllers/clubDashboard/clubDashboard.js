@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
-import { defaults } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -42,21 +41,18 @@ class ClubDashboard extends Component {
 
                 // * If a specific event is selected, it will get the Sheet with the data for that specific event.
                 if (event !== 'All') {
-                    try {
 
-                        allData[0].forEach(workbook => {
-                            // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
-                            let index = EVENTS.indexOf(event)
-                            let Sheet = selectedData[index];
-                            // * For the selected event collect all the swimmer data
-                            Sheet.forEach(swimmer => {
-                                swimmerData.push(swimmer);
-                            })
-                        }
-                        )
-                    } catch (e) {
-                        console.log('Error:' + e);
+                    allData[0].forEach(workbook => {
+                        // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
+                        let index = EVENTS.indexOf(event)
+                        let Sheet = selectedData[index];
+                        // * For the selected event collect all the swimmer data
+                        Sheet.forEach(swimmer => {
+                            swimmerData.push(swimmer);
+                        })
                     }
+                    )
+
                     // * Pass it the keys that will be used as the header for the table in React Table
                     let meetCityKeys = [
                         '__EMPTY_11',

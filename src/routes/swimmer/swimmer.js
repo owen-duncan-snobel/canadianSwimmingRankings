@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import SwimDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 import XLSX from 'xlsx';
-
+import * as test from '../../test.json';
 
 class Swimmer extends Component {
     constructor(props) {
@@ -64,35 +64,40 @@ class Swimmer extends Component {
         searchParameter.append('Points', points);
         url += searchParameter.toString();
 
-        // * CORS ANYWHERE IS USED, SINCE WE CAN NOT GET CORS FUNCTIONALITY FROM LOCALHOST:3000 and React.
-        url = 'https://cors-anywhere.herokuapp.com/' + url;
-
-        // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
-        fetch(url, {
-            method: "GET"
-        })
-            .then(response => {
-                if (!response.ok) throw new Error("Unable to fetch file");
-                return response.arrayBuffer();
-            })
-            .then(buffer => {
-                let bookBuffer = new Uint8Array(buffer);
-                let workbook = XLSX.read(bookBuffer, {
-                    type: "array"
+        /*
+                // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
+                fetch('https://cors-anywhere.herokuapp.com/' + url, {
+                    method: "GET",
+                    mode: 'cors',
+                    headers: {
+                        'Host': 'www.swimrankings.net',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
+                    },
                 })
-                // * Finds the correct sheet within the workbook based on the name of the event
-                let data = workbook.Sheets[event];
-
-                // * Converts the XLS (Excel File to JSON to allow us to graph data)
-                let toJSON = XLSX.utils.sheet_to_json(data);
-
-                // * Removes the first row so that the default values aren't used
-                toJSON.shift();
-                this.setState({ swimmerData: toJSON, swimEvent: event, tableData: toJSON })
-
-            }).catch((error) => {
-                console.log(error)
-            })
+                    .then(response => {
+                        if (!response.ok) throw new Error("Unable to fetch file");
+                        return response.arrayBuffer();
+                    })
+                    .then(buffer => {
+                        let bookBuffer = new Uint8Array(buffer);
+                        let workbook = XLSX.read(bookBuffer, {
+                            type: "array"
+                        })
+                        // * Finds the correct sheet within the workbook based on the name of the event
+                        let data = workbook.Sheets[event];
+        
+                        // * Converts the XLS (Excel File to JSON to allow us to graph data)
+                        let toJSON = XLSX.utils.sheet_to_json(data);
+        
+                        // * Removes the first row so that the default values aren't used
+                        toJSON.shift();
+        */
+        this.setState({ swimmerData: test.default[0] /* toJSON */, swimEvent: event, tableData: test.default[0] /* toJSON */ })
+        /*
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+                    */
     }
 
     render() {

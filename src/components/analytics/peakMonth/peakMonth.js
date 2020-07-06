@@ -3,9 +3,12 @@ import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions'
 import { Bar } from 'react-chartjs-2';
 import ReactTable from '../../../components/reactTable/reactTable';
 import Container from 'react-bootstrap/Container';
+import { defaults } from 'react-chartjs-2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
+
+defaults.global.legend.display = true;
 
 class PeakMonth extends Component {
 
