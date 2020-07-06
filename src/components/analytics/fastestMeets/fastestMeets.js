@@ -57,7 +57,7 @@ class FastestMeets extends Component {
             <div className='p-1'>
                 <h4 className='formTitle'>Fastest Meets</h4> Based On Meet Where Best Times Were Swam.
                 <div>
-                    <Pie data={data} options={options} height='150%' />
+                    <Pie data={data} options={options} height={150} />
                 </div>
             </div>
         )
