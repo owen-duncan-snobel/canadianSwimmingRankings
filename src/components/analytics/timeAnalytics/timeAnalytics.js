@@ -14,6 +14,7 @@ class TimeAnalytics extends Component {
         let median;
         let mode;
         let times;
+        let standardDeviation;
 
         // * If no data has been passed down from the form or invalid display empty form
         if (allData === null) {
@@ -41,11 +42,8 @@ class TimeAnalytics extends Component {
                 average = SwimFormulas.averageTime(times);
                 median = SwimFormulas.medianTime(times);
                 mode = SwimFormulas.modeTime(times);
+                standardDeviation = SwimFormulas.standardDeviation(times);
 
-                /*      
-                      * Need to only standardize the times once the sd has been calculated
-                 standardDeviaton = this.props.meetDat.map(time => Math.sqrt((time.__EMPTY_7 - ); */
-                //     standardDeviaton = Math.sqrt(SwimFormulas.averageTime(standardDeviaton));
             } catch {
                 console.log('Error: Unable to display the time analytics')
             }
@@ -72,6 +70,9 @@ class TimeAnalytics extends Component {
                                         <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
                                             {meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
                                             <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
+                                        </p>
+                                        <p name='standardDeviation'> <b>Standard Deviation</b> <br></br>
+                                            {standardDeviation}
                                         </p>
                                     </div>
 
