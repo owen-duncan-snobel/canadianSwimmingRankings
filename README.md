@@ -43,59 +43,115 @@ Otherwise, you can also email me and describe how to replicate it, or describe h
 components
 
 ``` bash
-├── [QueryParameter.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/QueryParameter.md) **Useful if you want to begin fetching your own excel files.**
+├── QueryParameter.md
 ├── analytics
-│   ├── [analytics.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.css)
-│   ├── [analytics.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.md)
+│   ├── analytics.css
+│   ├── analytics.md
 │   ├── fastestCity
-│   │   └── [fastestCity.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/fastestCity/fastestCity.js)
+│   │   └── fastestCity.js
 │   ├── fastestMeets
-│   │   └── [fastestMeets.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/fastestMeets/fastestMeets.js)
+│   │   └── fastestMeets.js
 │   ├── peakMonth
-│   │   ├── [peakMonth.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/peakMonth/peakMonth.js)
-│   │   └── [peakMonth.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/peakMonth/peakMonth.md)
+│   │   ├── peakMonth.js
+│   │   └── peakMonth.md
 │   └── timeAnalytics
-│       └── [timeAnalytics.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/timeAnalytics/timeAnalytics.js)
+│       └── timeAnalytics.js
 ├── linegraph
-│   ├── [linegraph.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.js)
-│   └── [linegraph.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.md)
+│   ├── linegraph.js
+│   └── linegraph.md
 ├── reactTable
-│   ├── [reactTable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.js)
-│   └── [reactTable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.md)
-└── [swimmerData.zip](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmerData.zip)
+│   ├── reactTable.js
+│   └── reactTable.md
+└── swimmerData.zip
 
 ### Constants
 constants
 ├── graphFunctions
-│   ├── [graphFunctions.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/graphFunctions/graphFunctions.js)
-│   └── [graphFunctions.test.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/graphFunctions/graphFunctions.test.js)
+│   ├── graphFunctions.js
+│   └── graphFunctions.test.js
 └── swimmingConstants
-    └── [swimmingConstants.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/swimmingConstants/swimmingConstants.js)
+    └── swimmingConstants.js
 
 ### Controllers
 controllers
 ├── clubDashboard
-│   └── [clubDashboard.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/clubDashboard/clubDashboard.js)
+│   └── clubDashboard.js
 ├── swimmerDashboard
-│   └── [swimmerDashboard.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmerDashboard/swimmerDashboard.js)
+│   └── swimmerDashboard.js
 └── swimmertable
-    ├── [swimmertable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmertable/swimmertable.js)
-    └── [swimmertable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmertable/swimmertable.md)
+    ├── swimmertable.js
+    └── swimmertable.md
     
 ### Routes
 routes
 ├── about
-│   └── [about.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/about/about.js)
+│   └── about.js
 ├── clubs
-│   ├── [clubs.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.css)
-│   ├── [clubs.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.js)
-│   ├── [clubs.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.md)
-│   └── [clubs.test.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.test.js)
+│   ├── clubs.css
+│   ├── clubs.js
+│   ├── clubs.md
+│   └── clubs.test.js
 ├── contact
-│   ├── [contact.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/contact/contact.css)
-│   └── [contact.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/contact/contact.js)
+│   ├── contact.css
+│   └── contact.js
 └── swimmer
-    ├── [ProcessingData.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/ProcessingData.md)
-    ├── [swimmer.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.css)
-    └── [swimmer.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.js)
+    ├── ProcessingData.md
+    ├── swimmer.css
+    └── swimmer.js
 ```
+
+### Components
+* [QueryParameter.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/QueryParameter.md) **Useful if you want to begin fetching your own excel files.**
+* analytics
+	* [analytics.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.css)
+	* [analytics.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.md)
+	* fastestCity
+		*  [fastestCity.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/fastestCity/fastestCity.js)
+	* fastestMeets
+		*  [fastestMeets.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/fastestMeets/fastestMeets.js)
+	*  peakMonth
+		* [peakMonth.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/peakMonth/peakMonth.js)
+		* [peakMonth.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/peakMonth/peakMonth.md)
+	* timeAnalytics
+		*  [timeAnalytics.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/timeAnalytics/timeAnalytics.js)
+* linegraph
+		* [linegraph.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.js)
+		* [linegraph.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.md)
+* reactTable
+		*  [reactTable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.js)
+		* [reactTable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.md)
+	* [swimmerData.zip](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmerData.zip)
+
+### Constants
+* graphFunctions
+	*  [graphFunctions.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/graphFunctions/graphFunctions.js)
+	*  [graphFunctions.test.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/graphFunctions/graphFunctions.test.js)
+* swimmingConstants
+	*  [swimmingConstants.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/swimmingConstants/swimmingConstants.js)
+
+### Controllers
+
+* clubDashboard
+	*  [clubDashboard.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/clubDashboard/clubDashboard.js)
+* swimmerDashboard
+	*  [swimmerDashboard.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmerDashboard/swimmerDashboard.js)
+* swimmertable
+	* [swimmertable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmertable/swimmertable.js)
+	* [swimmertable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmertable/swimmertable.md)
+    
+### Routes
+
+* about
+	* [about.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/about/about.js)
+* clubs
+	* [clubs.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.css)
+	* [clubs.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.js)
+	* [clubs.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.md)
+	* [clubs.test.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.test.js)
+* contact
+	* [contact.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/contact/contact.css)
+	* [contact.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/contact/contact.js)
+* swimmer
+	*  [ProcessingData.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/ProcessingData.md)
+	* [swimmer.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.css)
+	* [swimmer.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.js)
