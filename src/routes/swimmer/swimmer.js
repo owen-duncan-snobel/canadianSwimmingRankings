@@ -94,7 +94,6 @@ class Swimmer extends Component {
 
                 // * Removes the first row so that the default values aren't used
                 toJSON.shift();
-
                 this.setState({ swimmerData: /* test.default[0]*/  toJSON, swimEvent: event, tableData: /* test.default[0]  */  toJSON, clubName: clubName })
 
             }).catch((error) => {
