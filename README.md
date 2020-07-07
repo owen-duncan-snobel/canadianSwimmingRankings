@@ -42,7 +42,7 @@ Otherwise, you can also email me and describe how to replicate it, or describe h
 ### Components
 components
 
-
+``` bash
 ├── [QueryParameter.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/QueryParameter.md) **Useful if you want to begin fetching your own excel files.**
 ├── analytics
 │   ├── [analytics.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.css)
@@ -98,3 +98,4 @@ routes
     ├── [ProcessingData.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/ProcessingData.md)
     ├── [swimmer.css](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.css)
     └── [swimmer.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.js)
+```
