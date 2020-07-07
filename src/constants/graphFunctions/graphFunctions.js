@@ -144,6 +144,30 @@ export const modeTime = (time) => {
 }
 
 /**
+ *  Takes an Number[] times and calculates the Standard Deviation for the race times, returns a date string.
+ *  Generally time is input in Milliseconds.
+ * @param {Number[]} time An Array of Numbers (times)
+ * @return {string} standardDev returns the date string with the standard deviation for data.
+ * @example 
+ * // returns 00:03.30 (aka. 00:03.30 of standard deviation between time given in ms)
+ * standardDeviation([ 9000, 2000, 5000, 4000, 12000, 7000]) 
+ * 
+ */
+export const standardDeviation = (time) => {
+    try {
+        if (time === undefined || !Array.isArray(time) || time.length === 0) {
+            return '';
+        }
+        let average = time.reduce((a, b) => a + b);
+        let av = (average / time.length);
+        let standardDev = time.map(t => Math.pow((t - av), 2));
+        standardDev = Math.sqrt(standardDev.reduce((a, b) => a + b) / time.length);
+        return new Date(standardDev).toISOString().substr(14, 8);
+    } catch (e) {
+        console.log(e);
+    }
+}
+/**
  *  Takes an Array of Objects and returns an Array of all meets in each meet in the respective Objects.
  * @param {object[]} meetcitys - An Object Array of all entities in the respective excel sheet to for the Swimming Race. 
  * @returns {String[]}  
