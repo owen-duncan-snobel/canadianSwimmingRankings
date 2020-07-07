@@ -42,6 +42,7 @@ class ClubDashboard extends Component {
                 // * If a specific event is selected, it will get the Sheet with the data for that specific event.
                 if (event !== 'All') {
 
+                    // ! NEED TO CHANGE TO allData[0] FOR OTHER WORKING
                     allData[0].forEach(workbook => {
                         // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
                         let index = EVENTS.indexOf(event)
@@ -90,11 +91,11 @@ class ClubDashboard extends Component {
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
-                                    <Col className="colBorder" sm={6}>
+                                    <Col className="colBorder" md={6} sm={12}>
                                         <FastestCity swimmerData={swimmerData} />
                                         <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
                                     </Col>
-                                    <Col className="colBorder" sm={6}>
+                                    <Col className="colBorder" md={6} sm={12}>
                                         <FastestMeets swimmerData={swimmerData} swimEvent={this.state.swimEvent} />
                                         <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
                                     </Col>
