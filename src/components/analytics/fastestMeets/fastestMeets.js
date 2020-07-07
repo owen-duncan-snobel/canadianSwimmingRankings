@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 
-defaults.global.legend.display = false;
+defaults.global.legend.display = true;
 
 class FastestMeets extends Component {
 

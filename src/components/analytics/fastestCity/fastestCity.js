@@ -43,7 +43,7 @@ class FastestCity extends Component {
             return (
                 <div>
                     <b><h4 className="formTitle">Location of Meet City  </h4></b> Based On Meet City: (Of selected age group and gender).
-                    < Pie name="Meet City Piechart" data={data} height={150} />
+                    < Pie name="Meet City Piechart" data={data} height={175} />
                 </div >
             )
         }
