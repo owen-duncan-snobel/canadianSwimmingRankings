@@ -3,6 +3,7 @@ import { Component } from 'react';
 import './swimmer.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { CLUBS } from '../../constants/swimmingConstants/swimmingConstants';
 import SwimDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 import XLSX from 'xlsx';
 import * as test from '../../test.json';
@@ -44,6 +45,8 @@ class Swimmer extends Component {
         let gender = formdata.get('ddl_gender');
         let agegroup = formdata.get('ddl_age');
         let event = formdata.get('ddl_event');
+
+        let clubName = CLUBS.get(clubID);
 
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
         season = season.split('-')[1];
@@ -92,7 +95,7 @@ class Swimmer extends Component {
                 // * Removes the first row so that the default values aren't used
                 toJSON.shift();
 
-                this.setState({ swimmerData: /* test.default[0]*/  toJSON, swimEvent: event, tableData: /* test.default[0]  */  toJSON })
+                this.setState({ swimmerData: /* test.default[0]*/  toJSON, swimEvent: event, tableData: /* test.default[0]  */  toJSON, clubName: clubName })
 
             }).catch((error) => {
                 console.log(error)
@@ -136,6 +139,10 @@ class Swimmer extends Component {
                         <Form.Group>
                             <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
+                                <option value="73893" name="Cobra Swim Club">Cobra Swim Club</option>
+                                <option value="72359" name="London Aquatic Club">London Aquatic Club</option>
+                                <option value="72365" name="Newmarket Stringrays Swim Club">Newmarket Stringrays Swim Club</option>
+                                <option value="74026" name="Markham Aquatic Club">Markham Aquatic Club</option>
                                 <option value="72542" name="Oakville Aquatic Club">Oakville Aquatic Club</option>
                             </Form.Control>
                         </Form.Group>

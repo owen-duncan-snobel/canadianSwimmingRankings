@@ -21,7 +21,15 @@ export const SEASONS = [
     "2007-2008"
 ]
 
-export const CLUBS = ['72542'];
+export const CLUBS = new Map();
+// * CLUBS(Key, Value);
+// * ex. CLUBS.set('clubKey', 'ClubName');
+
+CLUBS.set('73893', 'Cobra Swim Club');
+CLUBS.set('72359', 'London Aquatic Club');
+CLUBS.set('72365', 'Newmarket Stingrays Swim Club');
+CLUBS.set('74026', 'Markham Aquatic Club');
+CLUBS.set('72542', 'Oakville Aquatic Club');
 
 export const COURSES = ['LCM', 'SCM'];
 

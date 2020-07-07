@@ -169,6 +169,10 @@ class Clubs extends Component {
                         <Form.Group>
                             <Form.Control name="ddl_club" id="ddl_club" defaultValue={this.state.ddl_club} className="dropdownBox custom-select" as="select">
                                 <option disabled>Club</option>
+                                <option value="73893" name="Cobra Swim Club">Cobra Swim Club</option>
+                                <option value="72359" name="London Aquatic Club">London Aquatic Club</option>
+                                <option value="72365" name="Newmarket Stringrays Swim Club">Newmarket Stringrays Swim Club</option>
+                                <option value="74026" name="Markham Aquatic Club">Markham Aquatic Club</option>
                                 <option value="72542" name="Oakville Aquatic Club">Oakville Aquatic Club</option>
                             </Form.Control>
                         </Form.Group>
