@@ -42,6 +42,7 @@ Otherwise, you can also email me and describe how to replicate it, or describe h
 ### Components
 
 ``` bash
+### Components
 ├── QueryParameter.md
 ├── analytics
 │   ├── analytics.css
@@ -117,8 +118,8 @@ routes
 	* [linegraph.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.js)
 	* [linegraph.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.md)
 * reactTable
-		*  [reactTable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.js)
-		* [reactTable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.md)
+	*  [reactTable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.js)
+	* [reactTable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.md)
 	* [swimmerData.zip](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmerData.zip)
 
 ### Constants
