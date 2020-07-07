@@ -40,7 +40,6 @@ Otherwise, you can also email me and describe how to replicate it, or describe h
 # File Structure / Documentation
 
 ### Components
-components
 
 ``` bash
 ├── QueryParameter.md
@@ -115,8 +114,8 @@ routes
 	* timeAnalytics
 		*  [timeAnalytics.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/timeAnalytics/timeAnalytics.js)
 * linegraph
-		* [linegraph.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.js)
-		* [linegraph.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.md)
+	* [linegraph.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.js)
+	* [linegraph.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.md)
 * reactTable
 		*  [reactTable.js](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.js)
 		* [reactTable.md](https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.md)
