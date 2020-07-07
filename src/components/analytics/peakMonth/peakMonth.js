@@ -387,7 +387,7 @@ class PeakMonth extends Component {
 
         return (
             <div>
-                <Container fluid className="mt-1 p-5">
+                <Container fluid className="mt-1">
                     <Row>
                         <Col className="text-center"> <b><h4 className="formTitle">Distribution Of Best Times Over the Year  </h4></b> </Col>
                     </Row>
