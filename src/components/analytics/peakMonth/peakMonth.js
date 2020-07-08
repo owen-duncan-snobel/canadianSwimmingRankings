@@ -7,8 +7,283 @@ import { defaults } from 'react-chartjs-2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
+import PropTypes, { object } from 'prop-types';
 
 defaults.global.legend.display = true;
+
+/**
+ * Peak Month is responsible for handling the logic and displaying the graph that either,
+ * Shows for a specific event the months over the year where best times were swam, or over all events the subcomponents of months over the year. 
+ * @component
+ * @example
+ * const swimmerData = [
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+];
+    * const allSwimmerData = [
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+]
+    * const allSwimmerDataSub = [[
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+],
+[
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+],
+[
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "**********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }]
+]
+
+ * const event = '50m Fr';
+ * return (
+ *  <PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSub} event={event} />
+ * )
+ */
 
 class PeakMonth extends Component {
 
@@ -398,4 +673,22 @@ class PeakMonth extends Component {
     }
 }
 
+PeakMonth.propTypes = {
+    /**
+     *  swimmerData is an Array of Swimmer Objects from a specifc Sheet (aka. Specific event, 50m Fr, 100m Bk)
+     */
+    swimmerData: PropTypes.arrayOf(PropTypes.object),
+    /**
+     *  allSwimmerData is an Array of All the Swimmer Objects from all Sheets (aka. All Events)
+     */
+    allSwimmerData: PropTypes.arrayOf(PropTypes.object),
+    /**
+     * allSwimmerDataSubComponents is an Array of all the Sheets as SubComponents 
+     */
+    allSwimmerDataSubComponents: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),
+    /**
+     *  Event is a string passed of the event name (ex. 50m Fr, 100m Bk)
+     */
+    event: PropTypes.string
+}
 export default PeakMonth;

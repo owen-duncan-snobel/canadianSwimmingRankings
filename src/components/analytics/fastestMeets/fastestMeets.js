@@ -16,7 +16,7 @@ defaults.global.legend.display = true;
     "__EMPTY": "M",
     "__EMPTY_1": 50,
     "__EMPTY_2": "Fr",
-    "__EMPTY_3": "MACPHERSON, Callum",
+    "__EMPTY_3": "*********",
     "__EMPTY_4": 37370,
     "__EMPTY_5": "CAN",
     "__EMPTY_6": "OAK",
@@ -34,7 +34,7 @@ defaults.global.legend.display = true;
     "__EMPTY": "M",
     "__EMPTY_1": 50,
     "__EMPTY_2": "Fr",
-    "__EMPTY_3": "CAI, Eason",
+    "__EMPTY_3": "*********",
     "__EMPTY_4": 37277,
     "__EMPTY_5": "CAN",
     "__EMPTY_6": "OAK",
@@ -117,7 +117,6 @@ FastestMeets.propTypes = {
      *  Swimmer Data is an Array of Swimmer Objects. *refer to ProcessingData.md for object specifications*
      */
     swimmerData: PropTypes.arrayOf(PropTypes.object),
-
     /**
      *  Swim Event is a string passed of the event name (ex. 50m Free, 100 Back)
      */

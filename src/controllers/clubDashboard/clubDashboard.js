@@ -9,9 +9,17 @@ import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import FastestCity from '../../components/analytics/fastestCity/fastestCity';
 import PeakMonth from '../../components/analytics/peakMonth/peakMonth';
 
-
+/**
+ * Club Dashboard converts the data fetched from the route 'club', to a usable format to be used by the components (FastestMeets,FastestCity,PeakMonths).
+ * @component 
+ */
 
 class ClubDashboard extends Component {
+    /**
+     * Takes Data from the route 'clubs' and converts then updates state to allow for proper rendering of its Components.
+     * @constructor 
+     * @param {*} props Props passed down from 'Club' route
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +27,7 @@ class ClubDashboard extends Component {
             swimmerData: null
         }
     }
+
     render() {
 
         let swimmerData = [];
@@ -41,7 +50,6 @@ class ClubDashboard extends Component {
 
                 // * If a specific event is selected, it will get the Sheet with the data for that specific event.
                 if (event !== 'All') {
-
                     // ! NEED TO CHANGE TO allData[0] FOR OTHER WORKING
                     allData[0].forEach(workbook => {
                         // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
