@@ -3,9 +3,57 @@ import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
+import PropTypes, { object } from 'prop-types';
 
 defaults.global.legend.display = true;
 
+/**
+ * @component
+  * @example
+ * const allData = [
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "MACPHERSON, Callum",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "CAI, Eason",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+];
+ * const event = '50m Free';
+ * return (
+ *  <FastestMeets swimmerData={allData} swimEvent={event} />
+ * )
+ * 
+ */
 class FastestMeets extends Component {
 
     render() {
@@ -62,5 +110,21 @@ class FastestMeets extends Component {
             </div>
         )
     }
+}
+
+FastestMeets.propTypes = {
+    /**
+     *  Swimmer Data is an Array of Swimmer Objects. *refer to ProcessingData.md for object specifications*
+     */
+    swimmerData: PropTypes.arrayOf(PropTypes.object),
+
+    /**
+     *  Swim Event is a string passed of the event name (ex. 50m Free, 100 Back)
+     */
+    swimEvent: PropTypes.string
+}
+FastestMeets.defaultProps = {
+    swimmerData: null,
+    swimEvent: ''
 }
 export default FastestMeets;
