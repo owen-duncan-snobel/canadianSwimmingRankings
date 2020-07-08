@@ -6,6 +6,9 @@ import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions'
 
 defaults.global.legend.display = false;
 
+/**
+ * @component
+ */
 class FastestCity extends Component {
 
     render() {
