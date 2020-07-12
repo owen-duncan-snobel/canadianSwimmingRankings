@@ -559,6 +559,7 @@ class PeakMonth extends Component {
                             el.__EMPTY_9 = (el.__EMPTY_9).toString().padEnd(15, ' ');
                             el.__EMPTY_3 = (el.__EMPTY_3.split(', ').map(el => el.charAt(0).toUpperCase() + el.slice(1).toLowerCase()).join(', ')).toString().padEnd(25, ' ');
                             el.__EMPTY_7 = (el.__EMPTY_7).toString().padEnd(15, ' ');
+                            return el;
                         })
                         swimmers.forEach(el =>
                             labelArr.push(el.__EMPTY_9 + el.__EMPTY_3 + el.__EMPTY_7 + new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).toDateString().substring(4))

@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "add": "^2.0.6",
     "better-docs": "^2.3.0",
     "bootstrap": "^4.5.0",
     "chart.js": "^2.8.0",
@@ -19,10 +20,13 @@
     "express": "^4.17.1",
     "express-favicon": "^2.0.1",
     "firebase-admin": "^8.12.1",
+    "g": "^2.0.1",
     "heroku": "^7.41.1",
     "http-proxy-middleware": "^1.0.4",
     "jsdoc": "^3.6.4",
+    "parcel-bundler": "^1.12.4",
     "path": "^0.12.7",
+    "prop-types": "^15.7.2",
     "rainbowvis.js": "^1.0.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -38,7 +42,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "docs": "jsdoc -c jsdoc.conf.json"
+    "docs": "jsdoc -c ./jsdoc.json"
   },
   "eslintConfig": {
     "extends": "react-app"
