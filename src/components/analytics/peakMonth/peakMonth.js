@@ -545,25 +545,29 @@ class PeakMonth extends Component {
                     // * Updates the Tooltips (Graph Points) with the Name,Time
                     label: (tooltipItem, d) => {
                         let labelArr = [];
-                        labelArr.push('PLACE         SWIMMER                  TIME')
-                        // * Label Array is used to create multiple labels inside of data element in graph.
-                        // * Index needs to be shifted to match the correct data. TODO Need to see if I can standardize data and index
-                        let index = tooltipItem.index + 8;
-                        if (index > 11) {
-                            index -= 12;
-                        }
-                        // * Converts Excel data to usable date then filters if it matches the correct month
-                        let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() === index).sort();
+                        if (tooltipItem.datasetIndex === 1) {
+                            labelArr.push(monthPercent[tooltipItem.index] + '%')
+                        } else {
+                            labelArr.push('PLACE         SWIMMER                  TIME')
+                            // * Label Array is used to create multiple labels inside of data element in graph.
+                            // * Index needs to be shifted to match the correct data. TODO Need to see if I can standardize data and index
+                            let index = tooltipItem.index + 8;
+                            if (index > 11) {
+                                index -= 12;
+                            }
+                            // * Converts Excel data to usable date then filters if it matches the correct month
+                            let swimmers = swimmerData.filter(el => new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).getMonth() === index).sort();
 
-                        swimmers.map(el => {
-                            el.__EMPTY_9 = (el.__EMPTY_9).toString().padEnd(15, ' ');
-                            el.__EMPTY_3 = (el.__EMPTY_3.split(', ').map(el => el.charAt(0).toUpperCase() + el.slice(1).toLowerCase()).join(', ')).toString().padEnd(25, ' ');
-                            el.__EMPTY_7 = (el.__EMPTY_7).toString().padEnd(15, ' ');
-                            return el;
-                        })
-                        swimmers.forEach(el =>
-                            labelArr.push(el.__EMPTY_9 + el.__EMPTY_3 + el.__EMPTY_7 + new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).toDateString().substring(4))
-                        )
+                            swimmers.map(el => {
+                                el.__EMPTY_9 = (el.__EMPTY_9).toString().padEnd(15, ' ');
+                                el.__EMPTY_3 = (el.__EMPTY_3.split(', ').map(el => el.charAt(0).toUpperCase() + el.slice(1).toLowerCase()).join(', ')).toString().padEnd(25, ' ');
+                                el.__EMPTY_7 = (el.__EMPTY_7).toString().padEnd(15, ' ');
+                                return el;
+                            })
+                            swimmers.forEach(el =>
+                                labelArr.push(el.__EMPTY_9 + el.__EMPTY_3 + el.__EMPTY_7 + new Date(Math.floor(el.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).toDateString().substring(4))
+                            )
+                        }
                         return labelArr;
                     },
                     bodyFontSize: 10,
