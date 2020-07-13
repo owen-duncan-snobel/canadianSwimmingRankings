@@ -23,8 +23,10 @@ class TimeAnalytics extends Component {
             )
         } else {
             try {
-                allData.forEach(swimmer => {
-                    meetData.push(swimmer);
+                allData.forEach(event => {
+                    event.forEach(swimmer => {
+                        meetData.push(swimmer);
+                    })
                 })
 
                 // * Ensures that all time strings given are in an appropriate ISO String format
@@ -36,7 +38,7 @@ class TimeAnalytics extends Component {
                 }
 
                 // * Converts The Time & Meet Data To an Array that can be easily used
-                times = meetData.map(time => standardize_times(time.__EMPTY_7));
+                times = meetData[0].map(time => standardize_times(time.__EMPTY_7));
 
                 // * Variables for the respective 'average' , 'median' and 'mode' from the data
                 average = SwimFormulas.averageTime(times);
