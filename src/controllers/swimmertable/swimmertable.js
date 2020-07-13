@@ -23,7 +23,6 @@ class SwimmerTable extends Component {
                     // * Sort so data is in correct order to graph
                     tableData = tableData.flat().sort((a, b) => a.__EMPTY_8 > b.__EMPTY_8);
                     tableData.map((obj, index) => obj.__EMPTY_9 = index + 1);
-                    console.log(tableData)
                 } else {
                     tableData.map((item) =>
                         item.__EMPTY_10 = new Date(Math.floor(item.__EMPTY_10 - (25567 + 2)) * 86400 * 1000).toDateString().substring(4))

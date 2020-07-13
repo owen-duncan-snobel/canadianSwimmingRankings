@@ -9,7 +9,6 @@ class ReactTable extends Component {
         // * If an Array is passed it creates the table from array instead of an object
 
         try {
-            console.log(this.props.tableData)
             return (<Table size='sm' responsive className="swimTable colBorder">
                 <thead>
                     <tr>
@@ -46,6 +45,5 @@ class ReactTable extends Component {
             )
         }
     }
-
 }
 export default ReactTable;

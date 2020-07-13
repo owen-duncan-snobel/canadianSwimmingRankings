@@ -21,6 +21,7 @@ class SwimDashboard extends Component {
         let clubName = this.props.clubName;
         let event = this.props.swimEvent;
         let swimmerData = [];
+        let meetData = [];
         let tableData = [];
 
         if (this.props.swimmerData === null || this.props.swimmerData.length === 0) {
@@ -29,7 +30,6 @@ class SwimDashboard extends Component {
             )
         } else {
             try {
-
                 // * Standardizes the data, converts the JSON objects into a complete dataset of the correct event with swimmer objects.
                 allData[0].forEach(workbook => {
                     // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
@@ -42,6 +42,8 @@ class SwimDashboard extends Component {
                     })
                     swimmerData.push(dataset);
                 })
+                // * Flatten data from multiple seasons into one array to be placed in table / meetchart
+                meetData = swimmerData.flat();
             } catch (e) {
                 console.log(e);
             }
@@ -61,7 +63,7 @@ class SwimDashboard extends Component {
                                 </div>
 
                                 <div className='colBorder ml-2 mt-2'>
-                                    <FastestMeets className="" swimmerData={swimmerData} swimEvent={event} />
+                                    <FastestMeets className="" swimmerData={meetData} swimEvent={event} />
                                 </div>
 
                             </Col>
