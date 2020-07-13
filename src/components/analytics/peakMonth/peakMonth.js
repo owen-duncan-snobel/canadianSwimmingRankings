@@ -654,7 +654,7 @@ class PeakMonth extends Component {
                         <div>
                             <h6 className="text-center">{'All Events: (For selected age group and gender)'} </h6>
                         </div>
-                        <Bar name="All Events Best time over months chart" data={allEvents} option={allEventsOptions} height={175} redraw />
+                        <Bar name="All Events Best time over months chart" data={allEvents} options={allEventsOptions} height={175} redraw />
                     </Col>
                 </Row>
 
