@@ -201,7 +201,7 @@ export const colorArray = (arrayLength) => {
         // * Creates The Colors for the Component depending on how many distinct items there are in the array
         let myRainbow = new Rainbow();
         myRainbow.setSpectrum('#00aad8', '#ff6384')
-        myRainbow.setNumberRange(1, arrayLength);
+        myRainbow.setNumberRange(0, arrayLength);
         let colorArray = [];
         for (let i = 0; i < arrayLength; i++) {
             colorArray.push('#' + myRainbow.colorAt(i));
