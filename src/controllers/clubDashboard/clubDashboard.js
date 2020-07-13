@@ -49,23 +49,18 @@ class ClubDashboard extends Component {
                 //   console.log(allData);
                 //    console.log(selectedData);
                 event = this.props.event;
-                console.log(allData)
                 // * If a specific event is selected, it will get the Sheet with the data for that specific event.
                 if (event !== 'All') {
                     allData[0].forEach(workbook => {
-                        console.log(workbook)
                         // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
                         let index = EVENTS.indexOf(event)
-                        let Sheet = selectedData[index];
-                        //console.log(index)
-                        console.log(Sheet);
+                        let Sheet = workbook[index];
                         // * For the selected event collect all the swimmer data
                         Sheet.forEach(swimmer => {
                             swimmerData.push(swimmer);
                         })
                     }
                     )
-                    console.log(swimmerData)
 
                     // * Pass it the keys that will be used as the header for the table in React Table
                     let meetCityKeys = [
@@ -94,7 +89,6 @@ class ClubDashboard extends Component {
                     let meetNumber = meets.map(number => number[1]);
                     let meetArr = [];
                     meets.forEach((city, index) => meetArr.push(Object({ '__EMPTY_12': meetName[index], '__EMPTY_14': meetNumber[index] })))
-
                     return (
                         <div>
                             <Container fluid className="mt-1">
