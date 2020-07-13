@@ -15,6 +15,7 @@ class TimeAnalytics extends Component {
         let mode;
         let times;
         let standardDeviation;
+        let mostCommonTimeRange;
 
         // * If no data has been passed down from the form or invalid display empty form
         if (allData === null) {
@@ -37,49 +38,50 @@ class TimeAnalytics extends Component {
                     return milli;
                 }
 
-                // * Converts The Time & Meet Data To an Array that can be easily used
-                times = meetData[0].map(time => standardize_times(time.__EMPTY_7));
+                function commonTimeRange(meetData, mode) {
+                    return meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)
+                }
 
+                // * Converts The Time & Meet Data To an Array that can be easily used
+                times = meetData.map(time => standardize_times(time.__EMPTY_7));
                 // * Variables for the respective 'average' , 'median' and 'mode' from the data
                 average = SwimFormulas.averageTime(times);
                 median = SwimFormulas.medianTime(times);
                 mode = SwimFormulas.modeTime(times);
                 standardDeviation = SwimFormulas.standardDeviation(times);
+                mostCommonTimeRange = commonTimeRange(meetData, mode);
 
-            } catch {
-                console.log('Error: Unable to display the time analytics')
+            } catch (e) {
+                console.log(e)
             }
             return (
                 <div>
                     {/* Time Analytics */}
                     <Container>
                         <Row>
-                            {meetData.length > 50 ? '' :
-                                <Col lg={12} md={5} xs={12}>
-                                    {/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
+                            <Col lg={12} md={5} xs={12}>
+                                {/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
 
-                                    <div>
-                                        <h4 className='formTitle'>Swimming Analytics</h4>
+                                <div>
+                                    <h4 className='formTitle'>Swimming Analytics</h4>
 
-                                        <p name='averageTime'> <b>Average Time </b> <br></br>
-                                            {average}
-                                        </p>
+                                    <p name='averageTime'> <b>Average Time </b> <br></br>
+                                        {average}
+                                    </p>
 
-                                        <p name='medianTime'><b>Median Time</b> <br></br>
-                                            {median}
-                                        </p>
+                                    <p name='medianTime'><b>Median Time</b> <br></br>
+                                        {median}
+                                    </p>
 
-                                        <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
-                                            {meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)} <br></br>
-                                            <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
-                                        </p>
-                                        <p name='standardDeviation'> <b>Standard Deviation</b> <br></br>
-                                            {standardDeviation}
-                                        </p>
-                                    </div>
-
-                                </Col>
-                            }
+                                    <p name='modeTime'> <b>Most Common Time Range </b> <br></br>
+                                        {mostCommonTimeRange} <br></br>
+                                        <b className='modeCount'>  With {mode.maxCount} Swimmers  </b>
+                                    </p>
+                                    <p name='standardDeviation'> <b>Standard Deviation</b> <br></br>
+                                        {standardDeviation}
+                                    </p>
+                                </div>
+                            </Col>
                         </Row>
                     </Container>
                 </div >
