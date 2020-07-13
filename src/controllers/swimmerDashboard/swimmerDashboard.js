@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container';
+import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Linegraph from '../../components/linegraph/linegraph';
@@ -16,27 +17,51 @@ class SwimDashboard extends Component {
     }
 
     render() {
+        let allData = this.props.swimmerData;
+        let clubName = this.props.clubName;
+        let event = this.props.swimEvent;
+        let swimmerData = [];
+        let tableData = [];
+
         if (this.props.swimmerData === null || this.props.swimmerData.length === 0) {
             return (
                 <div name="InvalidYearNoData">  </div>
             )
         } else {
+            try {
+
+                // * Standardizes the data, converts the JSON objects into a complete dataset of the correct event with swimmer objects.
+                allData[0].forEach(workbook => {
+                    // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
+                    let index = EVENTS.indexOf(event)
+                    let Sheet = workbook[index];
+                    let dataset = [];
+                    // * For the selected event collect all the swimmer data
+                    Sheet.forEach(swimmer => {
+                        dataset.push(swimmer);
+                    })
+                    swimmerData.push(dataset);
+                })
+            } catch (e) {
+                console.log(e);
+            }
+
             return (
                 <div>
                     {/* Dashboard with all the logic for the graph **/}
                     < Container fluid >
                         <Row className='mb-3'>
                             <Col className='pr-0 mt-2' lg={8}>
-                                <Linegraph swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} clubName={this.props.clubName} />
+                                <Linegraph swimmerData={swimmerData} swimEvent={event} clubName={clubName} />
                             </Col>
                             <Col className='pl-0 mt-2' lg={4}>
 
                                 <div className='colBorder ml-2'>
-                                    <TimeAnalytics swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} />
+                                    <TimeAnalytics swimmerData={swimmerData} swimEvent={event} />
                                 </div>
 
                                 <div className='colBorder ml-2 mt-2'>
-                                    <FastestMeets className="" swimmerData={this.props.swimmerData} swimEvent={this.props.swimEvent} />
+                                    <FastestMeets className="" swimmerData={swimmerData} swimEvent={event} />
                                 </div>
 
                             </Col>
@@ -46,7 +71,7 @@ class SwimDashboard extends Component {
                     <Container fluid>
                         <Row>
                             <Col>
-                                <SwimmerTable tableData={this.props.tableData}></SwimmerTable>
+                                <SwimmerTable tableData={swimmerData}></SwimmerTable>
                             </Col>
                         </Row>
 

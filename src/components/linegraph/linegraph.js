@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-
+import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 
 // *   The dashboard is responsible for housing the Chart and styling for the chart 
 // *   it also will pass the chart back to the main app.
@@ -9,10 +9,11 @@ import { Line } from 'react-chartjs-2';
 class Linegraph extends Component {
     render() {
         let data;
+        let athletes = [];
+        let rank = [];
+        let colorArray = [];
+        let maxLength;
         let options;
-        let times;
-        let athletes;
-        let rank;
 
         // * Since Swim Times can Range from under a minute up to 20 mins we will standardize the times to all have the same length 
         // * In the following format MM:SS:ss
@@ -34,23 +35,38 @@ class Linegraph extends Component {
                 <div name="DashboardforChart"> </div>
             )
         } else {
+            // * Datasets will hold all the datasets which will be passed to the linegraph component. (aka. Each line and its options / data)
+            let datasets = [];
+            let swimmerData = this.props.swimmerData;
+            // * Creates a Color Array to give each line a distinct color
+            colorArray = SwimFormulas.colorArray(swimmerData.length);
 
-            // * Converting the JSON To working usable data to graph (Shifts and pop are for removing the default row)
-            athletes = this.props.swimmerData.map(athlete => athlete.__EMPTY_3);
-            rank = this.props.swimmerData.map(rank => rank.__EMPTY_9).reverse();
-            times = this.props.swimmerData.map(time => standardize_times(time.__EMPTY_7)).reverse();
+            // * For each distinct (year/event) item in array, converts it into the line data to be graphed
+            swimmerData.forEach(dataset => {
+                // * Creates Athletes and Rank arrays that will be used for the callback tick displays for each Line on the graph (Name, place, time)
+                athletes.push(dataset.map(athlete => athlete.__EMPTY_3));
+                rank.push(dataset.map(rank => rank.__EMPTY_9).reverse());
 
-            // * Data that will be passed to the Linegraph Component
-            data = {
-                labels: rank,
-                datasets: [{
+                let times = dataset.map(time => standardize_times(time.__EMPTY_7)).reverse();
+                // * Pop off the color array to give the color to the line and prevent overlapping colors
+                let color = colorArray.pop();
+                let el = {
                     label: this.props.swimEvent,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: ['rgb(255, 99, 132)'],
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: color,
+                    pointBackgroundColor: [color],
+                    borderColor: color,
                     fill: false,
                     data: times,
-                }]
+                }
+                datasets.push(el);
+            })
+            // * Finds the length of the largest element in the array, to use for the label length
+            maxLength = Math.max.apply(Math, rank.map(el => el.length))
+            // * Data that will be passed to the Linegraph Component
+            data = {
+                // * Ensures that the labels along x-axis match the longest dataset length, so that all points are graphed successfully
+                labels: Array.from(Array(maxLength), (_, i) => i + 1).reverse(),
+                datasets: datasets
             }
 
             options = {
@@ -69,8 +85,8 @@ class Linegraph extends Component {
                         label: (tooltipItem, data) => {
                             // * Label Array is used to create multiple labels inside of data element in graph. 
                             let labelArr = [];
-                            labelArr.push(athletes[tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
-                            // TODO Might add average and median times to the onhighlight / might be when you click on swimmer in graph
+                            // * Selects the athlete name from the correct dataset array
+                            labelArr.push(athletes[tooltipItem.datasetIndex][tooltipItem.label - 1] + ' ' + new Date(tooltipItem.yLabel).toISOString().substr(14, 8));
                             return labelArr;
                         }
                     }
