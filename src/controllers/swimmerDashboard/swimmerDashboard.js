@@ -31,7 +31,7 @@ class SwimDashboard extends Component {
         } else {
             try {
                 // * Standardizes the data, converts the JSON objects into a complete dataset of the correct event with swimmer objects.
-                allData[0].forEach(workbook => {
+                allData.forEach(workbook => {
                     // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
                     let index = EVENTS.indexOf(event)
                     let Sheet = workbook[index];

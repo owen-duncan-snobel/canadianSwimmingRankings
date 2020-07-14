@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Global</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Canadian Swimming Rankings</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Components</h3><ul><li><a href="ClubDashboard.html">ClubDashboard</a></li><li><a href="FastestCity.html">FastestCity</a></li><li><a href="FastestMeets.html">FastestMeets</a></li><li><a href="PeakMonth.html">PeakMonth</a></li><li><a href="TimeAnalytics.html">TimeAnalytics</a></li></ul><h3>Global</h3><ul><li><a href="global.html#averageTime">averageTime</a></li><li><a href="global.html#colorArray">colorArray</a></li><li><a href="global.html#medianTime">medianTime</a></li><li><a href="global.html#meetCity">meetCity</a></li><li><a href="global.html#meetMonth">meetMonth</a></li><li><a href="global.html#meetName">meetName</a></li><li><a href="global.html#modeTime">modeTime</a></li><li><a href="global.html#mostOccurrences">mostOccurrences</a></li><li><a href="global.html#peakDistribution">peakDistribution</a></li><li><a href="global.html#standardDeviation">standardDeviation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Title</p>
+                    <h1>Global</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Methods</h1>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="averageTime">
+        <a class="href-link" href="#averageTime">#</a>
+        
+        <span class="code-name">
+            
+                averageTime<span class="signature">(time)</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Converts an Array of Numbers (times) to a date string in the format MM:SS.sss where the Time is the Average Time of the Array Input.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>time</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;Number></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Array of Numbers (Times)</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line105">line 105</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>datestring - Returns a readable date string based on the average of the array of times.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">string</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>averageTime([30000,25000,35000])
+ return (
+     00:30.00
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="colorArray">
+        <a class="href-link" href="#colorArray">#</a>
+        
+        <span class="code-name">
+            
+                colorArray<span class="signature">(arrayLength)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Color Array takes input arrayLength (Number). It returns an array of gradient colors the same length as the input.
+Useful for creating a gradient of colours for a data set that will differ but match a color scheme / theme.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>arrayLength</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The length of the Data Array denoting, how many colours along the gradient will be needed.</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line260">line 260</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>colorArray</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>colorArray(10)
+ return (
+     ["#00aad8", "#1aa3d0", "#339cc7", "#4d95bf", "#668eb6", "#8087ae", "#997fa6", "#b3789d", "#cc7195","#e66a8c"]
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="medianTime">
+        <a class="href-link" href="#medianTime">#</a>
+        
+        <span class="code-name">
+            
+                medianTime<span class="signature">(time, time)</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Converts an Array of Numbers (times) to a date string in the format MM:SS.sss where the Time is the Median of the Array</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>time</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;Number></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Array of Numbers (Times)</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>time</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;Number></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Array of Numbers (Times)</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line128">line 128</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>datestring - Returns a readable date string based on the median of the array of times.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">string</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>medianTime([30000,25000,35000])
+ return (
+     00:30.00
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="meetCity">
+        <a class="href-link" href="#meetCity">#</a>
+        
+        <span class="code-name">
+            
+                meetCity<span class="signature">(meetcitys)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Takes an Array of Objects and returns an Array of all meets in each meet in the respective Objects.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>meetcitys</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;object></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Object Array of all entities in the respective excel sheet to for the Swimming Race.</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line222">line 222</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>meetCity(Object('__EMPTY_':..., '__EMPTY_11': 'Toronto'), Object('__EMPTY_':..., '__EMPTY_11': 'Winnipeg' ), Object('__EMPTY_':..., '__EMPTY_11': 'Toronto'))
+ return (
+     ['Toronto', 'Winnipeg', 'Toronto']
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="meetMonth">
+        <a class="href-link" href="#meetMonth">#</a>
+        
+        <span class="code-name">
+            
+                meetMonth<span class="signature">(meets)</span><span class="type-signature"> &rarr; {Array.&lt;object>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Converts the Array of Swimmer Objects.__EMPTY_10 property (Meet Month is stored in excel date value),
+into a usable month to be viewed and compared with against. Where the month is in [0,1,2,3,4,..11] (with 0 being january and so on)</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>meets</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;object></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Takes an Array of Swimmer Objects to convert dates on.</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line52">line 52</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Where .__EMPTY_10 is now a useable month from JS Date.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array.&lt;object></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>meetMonth([Object('__EMPTY_':..., '__EMPTY_10': 36949)]) // * __EMPTY_10 is in excel date value
+
+[Object('__EMPTY_':..., '__EMPTY_10': 36949)] // * __EMPTY_10 is in excel date value
+
+return (
+[Object('__EMPTY_1':..., '__EMPTY_10': 0)] // * __EMPTY_10 is now a single value contaning the month corresponding months
+) </code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="meetName">
+        <a class="href-link" href="#meetName">#</a>
+        
+        <span class="code-name">
+            
+                meetName<span class="signature">(meets)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Takes an Array of Objects and returns an Array of all meet names from each object</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>meets</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;object></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Object Array of all entities in the respective excel sheet to for the Swimming Race.</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line240">line 240</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>meets</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>meetName(Object('__EMPTY_':..., '__EMPTY_12': 'Victor Davis'), Object('__EMPTY_':..., '__EMPTY_12': 'Dash For Cash' ), Object('__EMPTY_':..., '__EMPTY_12': 'HOBBS'))
+ return (
+     ['Victor Davis', 'Dash For Cash', 'HOBBS']
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="modeTime">
+        <a class="href-link" href="#modeTime">#</a>
+        
+        <span class="code-name">
+            
+                modeTime<span class="signature">(time)</span><span class="type-signature"> &rarr; {object|object}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Finds the Mode an Array of Numbers (times) and returns an object with the Mode Time and the number of Occurrences.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>time</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;Number></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Array of Numbers (Times)</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line162">line 162</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>{mostCommonNumber} Returns The Most Common Number in Array</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">object</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>{maxCount} Returns the count of the Most Common Number</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">object</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>modeTime([30000,25000,35000,30000])
+ return (
+ {
+  "mostCommonNumber": 30,
+  "maxCount": 2
+    }
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="mostOccurrences">
+        <a class="href-link" href="#mostOccurrences">#</a>
+        
+        <span class="code-name">
+            
+                mostOccurrences<span class="signature">(arr)</span><span class="type-signature"> &rarr; {Map}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Takes an array of (numbers/strings/dates) and find the number of occurrences of each distinct element.
+it returns a Map (key,value) pairs. Key is the element and Value is the number of occurrences.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>arr</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element.</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line15">line 15</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Returns Map, where keys are the elements in the array and, value is the number of Occurrences of each element in the array.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Map</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>mostOccurrences(['July','Aug','Sept','July','June']) 
+return  (
+  Map(['July',2],['Aug',1],['Sept',1],['June',1])
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="peakDistribution">
+        <a class="href-link" href="#peakDistribution">#</a>
+        
+        <span class="code-name">
+            
+                peakDistribution<span class="signature">(data)</span><span class="type-signature"> &rarr; {Array}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Takes the Array of Swimmer Objects and converts the months to be aligned on the graph correctly. Also finds the most Occurrences of the month data.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>data</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;object></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Takes an Array of Swimmer Objects to convert dates and map.</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line74">line 74</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Returns an Array where index[0] is September and the values of Occurrences in September is the value at the index.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>peakDistribution(Object('__EMPTY_':..., '__EMPTY_10': 36949), Object('__EMPTY_':..., '__EMPTY_10': 36949), Object('__EMPTY_':..., '__EMPTY_10': 36949))
+// 36949 -> January
+return (
+ // [sept,oct,nov,dec,jan,feb,mar,apr,may,june,july,aug]
+ [0,0,0,0,3,0,0,0,0,0,0,0]
+)</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="standardDeviation">
+        <a class="href-link" href="#standardDeviation">#</a>
+        
+        <span class="code-name">
+            
+                standardDeviation<span class="signature">(time)</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Takes an Number[] times and calculates the Standard Deviation for the race times, returns a date string.
+Generally time is input in Milliseconds.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>time</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Array.&lt;Number></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>An Array of Numbers (times)</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="constants_graphFunctions_graphFunctions.js.html" class="button">View Source</a>
+            <span>
+                <a href="constants_graphFunctions_graphFunctions.js.html">constants/graphFunctions/graphFunctions.js</a>, <a href="constants_graphFunctions_graphFunctions.js.html#line196">line 196</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>standardDev returns the date string with the standard deviation for data.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">string</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// returns 00:03.30 (aka. 00:03.30 of standard deviation between time given in ms)
+standardDeviation([ 9000, 2000, 5000, 4000, 12000, 7000]) 
+return (
+     00:03.30
+)</code></pre>
+    
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

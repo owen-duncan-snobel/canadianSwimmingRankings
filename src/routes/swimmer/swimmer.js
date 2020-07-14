@@ -67,40 +67,41 @@ class Swimmer extends Component {
         searchParameter.append('Points', points);
         url += searchParameter.toString();
 
-        /* 
-                // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
-                fetch('https://cors-anywhere.herokuapp.com/' + url, {
-                    method: "GET",
-                    mode: 'cors',
-                    headers: {
-                        'Host': 'www.swimrankings.net',
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) throw new Error("Unable to fetch file");
-                        return response.arrayBuffer();
-                    })
-                    .then(buffer => {
-                        let bookBuffer = new Uint8Array(buffer);
-                        let workbook = XLSX.read(bookBuffer, {
-                            type: "array"
-                        })
-                        // * Finds the correct sheet within the workbook based on the name of the event
-                        let data = workbook.Sheets[event];
-        
-                        // * Converts the XLS (Excel File to JSON to allow us to graph data)
-                        let toJSON = XLSX.utils.sheet_to_json(data);
-        
-                        // * Removes the first row so that the default values aren't used
-                        toJSON.shift(); 
-                        */
-        this.setState({ swimmerData: [test.default] /*  toJSON */, swimEvent: event, tableData: test.default[0][0] /*  toJSON */ })
 
-        /*            }).catch((error) => {
-                       console.log(error)
-                   })
-        */
+        // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
+        fetch('https://cors-anywhere.herokuapp.com/' + url, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Host': 'www.swimrankings.net',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
+            },
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Unable to fetch file");
+                return response.arrayBuffer();
+            })
+            .then(buffer => {
+                let bookBuffer = new Uint8Array(buffer);
+                let workbook = XLSX.read(bookBuffer, {
+                    type: "array"
+                })
+                let data = [];
+                for (let sheet in workbook.Sheets) {
+                    // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                    let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                    // * removes place holder for top of file
+                    sheetData.shift();
+                    data.push(sheetData);
+                }
+                // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
+                data = [data];
+                this.setState({ swimmerData: data, swimEvent: event, tableData: data })
+
+            }).catch((error) => {
+                console.log(error)
+            })
+
     }
 
     render() {

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Home</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Canadian Swimming Rankings</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Components</h3><ul><li><a href="ClubDashboard.html">ClubDashboard</a></li><li><a href="FastestCity.html">FastestCity</a></li><li><a href="FastestMeets.html">FastestMeets</a></li><li><a href="PeakMonth.html">PeakMonth</a></li><li><a href="TimeAnalytics.html">TimeAnalytics</a></li></ul><h3>Global</h3><ul><li><a href="global.html#averageTime">averageTime</a></li><li><a href="global.html#colorArray">colorArray</a></li><li><a href="global.html#medianTime">medianTime</a></li><li><a href="global.html#meetCity">meetCity</a></li><li><a href="global.html#meetMonth">meetMonth</a></li><li><a href="global.html#meetName">meetName</a></li><li><a href="global.html#modeTime">modeTime</a></li><li><a href="global.html#mostOccurrences">mostOccurrences</a></li><li><a href="global.html#peakDistribution">peakDistribution</a></li><li><a href="global.html#standardDeviation">standardDeviation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Canadian Swimming Rankings   <img src="https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png" width="50" height="50"></h1>
+<p><a href="https://canadian-swimming-rankings.herokuapp.com/">Canadian Swimming Rankings</a> is a graphing website that allows Swimmers and Coaches to take a closer look at the trends and insights from the results across all <strong>Age groups</strong>, <strong>Events</strong> and <strong>Genders</strong> from the <strong>Current</strong> &amp; <strong>Previous Years</strong>.</p>
+<p>All Data on this site has been provided by Christian Kaufmann, the owner of swimrankings.net .   If you or your club are looking for <strong>Team Management</strong> or <strong>Meet Management</strong> software, refer to https://www.swimrankings.net/index.php?page=splashsoftware</p>
+<p><img src="https://i.gyazo.com/3661799f4dc89864365ef27b378aadad.png" alt="">
+<img src="https://i.gyazo.com/d3b117de58b1325a42bd3f4e6d7b45ff.png" alt=""></p>
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#RequestClubListing">Request Club Listing</a></li>
+<li><a href="#feedback">Feedback / Feature Request</a></li>
+<li><a href="#bugs">Report Bug</a></li>
+<li><a href="#filestructure">File Structure / Documentation</a></li>
+</ol>
+<p><a id="RequestClubListing"> </a></p>
+<h1>Request Club Listing</h1>
+<p>If you do not see your Club listed in the dropdown, or your club is not within Canada email me and I can add your club and country to the list.
+<strong>Use Header <em>&quot;Canadian Swimming Rankings: '(Request Club)' &quot;</em></strong>
+<strong>owenduncansnobel@gmail.com</strong></p>
+<p><a id="feedback"> </a></p>
+<h1>Feedback / Feature Requests</h1>
+<p>If you have any comments / feedback on future updates or want to request a feature you can also email.
+<strong>Use Header <em>&quot;Canadian Swimming Rankings: '(Feedback)' &quot;</em></strong>
+<strong>owenduncansnobel@gmail.com</strong></p>
+<p><a id="bugs"> </a></p>
+<h2>Report Bug</h2>
+<p>If you find any bugs, or you believe the data does not seem to be correct for the graph. If you are familiar with Github you can open an <strong>ISSUE</strong>.</p>
+<p>Otherwise, you can also email me and describe how to replicate it, or describe how the bug occured.</p>
+<p><a id="filestructure"> </a></p>
+<h1>File Structure / Documentation</h1>
+<h3>Components</h3>
+<pre class="prettyprint source lang-bash"><code>### Components
+├── QueryParameter.md
+├── analytics
+│   ├── analytics.css
+│   ├── analytics.md
+│   ├── fastestCity
+│   │   └── fastestCity.js
+│   ├── fastestMeets
+│   │   └── fastestMeets.js
+│   ├── peakMonth
+│   │   ├── peakMonth.js
+│   │   └── peakMonth.md
+│   └── timeAnalytics
+│       └── timeAnalytics.js
+├── linegraph
+│   ├── linegraph.js
+│   └── linegraph.md
+├── reactTable
+│   ├── reactTable.js
+│   └── reactTable.md
+└── swimmerData.zip
+
+### Constants
+constants
+├── graphFunctions
+│   ├── graphFunctions.js
+│   └── graphFunctions.test.js
+└── swimmingConstants
+    └── swimmingConstants.js
+
+### Controllers
+controllers
+├── clubDashboard
+│   └── clubDashboard.js
+├── swimmerDashboard
+│   └── swimmerDashboard.js
+└── swimmertable
+    ├── swimmertable.js
+    └── swimmertable.md
+    
+### Routes
+routes
+├── about
+│   └── about.js
+├── clubs
+│   ├── clubs.css
+│   ├── clubs.js
+│   ├── clubs.md
+│   └── clubs.test.js
+├── contact
+│   ├── contact.css
+│   └── contact.js
+└── swimmer
+    ├── ProcessingData.md
+    ├── swimmer.css
+    └── swimmer.js
+</code></pre>
+<h3>Components</h3>
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/QueryParameter.md">QueryParameter.md</a> <strong>Useful if you want to begin fetching your own excel files.</strong></li>
+<li>analytics
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.css">analytics.css</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/analytics.md">analytics.md</a></li>
+<li>fastestCity
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/fastestCity/fastestCity.js">fastestCity.js</a></li>
+</ul>
+</li>
+<li>fastestMeets
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/fastestMeets/fastestMeets.js">fastestMeets.js</a></li>
+</ul>
+</li>
+<li>peakMonth
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/peakMonth/peakMonth.js">peakMonth.js</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/peakMonth/peakMonth.md">peakMonth.md</a></li>
+</ul>
+</li>
+<li>timeAnalytics
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/analytics/timeAnalytics/timeAnalytics.js">timeAnalytics.js</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>linegraph
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.js">linegraph.js</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/linegraph/linegraph.md">linegraph.md</a></li>
+</ul>
+</li>
+<li>reactTable
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.js">reactTable.js</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/reactTable/reactTable.md">reactTable.md</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/components/swimmerData.zip">swimmerData.zip</a></li>
+</ul>
+</li>
+</ul>
+<h3>Constants</h3>
+<ul>
+<li>graphFunctions
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/graphFunctions/graphFunctions.js">graphFunctions.js</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/graphFunctions/graphFunctions.test.js">graphFunctions.test.js</a></li>
+</ul>
+</li>
+<li>swimmingConstants
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/constants/swimmingConstants/swimmingConstants.js">swimmingConstants.js</a></li>
+</ul>
+</li>
+</ul>
+<h3>Controllers</h3>
+<ul>
+<li>clubDashboard
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/clubDashboard/clubDashboard.js">clubDashboard.js</a></li>
+</ul>
+</li>
+<li>swimmerDashboard
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmerDashboard/swimmerDashboard.js">swimmerDashboard.js</a></li>
+</ul>
+</li>
+<li>swimmertable
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmertable/swimmertable.js">swimmertable.js</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/controllers/swimmertable/swimmertable.md">swimmertable.md</a></li>
+</ul>
+</li>
+</ul>
+<h3>Routes</h3>
+<ul>
+<li>about
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/about/about.js">about.js</a></li>
+</ul>
+</li>
+<li>clubs
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.css">clubs.css</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.js">clubs.js</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.md">clubs.md</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/clubs/clubs.test.js">clubs.test.js</a></li>
+</ul>
+</li>
+<li>contact
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/contact/contact.css">contact.css</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/contact/contact.js">contact.js</a></li>
+</ul>
+</li>
+<li>swimmer
+<ul>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/ProcessingData.md">ProcessingData.md</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.css">swimmer.css</a></li>
+<li><a href="https://github.com/owen-duncan-snobel/canadianSwimmingRankings/blob/master/src/routes/swimmer/swimmer.js">swimmer.js</a></li>
+</ul>
+</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

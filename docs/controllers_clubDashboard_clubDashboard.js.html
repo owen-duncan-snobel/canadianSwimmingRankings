@@ -1,4 +1,95 @@
-import React, { Component } from 'react'
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> controllers/clubDashboard/clubDashboard.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Canadian Swimming Rankings</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Components</h3><ul><li><a href="ClubDashboard.html">ClubDashboard</a></li><li><a href="FastestCity.html">FastestCity</a></li><li><a href="FastestMeets.html">FastestMeets</a></li><li><a href="PeakMonth.html">PeakMonth</a></li><li><a href="TimeAnalytics.html">TimeAnalytics</a></li></ul><h3>Global</h3><ul><li><a href="global.html#averageTime">averageTime</a></li><li><a href="global.html#colorArray">colorArray</a></li><li><a href="global.html#medianTime">medianTime</a></li><li><a href="global.html#meetCity">meetCity</a></li><li><a href="global.html#meetMonth">meetMonth</a></li><li><a href="global.html#meetName">meetName</a></li><li><a href="global.html#modeTime">modeTime</a></li><li><a href="global.html#mostOccurrences">mostOccurrences</a></li><li><a href="global.html#peakDistribution">peakDistribution</a></li><li><a href="global.html#standardDeviation">standardDeviation</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>controllers/clubDashboard/clubDashboard.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
 import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 import Container from 'react-bootstrap/Container';
@@ -42,7 +133,7 @@ class ClubDashboard extends Component {
         try {
             if (this.props.swimmerData === null || this.props.swimmerData[0][0][0].length === 0) {
                 return (
-                    <div name="InvalidYearNoData"> </div>
+                    &lt;div name="InvalidYearNoData"> &lt;/div>
                 )
             } else {
                 allData = this.props.swimmerData;
@@ -89,25 +180,25 @@ class ClubDashboard extends Component {
                     let meetArr = [];
                     meets.forEach((city, index) => meetArr.push(Object({ '__EMPTY_12': meetName[index], '__EMPTY_14': meetNumber[index] })))
                     return (
-                        <div>
-                            <Container fluid className="mt-1">
-                                <Row>
+                        &lt;div>
+                            &lt;Container fluid className="mt-1">
+                                &lt;Row>
                                     {/* Displays The Distribution of months with best time, aka. Peak Months */}
-                                    <Col className="text-center colBorder"> <PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSubComponents} event={this.props.event} />
-                                    </Col>
-                                </Row>
-                                <Row className="mt-2">
-                                    <Col className="colBorder" md={6} sm={12}>
-                                        <FastestCity swimmerData={swimmerData} />
-                                        <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
-                                    </Col>
-                                    <Col className="colBorder" md={6} sm={12}>
-                                        <FastestMeets swimmerData={swimmerData} swimEvent={this.state.swimEvent} />
-                                        <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </div>
+                                    &lt;Col className="text-center colBorder"> &lt;PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSubComponents} event={this.props.event} />
+                                    &lt;/Col>
+                                &lt;/Row>
+                                &lt;Row className="mt-2">
+                                    &lt;Col className="colBorder" md={6} sm={12}>
+                                        &lt;FastestCity swimmerData={swimmerData} />
+                                        &lt;ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
+                                    &lt;/Col>
+                                    &lt;Col className="colBorder" md={6} sm={12}>
+                                        &lt;FastestMeets swimmerData={swimmerData} swimEvent={this.state.swimEvent} />
+                                        &lt;ReactTable tableData={meetArr} allowedKeys={meetKeys} />
+                                    &lt;/Col>
+                                &lt;/Row>
+                            &lt;/Container>
+                        &lt;/div>
                     )
                 }
 
@@ -166,32 +257,32 @@ class ClubDashboard extends Component {
                 meets.forEach((city, index) => meetArr.push(Object({ '__EMPTY_12': meetName[index], '__EMPTY_14': meetNumber[index] })))
 
                 return (
-                    <div>
-                        <Container fluid className="mt-1">
-                            <Row>
+                    &lt;div>
+                        &lt;Container fluid className="mt-1">
+                            &lt;Row>
                                 {/* Displays The Distribution of months with best time, aka. Peak Months */}
-                                <Col className="text-center colBorder"> <PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSubComponents} event={this.props.event} />
-                                </Col>
-                            </Row>
-                            <Row className="mt-2">
-                                <Col className="colBorder" sm={6}>
-                                    <FastestCity swimmerData={allSwimmerData} />
-                                    <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
-                                </Col>
-                                <Col className="colBorder" sm={6}>
-                                    <FastestMeets swimmerData={allSwimmerData} swimEvent={this.state.swimEvent} />
-                                    <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
-                                </Col>
-                            </Row>
-                        </Container>
-                    </div>
+                                &lt;Col className="text-center colBorder"> &lt;PeakMonth swimmerData={swimmerData} allSwimmerData={allSwimmerData} allSwimmerDataSubComponents={allSwimmerDataSubComponents} event={this.props.event} />
+                                &lt;/Col>
+                            &lt;/Row>
+                            &lt;Row className="mt-2">
+                                &lt;Col className="colBorder" sm={6}>
+                                    &lt;FastestCity swimmerData={allSwimmerData} />
+                                    &lt;ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
+                                &lt;/Col>
+                                &lt;Col className="colBorder" sm={6}>
+                                    &lt;FastestMeets swimmerData={allSwimmerData} swimEvent={this.state.swimEvent} />
+                                    &lt;ReactTable tableData={meetArr} allowedKeys={meetKeys} />
+                                &lt;/Col>
+                            &lt;/Row>
+                        &lt;/Container>
+                    &lt;/div>
                 )
             }
         }
         catch (e) {
             console.log(e);
             return (
-                <div></div>
+                &lt;div>&lt;/div>
             )
         }
     }
@@ -216,4 +307,32 @@ ClubDashboard.propTypes = {
      */
     selectedData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired
 }
-export default ClubDashboard;
+export default ClubDashboard;</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

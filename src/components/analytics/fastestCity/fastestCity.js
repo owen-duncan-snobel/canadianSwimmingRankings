@@ -55,7 +55,6 @@ defaults.global.legend.display = false;
 class FastestCity extends Component {
 
     render() {
-        console.log(this.props.swimmerData)
         let allSwimmerData = this.props.swimmerData;
         let colorArray;
         let meetCity;
