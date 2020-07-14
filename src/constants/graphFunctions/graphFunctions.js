@@ -1,15 +1,16 @@
 import Rainbow from 'rainbowvis.js';
 
-
 /**
- * Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element. It finds the number of Occurrences 
- * each element in the array and returns a Map (key,value) pairs. Key is the element, Value is the number of Occurrences.
- *
- * @param {Array} arr - Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element.
+ * Takes an array of (numbers/strings/dates) and find the number of occurrences of each distinct element.
+ * it returns a Map (key,value) pairs. Key is the element and Value is the number of occurrences.
+ * @method
+ * @param {Array} arr  Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element.
  * @returns {Map} Returns Map, where keys are the elements in the array and, value is the number of Occurrences of each element in the array.
- * 
  * @example 
- *  mostOccurrences(['July','Aug','Sept','July','June']) --> Map(['July',2],['Aug',1],['Sept',1],['June',1])
+ *  mostOccurrences(['July','Aug','Sept','July','June']) 
+ * return  (
+ *   Map(['July',2],['Aug',1],['Sept',1],['June',1])
+ * )
  */
 export const mostOccurrences = (arr) => {
     try {
@@ -33,15 +34,17 @@ export const mostOccurrences = (arr) => {
 
 
 /**
- * Converts the excel files Array of Swimmer Objects.__EMPTY_10 property (Meet Month: Stored in excel date value) 
- * Into a usable month to be viewed and compared with.
- * 
- * @param {object[]} meets - Takes an Array of Swimmer Objects to convert dates on.
- * @returns {object[]}   Where .__EMPTY_10 is now a useable month from JS Date. .getMonth() returns [0,1,2,3,4...,11] where 0 is January
- * 
+ * Converts the Array of Swimmer Objects.__EMPTY_10 property (Meet Month is stored in excel date value),
+ * into a usable month to be viewed and compared with against. Where the month is in [0,1,2,3,4,..11] (with 0 being january and so on)
+ * @method
+ * @param {object[]} meets Takes an Array of Swimmer Objects to convert dates on.
+ * @returns {object[]}   Where .__EMPTY_10 is now a useable month from JS Date.
  * @example 
+ * meetMonth([Object('__EMPTY_':..., '__EMPTY_10': 36949)]) // * __EMPTY_10 is in excel date value
  * 
- * [Object('__EMPTY_':..., '__EMPTY_10': 36949)] --> [Object('__EMPTY_1':..., '__EMPTY_10': 0)]
+ * return (
+ * [Object('__EMPTY_1':..., '__EMPTY_10': 0)] // * __EMPTY_10 is now a single value contaning the month corresponding months
+ * ) 
  *
  */
 export const meetMonth = (meets) => {
@@ -54,9 +57,17 @@ export const meetMonth = (meets) => {
 }
 
 /**
- *   Takes the Array of Swimmer Objects and converts the months then finds the most Occurrences of the month data.
- * @param {object[]} data - Takes an Array of Swimmer Objects to convert dates and map.
+ *  Takes the Array of Swimmer Objects and converts the months to be aligned on the graph correctly. Also finds the most Occurrences of the month data.
+ * @method
+ * @param {object[]} data  Takes an Array of Swimmer Objects to convert dates and map.
  * @returns {Array} Returns an Array where index[0] is September and the values of Occurrences in September is the value at the index.
+ * @example
+ * peakDistribution(Object('__EMPTY_':..., '__EMPTY_10': 36949), Object('__EMPTY_':..., '__EMPTY_10': 36949), Object('__EMPTY_':..., '__EMPTY_10': 36949))
+ * // 36949 -> January
+ * return (
+ *  // [sept,oct,nov,dec,jan,feb,mar,apr,may,june,july,aug]
+ *  [0,0,0,0,3,0,0,0,0,0,0,0]
+ * )
  */
 export const peakDistribution = (data) => {
     try {
@@ -79,12 +90,19 @@ export const peakDistribution = (data) => {
 }
 
 /**
- * Converts an Array of Numbers (times) to a date string in the format MM:SS.sss where the Time is the Average of the Array.
- * @param {Number[]} time - An Array of Numbers (Times)
+ * Converts an Array of Numbers (times) to a date string in the format MM:SS.sss where the Time is the Average Time of the Array Input.
+ * @method
+ * @param {Number[]} time An Array of Numbers (Times)
  * @returns {string} datestring - Returns a readable date string based on the average of the array of times.
+ * @example
+ *  averageTime([30000,25000,35000])
+ *  return (
+ *      00:30.00
+ * )
  */
 export const averageTime = (time) => {
     try {
+        time.sort((a, b) => a - b);
         let average = time.reduce((a, b) => a + b);
         return new Date(average / time.length).toISOString().substr(14, 8);
     }
@@ -95,12 +113,20 @@ export const averageTime = (time) => {
 
 /**
  * Converts an Array of Numbers (times) to a date string in the format MM:SS.sss where the Time is the Median of the Array
+ * @method
  * @param {Number[]} time  An Array of Numbers (Times)
  * @param {Number[]} time  An Array of Numbers (Times)
  * @returns {string} datestring - Returns a readable date string based on the median of the array of times.
+ * @example
+ *  medianTime([30000,25000,35000])
+ *  return (
+ *      00:30.00
+ * )
  */
 export const medianTime = (time) => {
     try {
+        // * Ensure data is in correct order to find median, must be sorted least to greatest
+        time.sort((a, b) => a - b);
         let index = Math.floor(time.length / 2);
         let median;
         // * If the length % 2 === 0 (aka even number)
@@ -118,9 +144,18 @@ export const medianTime = (time) => {
 
 /**
  * Finds the Mode an Array of Numbers (times) and returns an object with the Mode Time and the number of Occurrences.
+ * @method
  * @param {Number[]} time An Array of Numbers (Times)
  * @returns {object} {mostCommonNumber} Returns The Most Common Number in Array
  * @returns {object} {maxCount} Returns the count of the Most Common Number
+ * @example 
+ *  modeTime([30000,25000,35000,30000])
+ *  return (
+ *  {
+ *   "mostCommonNumber": 30,
+ *   "maxCount": 2
+    }
+ * )
  */
 export const modeTime = (time) => {
     try {
@@ -129,12 +164,12 @@ export const modeTime = (time) => {
         let modeOccurence = mostOccurrences(toModeSeconds);
 
         // * Iterates through the map and finds the most occuring time
-        let mostCommonNumber = NaN
-        let maxCount = -1
+        let mostCommonNumber = NaN;
+        let maxCount = -1;
         for (let [num, count] of modeOccurence.entries()) {
             if (count > maxCount) {
-                maxCount = count
-                mostCommonNumber = num
+                maxCount = count;
+                mostCommonNumber = num;
             }
         }
         return { mostCommonNumber, maxCount };
@@ -146,12 +181,15 @@ export const modeTime = (time) => {
 /**
  *  Takes an Number[] times and calculates the Standard Deviation for the race times, returns a date string.
  *  Generally time is input in Milliseconds.
+ * @method
  * @param {Number[]} time An Array of Numbers (times)
  * @return {string} standardDev returns the date string with the standard deviation for data.
  * @example 
  * // returns 00:03.30 (aka. 00:03.30 of standard deviation between time given in ms)
  * standardDeviation([ 9000, 2000, 5000, 4000, 12000, 7000]) 
- * 
+ * return (
+ *      00:03.30
+ * )
  */
 export const standardDeviation = (time) => {
     try {
@@ -167,34 +205,55 @@ export const standardDeviation = (time) => {
         console.log(e);
     }
 }
+
 /**
  *  Takes an Array of Objects and returns an Array of all meets in each meet in the respective Objects.
+ * @method
  * @param {object[]} meetcitys - An Object Array of all entities in the respective excel sheet to for the Swimming Race. 
  * @returns {String[]}  
+ * @example
+ *  meetCity(Object('__EMPTY_':..., '__EMPTY_11': 'Toronto'), Object('__EMPTY_':..., '__EMPTY_11': 'Winnipeg' ), Object('__EMPTY_':..., '__EMPTY_11': 'Toronto'))
+ *  return (
+ *      ['Toronto', 'Winnipeg', 'Toronto']
+ * )
  */
 export const meetCity = (meetcitys) => {
     if (Array.isArray(meetcitys)) {
         return meetcitys.map(meetcity => meetcity.__EMPTY_11);
     }
+    return [];
 }
 
 /**
- * 
+ *  Takes an Array of Objects and returns an Array of all meet names from each object
+ * @method
  * @param {object[]} meets - An Object Array of all entities in the respective excel sheet to for the Swimming Race. 
  * @returns {String[]} meets
+ * @example
+ *  meetName(Object('__EMPTY_':..., '__EMPTY_12': 'Victor Davis'), Object('__EMPTY_':..., '__EMPTY_12': 'Dash For Cash' ), Object('__EMPTY_':..., '__EMPTY_12': 'HOBBS'))
+ *  return (
+ *      ['Victor Davis', 'Dash For Cash', 'HOBBS']
+ * )
  */
 export const meetName = (meets) => {
     if (Array.isArray(meets)) {
         return meets.map(meet => meet.__EMPTY_12);
     }
+    return [];
 }
 
 
 /**
  * Color Array takes input arrayLength (Number). It returns an array of gradient colors the same length as the input. 
  * Useful for creating a gradient of colours for a data set that will differ but match a color scheme / theme.
+ * @method
  * @param {Number} arrayLength  - The length of the Data Array denoting, how many colours along the gradient will be needed.
  * @returns {String[]} colorArray
+ * @example
+ *  colorArray(10)
+ *  return (
+ *      ["#00aad8", "#1aa3d0", "#339cc7", "#4d95bf", "#668eb6", "#8087ae", "#997fa6", "#b3789d", "#cc7195","#e66a8c"]
+ * )
  */
 export const colorArray = (arrayLength) => {
     if (typeof arrayLength === 'number' && arrayLength >= 1) {
@@ -208,4 +267,6 @@ export const colorArray = (arrayLength) => {
         }
         return colorArray;
     }
+    return [];
 }
+

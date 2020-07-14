@@ -4,6 +4,95 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
+import PropTypes, { object } from 'prop-types';
+
+/**
+ * Returns a Component with the average,mode,median,standard deviation listed based on data based to it.
+ * @component
+ * @example
+ * const allData = [
+ * [
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "*********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "*********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+],[
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "*********",
+    "__EMPTY_4": 37370,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "23.54",
+    "__EMPTY_8": 23.54,
+    "FINA 2019": 637,
+    "__EMPTY_9": 1,
+    "__EMPTY_10": 43813,
+    "__EMPTY_11": "Toronto",
+    "__EMPTY_12": "Ontario Junior International",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  },
+  {
+    "Oakville Aquatic Club, Season 2020, Open": "SCM",
+    "__EMPTY": "M",
+    "__EMPTY_1": 50,
+    "__EMPTY_2": "Fr",
+    "__EMPTY_3": "*********",
+    "__EMPTY_4": 37277,
+    "__EMPTY_5": "CAN",
+    "__EMPTY_6": "OAK",
+    "__EMPTY_7": "24.31",
+    "__EMPTY_8": 24.31,
+    "FINA 2019": 578,
+    "__EMPTY_9": 2,
+    "__EMPTY_10": 43792,
+    "__EMPTY_11": "London",
+    "__EMPTY_12": "LAC - Nothers Fall Invitational",
+    "__EMPTY_13": "Oakville Aquatic Club"
+  }
+]
+]
+ * const event = '50m Free';
+ * return (
+ *  <TimeAnalytics swimmerData={allData} swimEvent={event} />
+ * )
+ * 
+ */
 
 class TimeAnalytics extends Component {
     // * Props can be deconstructed from meetData: {meetData (Meet Names), meetNumber (Array of number of occ. of each meet)}
@@ -17,6 +106,7 @@ class TimeAnalytics extends Component {
         let standardDeviation;
         let mostCommonTimeRange;
 
+        console.log(allData)
         // * If no data has been passed down from the form or invalid display empty form
         if (allData === null) {
             return (
