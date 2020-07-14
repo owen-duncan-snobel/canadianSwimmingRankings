@@ -81,57 +81,56 @@ class Clubs extends Component {
             && url.includes('gender=' + gender)
             && url.includes('agegroup=' + agegroup)
         );
-        // console.log(urls)
-        /* 
-                // * Will fetch all files then return at once preserving order with Promise.all() 
-                Promise.all(urls.map(url =>
-                    // * Need Heroku for 'ORS header “Access-Control-Allow-Origin” missing'
-                    fetch('https://cors-anywhere.herokuapp.com/' + url, {
-                        method: "GET"
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                console.log('Error: Could not display file ' + response.url)
-                            }
-                            return response.arrayBuffer();
-                        })
-                        .then(buffer => {
-                            // * Converts The Array Buffer into a Workbook then saves the file
-                            let bookBuffer = new Uint8Array(buffer);
-                            let workbook = XLSX.read(bookBuffer, {
-                                type: "array"
-                            })
-                            let data = [];
-                            for (let sheet in workbook.Sheets) {
-                                // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
-                                let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-                                // * removes place holder for top of file
-                                sheetData.shift();
-                                data.push(sheetData);
-                            }
-                            return data;
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
-        
-                ))
-                    .then((allData) => {
-                        if (allData[0] === undefined) {
-                            console.log('Error: No Swimmer Data was returned');
-                        } else {
-                            
-                            // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
-                            allData = [allData]; 
-                            */
 
-        this.setState({
-            // * SWAP FOR DEPLOYMENT 
-            swimmerData: [test.default] /* allData */, ddl_event: event, swimEvent: event, selectedData: test.default[0] /*  allData[0][urls.indexOf(selectedURL)] */
-        });
-        /* 
-                        }
-                    }) */
+        // * Will fetch all files then return at once preserving order with Promise.all() 
+        Promise.all(urls.map(url =>
+            // * Need Heroku for 'ORS header “Access-Control-Allow-Origin” missing'
+            fetch('https://cors-anywhere.herokuapp.com/' + url, {
+                method: "GET"
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('Error: Could not display file ' + response.url)
+                    }
+                    return response.arrayBuffer();
+                })
+                .then(buffer => {
+                    // * Converts The Array Buffer into a Workbook then saves the file
+                    let bookBuffer = new Uint8Array(buffer);
+                    let workbook = XLSX.read(bookBuffer, {
+                        type: "array"
+                    })
+                    let data = [];
+                    for (let sheet in workbook.Sheets) {
+                        // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                        let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                        // * removes place holder for top of file
+                        sheetData.shift();
+                        data.push(sheetData);
+                    }
+                    return data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
+        ))
+            .then((allData) => {
+                if (allData[0] === undefined) {
+                    console.log('Error: No Swimmer Data was returned');
+                } else {
+
+                    // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
+                    allData = [allData];
+
+
+                    this.setState({
+                        // * SWAP FOR DEPLOYMENT 
+                        swimmerData: allData, ddl_event: event, swimEvent: event, selectedData: allData[0][urls.indexOf(selectedURL)]
+                    });
+
+                }
+            })
 
         // * Need to check and see if form attributes changed or just event (if event reparse data otherwise reload)
     }

@@ -47,8 +47,6 @@ class ClubDashboard extends Component {
             } else {
                 allData = this.props.swimmerData;
                 selectedData = this.props.selectedData;
-                //   console.log(allData);
-                //    console.log(selectedData);
                 event = this.props.event;
                 // * If a specific event is selected, it will get the Sheet with the data for that specific event.
                 if (event !== 'All') {
