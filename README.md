@@ -39,6 +39,8 @@ Otherwise, you can also email me and describe how to replicate it, or describe h
 <a id="filestructure"> </a>
 # File Structure / Documentation
 
+### Documentation
+https://owen-duncan-snobel.github.io/canadianSwimmingRankings/
 ### Components
 
 ``` bash
