@@ -84,7 +84,6 @@ export const peakDistribution = (data) => {
         for (let i = 0; i < 4; i++) {
             months.unshift(months.pop());
         }
-        console.log(months)
         return months;
     } catch {
         console.log('Error: Unable to map the array');

@@ -106,7 +106,6 @@ class TimeAnalytics extends Component {
         let standardDeviation;
         let mostCommonTimeRange;
 
-        console.log(allData)
         // * If no data has been passed down from the form or invalid display empty form
         if (allData === null) {
             return (
