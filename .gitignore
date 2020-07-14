@@ -7,7 +7,6 @@ docs/
 .cache
 # TEMP CAN REMOVE AFTER
 2020-01-08/
-/docs
 .cache
 # ALL THE REACT IGNORES
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
