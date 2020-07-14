@@ -42,6 +42,8 @@ export const mostOccurrences = (arr) => {
  * @example 
  * meetMonth([Object('__EMPTY_':..., '__EMPTY_10': 36949)]) // * __EMPTY_10 is in excel date value
  * 
+ * [Object('__EMPTY_':..., '__EMPTY_10': 36949)] // * __EMPTY_10 is in excel date value
+ * 
  * return (
  * [Object('__EMPTY_1':..., '__EMPTY_10': 0)] // * __EMPTY_10 is now a single value contaning the month corresponding months
  * ) 
@@ -82,6 +84,7 @@ export const peakDistribution = (data) => {
         for (let i = 0; i < 4; i++) {
             months.unshift(months.pop());
         }
+        console.log(months)
         return months;
     } catch {
         console.log('Error: Unable to map the array');
