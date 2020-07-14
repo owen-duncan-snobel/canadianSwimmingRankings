@@ -2,14 +2,16 @@ import Rainbow from 'rainbowvis.js';
 
 
 /**
- * Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element. It finds the number of Occurrences 
- * each element in the array and returns a Map (key,value) pairs. Key is the element, Value is the number of Occurrences.
+ * Takes an array of (numbers/strings/dates) and find the number of occurrences of each distinct element.
+ * it returns a Map (key,value) pairs. Key is the element and Value is the number of occurrences.
  *
  * @param {Array} arr - Takes an array of numbers/strings/dates to find the number of Occurrences of each distinct element.
  * @returns {Map} Returns Map, where keys are the elements in the array and, value is the number of Occurrences of each element in the array.
- * 
  * @example 
- *  mostOccurrences(['July','Aug','Sept','July','June']) --> Map(['July',2],['Aug',1],['Sept',1],['June',1])
+ *  mostOccurrences(['July','Aug','Sept','July','June']) 
+ * return  (
+ *   Map(['July',2],['Aug',1],['Sept',1],['June',1])
+ * )
  */
 export const mostOccurrences = (arr) => {
     try {
@@ -33,15 +35,18 @@ export const mostOccurrences = (arr) => {
 
 
 /**
- * Converts the excel files Array of Swimmer Objects.__EMPTY_10 property (Meet Month: Stored in excel date value) 
- * Into a usable month to be viewed and compared with.
+ * Converts the Array of Swimmer Objects.__EMPTY_10 property (Meet Month is stored in excel date value),
+ * into a usable month to be viewed and compared with against. Where the month is in [0,1,2,3,4,..11] (with 0 being january and so on)
  * 
  * @param {object[]} meets - Takes an Array of Swimmer Objects to convert dates on.
- * @returns {object[]}   Where .__EMPTY_10 is now a useable month from JS Date. .getMonth() returns [0,1,2,3,4...,11] where 0 is January
- * 
+ * @returns {object[]}   Where .__EMPTY_10 is now a useable month from JS Date.
  * @example 
  * 
- * [Object('__EMPTY_':..., '__EMPTY_10': 36949)] --> [Object('__EMPTY_1':..., '__EMPTY_10': 0)]
+ * [Object('__EMPTY_':..., '__EMPTY_10': 36949)] // * __EMPTY_10 is in excel date value
+ * 
+ * return (
+ * [Object('__EMPTY_1':..., '__EMPTY_10': 0)] // * __EMPTY_10 is now a single value contaning the month corresponding months
+ * ) 
  *
  */
 export const meetMonth = (meets) => {
@@ -54,9 +59,10 @@ export const meetMonth = (meets) => {
 }
 
 /**
- *   Takes the Array of Swimmer Objects and converts the months then finds the most Occurrences of the month data.
+ *  Takes the Array of Swimmer Objects and converts the months to be aligned on the graph correctly. Also finds the most Occurrences of the month data.
  * @param {object[]} data - Takes an Array of Swimmer Objects to convert dates and map.
  * @returns {Array} Returns an Array where index[0] is September and the values of Occurrences in September is the value at the index.
+ * 
  */
 export const peakDistribution = (data) => {
     try {
@@ -71,6 +77,7 @@ export const peakDistribution = (data) => {
         for (let i = 0; i < 4; i++) {
             months.unshift(months.pop());
         }
+        console.log(months)
         return months;
     } catch {
         console.log('Error: Unable to map the array');
