@@ -8,6 +8,7 @@ import ReactTable from '../../components/reactTable/reactTable';
 import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import FastestCity from '../../components/analytics/fastestCity/fastestCity';
 import PeakMonth from '../../components/analytics/peakMonth/peakMonth';
+import PropTypes, { object } from 'prop-types';
 
 /**
  * Club Dashboard converts the data fetched from the route 'club', to a usable format to be used by the components (FastestMeets,FastestCity,PeakMonths).
@@ -18,7 +19,7 @@ class ClubDashboard extends Component {
     /**
      * Takes Data from the route 'clubs' and converts then updates state to allow for proper rendering of its Components.
      * @constructor 
-     * @param {*} props Props passed down from 'Club' route
+     * 
      */
     constructor(props) {
         super(props);
@@ -196,5 +197,25 @@ class ClubDashboard extends Component {
             )
         }
     }
+}
+
+ClubDashboard.propTypes = {
+    /**
+     *  Standardized JSON File structure Converted from Clubs Component. It is an Array[Workbooks[Events[Swimmers[]]]]
+     */
+    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+
+    /**
+     *  The name of the Event
+     */
+    event: PropTypes.string.isRequired,
+    /**
+     * The name of the swimEvent
+     */
+    swimEvent: PropTypes.string.isRequired,
+    /**
+     * The specific selected event from the Swimmer Data
+     */
+    selectedData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired
 }
 export default ClubDashboard;

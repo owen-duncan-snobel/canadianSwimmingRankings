@@ -8,6 +8,7 @@ import PropTypes, { object } from 'prop-types';
 defaults.global.legend.display = true;
 
 /**
+ *  Returns a Piegraph with the number of Meet occurences for each distinct Meetname.
  * @component
   * @example
  * const allData = [
