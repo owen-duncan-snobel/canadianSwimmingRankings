@@ -67,40 +67,40 @@ class Swimmer extends Component {
         searchParameter.append('Points', points);
         url += searchParameter.toString();
 
-
-        // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
-        fetch('https://cors-anywhere.herokuapp.com/' + url, {
-            method: "GET",
-            mode: 'cors',
-            headers: {
-                'Host': 'www.swimrankings.net',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
-            },
-        })
-            .then(response => {
-                if (!response.ok) throw new Error("Unable to fetch file");
-                return response.arrayBuffer();
-            })
-            .then(buffer => {
-                let bookBuffer = new Uint8Array(buffer);
-                let workbook = XLSX.read(bookBuffer, {
-                    type: "array"
+        /* 
+                // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
+                fetch('https://cors-anywhere.herokuapp.com/' + url, {
+                    method: "GET",
+                    mode: 'cors',
+                    headers: {
+                        'Host': 'www.swimrankings.net',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
+                    },
                 })
-                let data = [];
-                for (let sheet in workbook.Sheets) {
-                    // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
-                    let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-                    // * removes place holder for top of file
-                    sheetData.shift();
-                    data.push(sheetData);
-                }
-                // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
-                data = [data];
-                this.setState({ swimmerData: data, swimEvent: event, tableData: data })
-
-            }).catch((error) => {
-                console.log(error)
-            })
+                    .then(response => {
+                        if (!response.ok) throw new Error("Unable to fetch file");
+                        return response.arrayBuffer();
+                    })
+                    .then(buffer => {
+                        let bookBuffer = new Uint8Array(buffer);
+                        let workbook = XLSX.read(bookBuffer, {
+                            type: "array"
+                        })
+                        let data = [];
+                        for (let sheet in workbook.Sheets) {
+                            // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                            let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                            // * removes place holder for top of file
+                            sheetData.shift();
+                            data.push(sheetData);
+                        }
+                        // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
+                        data = [data]; */
+        this.setState({ swimmerData: test.default  /* data */, swimEvent: event, tableData: test.default/*  data */ })
+        /* 
+                    }).catch((error) => {
+                        console.log(error)
+                    }) */
 
     }
 
