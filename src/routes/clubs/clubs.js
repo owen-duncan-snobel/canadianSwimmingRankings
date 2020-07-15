@@ -5,8 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
 import ClubDashboard from '../../controllers/clubDashboard/clubDashboard';
 import * as test from '../../test.json';
-
-const XLSX = require('xlsx')
+const XLSX = require('xlsx');
 
 class Clubs extends Component {
     constructor(props) {
@@ -54,7 +53,6 @@ class Clubs extends Component {
         let urls = [];
 
         // *  Creates an array of all possible links to the data that you are want to fetch data from
-        // TODO will need to make it so you can fetch over years span so an update to the form and logic will be needed
         for (let age of AGES) {
             for (let season of SEASONS) {
                 for (let course of COURSES) {

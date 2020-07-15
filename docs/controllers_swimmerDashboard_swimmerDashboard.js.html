@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> components/analytics/fastestMeets/fastestMeets.js</title>
+  <title> controllers/swimmerDashboard/swimmerDashboard.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>components/analytics/fastestMeets/fastestMeets.js</h1>
+                    <h1>controllers/swimmerDashboard/swimmerDashboard.js</h1>
                 </header>
                 
 
@@ -89,136 +89,118 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
-import { Component } from 'react';
-import { Pie } from 'react-chartjs-2';
-import { defaults } from 'react-chartjs-2';
-import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
-import PropTypes, { object } from 'prop-types';
-
-defaults.global.legend.display = true;
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import Container from 'react-bootstrap/Container';
+import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Linegraph from '../../components/linegraph/linegraph';
+import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
+import TimeAnalytics from '../../components/analytics/timeAnalytics/timeAnalytics';
+import SwimmerTable from '../../controllers/swimmertable/swimmertable';
+import PropTypes from 'prop-types';
 
 /**
- *  Returns a Piegraph with the number of Meet occurences for each distinct Meetname.
+ * Swim Dashboard converts the data fetched from the route 'swimmer', to a usable format to be used by the components (Linegraph,Analytics, Swimmertable/React Table).
  * @component
-  * @example
- * const allData = [
-  {
-    "Oakville Aquatic Club, Season 2020, Open": "SCM",
-    "__EMPTY": "M",
-    "__EMPTY_1": 50,
-    "__EMPTY_2": "Fr",
-    "__EMPTY_3": "*********",
-    "__EMPTY_4": 37370,
-    "__EMPTY_5": "CAN",
-    "__EMPTY_6": "OAK",
-    "__EMPTY_7": "23.54",
-    "__EMPTY_8": 23.54,
-    "FINA 2019": 637,
-    "__EMPTY_9": 1,
-    "__EMPTY_10": 43813,
-    "__EMPTY_11": "Toronto",
-    "__EMPTY_12": "Ontario Junior International",
-    "__EMPTY_13": "Oakville Aquatic Club"
-  },
-  {
-    "Oakville Aquatic Club, Season 2020, Open": "SCM",
-    "__EMPTY": "M",
-    "__EMPTY_1": 50,
-    "__EMPTY_2": "Fr",
-    "__EMPTY_3": "*********",
-    "__EMPTY_4": 37277,
-    "__EMPTY_5": "CAN",
-    "__EMPTY_6": "OAK",
-    "__EMPTY_7": "24.31",
-    "__EMPTY_8": 24.31,
-    "FINA 2019": 578,
-    "__EMPTY_9": 2,
-    "__EMPTY_10": 43792,
-    "__EMPTY_11": "London",
-    "__EMPTY_12": "LAC - Nothers Fall Invitational",
-    "__EMPTY_13": "Oakville Aquatic Club"
-  }
-];
- * const event = '50m Free';
- * return (
- *  &lt;FastestMeets swimmerData={allData} swimEvent={event} />
- * )
- * 
  */
-class FastestMeets extends Component {
+class SwimDashboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
 
     render() {
         let allData = this.props.swimmerData;
+        let clubName = this.props.clubName;
+        let event = this.props.swimEvent;
+        let swimmerData = [];
         let meetData = [];
-        let data;
-        let options;
-        let meets;
-        let meetName;
-        let meetNumber;
-        let colorArray;
+        let tableData = [];
 
-        if (allData === null) {
+        if (this.props.swimmerData === null || this.props.swimmerData.length === 0) {
             return (
-                &lt;div> &lt;/div>
+                &lt;div name="InvalidYearNoData">  &lt;/div>
             )
         } else {
             try {
-                allData.forEach(swimmer => {
-                    meetData.push(swimmer);
+                // * Standardizes the data, converts the JSON objects into a complete dataset of the correct event with swimmer objects.
+                allData.forEach(workbook => {
+                    // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
+                    let index = EVENTS.indexOf(event)
+                    let Sheet = workbook[index];
+                    let dataset = [];
+                    // * For the selected event collect all the swimmer data
+                    Sheet.forEach(swimmer => {
+                        dataset.push(swimmer);
+                    })
+                    swimmerData.push(dataset);
                 })
-
-                meets = meetData.map(meet => meet.__EMPTY_12);
-                // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
-                meets = Array.from(SwimFormulas.mostOccurrences(meets)).sort((a, b) => b[1] - a[1]);
-                meetName = meets.map(name => name[0]);
-                meetNumber = meets.map(number => number[1]);
-
-                // * Creates The Colors for the PieChart depending on how many distinct meets there are
-                colorArray = SwimFormulas.colorArray(meets.length);
-
-                data = {
-                    labels: meetName,
-                    datasets: [{
-                        data: meetNumber,
-                        backgroundColor: colorArray
-                    }]
-                }
-                options = {
-                    legend: {
-                        display: false
-                    }
-                }
-            } catch {
-                console.log('Error: Unable to convert data for fastest meets')
+                // * Flatten data from multiple seasons into one array to be placed in table / meetchart
+                meetData = swimmerData.flat();
+            } catch (e) {
+                console.log(e);
             }
-        }
-        return (
-            &lt;div className='p-1'>
-                &lt;h4 className='formTitle'>Fastest Meets&lt;/h4> Based On Meet Where Best Times Were Swam.
+
+            return (
                 &lt;div>
-                    &lt;Pie data={data} options={options} height={150} />
+                    {/* Dashboard with all the logic for the graph **/}
+                    &lt; Container fluid >
+                        &lt;Row className='mb-3'>
+                            &lt;Col className='pr-0 mt-2' lg={8}>
+                                &lt;Linegraph swimmerData={swimmerData} swimEvent={event} clubName={clubName} />
+                            &lt;/Col>
+                            &lt;Col className='pl-0 mt-2' lg={4}>
+
+                                &lt;div className='colBorder ml-2'>
+                                    &lt;TimeAnalytics swimmerData={swimmerData} swimEvent={event} />
+                                &lt;/div>
+
+                                &lt;div className='colBorder ml-2 mt-2'>
+                                    &lt;FastestMeets className="" swimmerData={meetData} swimEvent={event} />
+                                &lt;/div>
+
+                            &lt;/Col>
+                        &lt;/Row>
+                    &lt;/Container >
+
+                    &lt;Container fluid>
+                        &lt;Row>
+                            &lt;Col>
+                                &lt;SwimmerTable tableData={swimmerData}>&lt;/SwimmerTable>
+                            &lt;/Col>
+                        &lt;/Row>
+                    &lt;/Container>
                 &lt;/div>
-            &lt;/div>
-        )
+            )
+        }
     }
 }
 
-FastestMeets.propTypes = {
+SwimDashboard.propTypes = {
     /**
-     *  Swimmer Data is an Array of Swimmer Objects. *refer to ProcessingData.md for object specifications*
+     *  Standardized JSON File structure Converted from Swimmer Component. It is an Array[Workbooks[Events[Swimmers[]]]]
      */
-    swimmerData: PropTypes.arrayOf(PropTypes.object),
+    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+
     /**
-     *  Swim Event is a string passed of the event name (ex. 50m Free, 100 Back)
+     *  The name of the event
      */
-    swimEvent: PropTypes.string
+    swimEvent: PropTypes.string.isRequired,
+
+    /**
+     *   Standardized JSON File structure Converted from Swimmer Component.
+     */
+    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+
+    /**
+     *  The name of the club that is being graphed 
+     */
+    clubName: PropTypes.string.isRequired
 }
-FastestMeets.defaultProps = {
-    swimmerData: null,
-    swimEvent: ''
-}
-export default FastestMeets;</code></pre>
+export default SwimDashboard;</code></pre>
         </article>
     </section>
 

@@ -34,5 +34,8 @@ reactComponents['FastestMeets'] = Component2;
 import Component3 from '../src/components/analytics/peakMonth/peakMonth.js';
 reactComponents['PeakMonth'] = Component3;
 
-import Component4 from '../src/components/analytics/timeAnalytics/timeAnalytics.js';
-reactComponents['TimeAnalytics'] = Component4;
+import Component4 from '../src/controllers/swimmerDashboard/swimmerDashboard.js';
+reactComponents['SwimDashboard'] = Component4;
+
+import Component5 from '../src/components/analytics/timeAnalytics/timeAnalytics.js';
+reactComponents['TimeAnalytics'] = Component5;

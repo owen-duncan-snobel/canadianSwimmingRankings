@@ -204,7 +204,7 @@ ClubDashboard.propTypes = {
     swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
 
     /**
-     *  The name of the Event
+     *  The name of the event
      */
     event: PropTypes.string.isRequired,
     /**

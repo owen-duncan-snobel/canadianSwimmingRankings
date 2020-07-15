@@ -7,7 +7,12 @@ import Linegraph from '../../components/linegraph/linegraph';
 import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import TimeAnalytics from '../../components/analytics/timeAnalytics/timeAnalytics';
 import SwimmerTable from '../../controllers/swimmertable/swimmertable';
+import PropTypes from 'prop-types';
 
+/**
+ * Swim Dashboard converts the data fetched from the route 'swimmer', to a usable format to be used by the components (Linegraph,Analytics, Swimmertable/React Table).
+ * @component
+ */
 class SwimDashboard extends Component {
     constructor(props) {
         super(props);
@@ -76,11 +81,32 @@ class SwimDashboard extends Component {
                                 <SwimmerTable tableData={swimmerData}></SwimmerTable>
                             </Col>
                         </Row>
-
                     </Container>
                 </div>
             )
         }
     }
+}
+
+SwimDashboard.propTypes = {
+    /**
+     *  Standardized JSON File structure Converted from Swimmer Component. It is an Array[Workbooks[Events[Swimmers[]]]]
+     */
+    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+
+    /**
+     *  The name of the event
+     */
+    swimEvent: PropTypes.string.isRequired,
+
+    /**
+     *   Standardized JSON File structure Converted from Swimmer Component.
+     */
+    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+
+    /**
+     *  The name of the club that is being graphed 
+     */
+    clubName: PropTypes.string.isRequired
 }
 export default SwimDashboard;
