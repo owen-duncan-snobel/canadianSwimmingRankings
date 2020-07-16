@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './clubs.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
 import ClubDashboard from '../../controllers/clubDashboard/clubDashboard';
 const XLSX = require('xlsx');
@@ -10,6 +11,7 @@ class Clubs extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             ddl_season: '2019-2020',
             ddl_course: 'SCM',
             ddl_club: '72542',
@@ -30,6 +32,8 @@ class Clubs extends Component {
     handleSubmit(onEvent) {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         onEvent.preventDefault();
+
+        this.setState({ loading: true })
 
         // * Get the Form Data 
         const formdata = new FormData(onEvent.target);
@@ -113,6 +117,7 @@ class Clubs extends Component {
 
         ))
             .then((allData) => {
+
                 if (allData[0] === undefined) {
                     console.log('Error: No Swimmer Data was returned');
                 } else {
@@ -123,7 +128,7 @@ class Clubs extends Component {
 
                     this.setState({
                         // * SWAP FOR DEPLOYMENT 
-                        swimmerData: allData, ddl_event: event, swimEvent: event, selectedData: allData[0][urls.indexOf(selectedURL)]
+                        swimmerData: allData, ddl_event: event, swimEvent: event, selectedData: allData[0][urls.indexOf(selectedURL)], loading: false
                     });
 
                 }
@@ -242,7 +247,8 @@ class Clubs extends Component {
                             </Form.Control>
                         </Form.Group>
                         <Button className="formButton" type="submit">
-                            SHOW
+                            {!this.state.loading && "SHOW"}
+                            {this.state.loading && <Spinner animation="border" size="sm" role="status" />}
                         </Button>
                     </Form.Row >
                 </Form >

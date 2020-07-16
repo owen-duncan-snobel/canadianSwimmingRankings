@@ -3,6 +3,7 @@ import { Component } from 'react';
 import './swimmer.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import { CLUBS } from '../../constants/swimmingConstants/swimmingConstants';
 import SwimDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
@@ -12,6 +13,7 @@ class Swimmer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             ddl_season: '2019-2020',
             compare: '',
             year: '',
@@ -38,6 +40,7 @@ class Swimmer extends Component {
         // * Prevent page from rerouting (need to see if we want it to use a different url for page handling)
         onEvent.preventDefault();
 
+        this.setState({ loading: true })
 
         // * Formed data is used for getting the contents of the submitted form 
         const formdata = new FormData(onEvent.target);
@@ -144,13 +147,14 @@ class Swimmer extends Component {
             })
         ))
             .then((data) => {
+
                 if (data[0] === undefined) {
                     console.log('Error: No Swimmer Data was returned');
                 } else {
                     // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
                     data = [data];
                 }
-                this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year, clubName: clubName })
+                this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year, clubName: clubName, loading: false })
             })
     }
 
@@ -274,7 +278,8 @@ class Swimmer extends Component {
                             </Form.Control>
                         </Form.Group>
                         <Button className="formButton" type="submit">
-                            SHOW
+                            {!this.state.loading && "SHOW"}
+                            {this.state.loading && <Spinner animation="border" size="sm" role="status" />}
                         </Button>
                     </Form.Row>
                 </Form>
