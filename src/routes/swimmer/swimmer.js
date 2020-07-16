@@ -150,7 +150,7 @@ class Swimmer extends Component {
                     // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
                     data = [data];
                 }
-                this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year })
+                this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year, clubName: clubName })
             })
     }
 
