@@ -5,14 +5,16 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { CLUBS } from '../../constants/swimmingConstants/swimmingConstants';
 import SwimDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
+import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
 import XLSX from 'xlsx';
-import * as test from '../../test.json';
 
 class Swimmer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             ddl_season: '2019-2020',
+            compare: '',
+            year: '',
             ddl_club: '72542',
             ddl_course: 'SCM',
             clubName: 'Oakville Aquatic Club',
@@ -45,10 +47,11 @@ class Swimmer extends Component {
         let gender = formdata.get('ddl_gender');
         let agegroup = formdata.get('ddl_age');
         let event = formdata.get('ddl_event');
-
+        let compare = formdata.get('compare');
         let clubName = CLUBS.get(clubID);
 
         // * Required for getting correct Season, They store it as a single date, 2020 opposed to 2019-2020.
+        let year = season;
         season = season.split('-')[1];
 
         // TODO Allow for language and point system changes if required
@@ -56,52 +59,99 @@ class Swimmer extends Component {
         const points = 'fina_2019';
 
         // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
-        let url = new URL('https://www.swimrankings.net/services/RankingXls/ranking.xls?');
-        let searchParameter = new URLSearchParams(url);
-        searchParameter.append('gender', gender);
-        searchParameter.append('agegroup', agegroup);
-        searchParameter.append('course', course);
-        searchParameter.append('season', season);
-        searchParameter.append('clubID', clubID);
-        searchParameter.append('Language', language);
-        searchParameter.append('Points', points);
-        url += searchParameter.toString();
+        let urls = [];
 
-        /* 
-                // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
-                fetch('https://cors-anywhere.herokuapp.com/' + url, {
-                    method: "GET",
-                    mode: 'cors',
-                    headers: {
-                        'Host': 'www.swimrankings.net',
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
-                    },
+        // *  Creates an array of all possible links to the data that you are want to fetch data from
+        for (let age of AGES) {
+            for (let season of SEASONS) {
+                for (let course of COURSES) {
+                    for (let gender of GENDERS) {
+                        let url = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
+                        let param = new URLSearchParams();
+                        param.append('gender', gender);
+                        param.append('agegroup', age);
+                        param.append('course', course);
+                        param.append('season', season.split('-')[1]);
+                        param.append('clubID', clubID);
+                        url += param.toString();
+                        urls.push(url);
+                    }
+                }
+            }
+        }
+
+        if (compare === 'Last1') {
+            urls = urls.filter(url => url.includes('clubID=' + clubID)
+                && (url.includes('season=' + season) || url.includes('season=' + (parseInt(season) - 1)))
+                && url.includes('course=' + course)
+                && url.includes('gender=' + gender)
+                && url.includes('agegroup=' + agegroup)
+            );
+        } else if (compare === 'Last2') {
+            urls = urls.filter(url => url.includes('clubID=' + clubID)
+                && (url.includes('season=' + season) || url.includes('season=' + (parseInt(season) - 1)) || url.includes('season=' + (parseInt(season) - 2)))
+                && url.includes('course=' + course)
+                && url.includes('gender=' + gender)
+                && url.includes('agegroup=' + agegroup)
+            );
+        } else if (compare === 'Last5') {
+            urls = urls.filter(url => url.includes('clubID=' + clubID)
+                && (url.includes('season=' + season) || url.includes('season=' + (parseInt(season) - 1)) || url.includes('season=' + (parseInt(season) - 2)) || url.includes('season=' + (parseInt(season) - 3)) || url.includes('season=' + (parseInt(season) - 4)) || url.includes('season=' + (parseInt(season) - 5)))
+                && url.includes('course=' + course)
+                && url.includes('gender=' + gender)
+                && url.includes('agegroup=' + agegroup)
+            );
+        } else {
+            urls = urls.filter(url => url.includes('clubID=' + clubID)
+                && url.includes('season=' + season)
+                && url.includes('course=' + course)
+                && url.includes('gender=' + gender)
+                && url.includes('agegroup=' + agegroup)
+            );
+        }
+
+
+
+        // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
+        Promise.all(urls.map(url => fetch('https://cors-anywhere.herokuapp.com/' + url, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Host': 'www.swimrankings.net',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
+            },
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Unable to fetch file");
+                return response.arrayBuffer();
+            })
+            .then(buffer => {
+                let bookBuffer = new Uint8Array(buffer);
+                let workbook = XLSX.read(bookBuffer, {
+                    type: "array"
                 })
-                    .then(response => {
-                        if (!response.ok) throw new Error("Unable to fetch file");
-                        return response.arrayBuffer();
-                    })
-                    .then(buffer => {
-                        let bookBuffer = new Uint8Array(buffer);
-                        let workbook = XLSX.read(bookBuffer, {
-                            type: "array"
-                        })
-                        let data = [];
-                        for (let sheet in workbook.Sheets) {
-                            // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
-                            let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-                            // * removes place holder for top of file
-                            sheetData.shift();
-                            data.push(sheetData);
-                        }
-                        // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
-                        data = [data]; */
-        this.setState({ swimmerData: test.default  /* data */, swimEvent: event, tableData: test.default/*  data */ })
-        /* 
-                    }).catch((error) => {
-                        console.log(error)
-                    }) */
-
+                let data = [];
+                for (let sheet in workbook.Sheets) {
+                    // * Might return it as csv and remove tops of each for database adding to allow faster queries of swimmers
+                    let sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+                    // * removes place holder for top of file
+                    sheetData.shift();
+                    data.push(sheetData);
+                }
+                return data;
+            }).catch((error) => {
+                console.log(error)
+            })
+        ))
+            .then((data) => {
+                if (data[0] === undefined) {
+                    console.log('Error: No Swimmer Data was returned');
+                } else {
+                    // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
+                    data = [data];
+                }
+                this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year })
+            })
     }
 
     render() {
@@ -133,6 +183,16 @@ class Swimmer extends Component {
                                 <option value="2019-2020">2019-2020</option>
                                 <option value="2020-2021">2020-2021</option>
                                 <option value="2021-2022">2021-2022</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Control name="compare" id="compare" defaultValue={this.state.compare} className="dropdownBox custom-select" as="select">
+                                <option value="" disabled>Compare With</option>
+                                <option value="">None</option>
+                                <option value="Last1">Last Season</option>
+                                <option value="Last2">Last 2 Seasons</option>
+                                <option value="Last5">Last 5 Seasons</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -218,7 +278,7 @@ class Swimmer extends Component {
                         </Button>
                     </Form.Row>
                 </Form>
-                <SwimDashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} tableData={this.state.tableData} clubName={this.state.clubName}></SwimDashboard>
+                <SwimDashboard swimmerData={this.state.swimmerData} swimEvent={this.state.swimEvent} tableData={this.state.tableData} clubName={this.state.clubName} year={this.state.year}></SwimDashboard>
             </div >
         )
     }

@@ -7,7 +7,7 @@ import { defaults } from 'react-chartjs-2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 defaults.global.legend.display = true;
 

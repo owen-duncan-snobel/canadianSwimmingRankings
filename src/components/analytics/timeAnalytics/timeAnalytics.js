@@ -4,7 +4,6 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
-import PropTypes, { object } from 'prop-types';
 
 /**
  * Returns a Component with the average,mode,median,standard deviation listed based on data based to it.
@@ -106,7 +105,6 @@ class TimeAnalytics extends Component {
         let standardDeviation;
         let mostCommonTimeRange;
 
-        console.log(allData)
         // * If no data has been passed down from the form or invalid display empty form
         if (allData === null) {
             return (

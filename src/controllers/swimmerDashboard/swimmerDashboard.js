@@ -25,6 +25,7 @@ class SwimDashboard extends Component {
         let allData = this.props.swimmerData;
         let clubName = this.props.clubName;
         let event = this.props.swimEvent;
+        let year = this.props.year;
         let swimmerData = [];
         let meetData = [];
         let tableData = [];
@@ -36,7 +37,7 @@ class SwimDashboard extends Component {
         } else {
             try {
                 // * Standardizes the data, converts the JSON objects into a complete dataset of the correct event with swimmer objects.
-                allData.forEach(workbook => {
+                allData[0].forEach(workbook => {
                     // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
                     let index = EVENTS.indexOf(event)
                     let Sheet = workbook[index];
@@ -48,7 +49,7 @@ class SwimDashboard extends Component {
                     swimmerData.push(dataset);
                 })
                 // * Flatten data from multiple seasons into one array to be placed in table / meetchart
-                meetData = swimmerData.flat();
+                meetData = swimmerData.flat(Infinity);
             } catch (e) {
                 console.log(e);
             }
@@ -59,7 +60,7 @@ class SwimDashboard extends Component {
                     < Container fluid >
                         <Row className='mb-3'>
                             <Col className='pr-0 mt-2' lg={8}>
-                                <Linegraph swimmerData={swimmerData} swimEvent={event} clubName={clubName} />
+                                <Linegraph swimmerData={swimmerData} swimEvent={event} clubName={clubName} year={year} />
                             </Col>
                             <Col className='pl-0 mt-2' lg={4}>
 
@@ -107,6 +108,11 @@ SwimDashboard.propTypes = {
     /**
      *  The name of the club that is being graphed 
      */
-    clubName: PropTypes.string.isRequired
+    clubName: PropTypes.string.isRequired,
+
+    /**
+     *  The season that data is being graphed from
+     */
+    season: PropTypes.string.isRequired
 }
 export default SwimDashboard;

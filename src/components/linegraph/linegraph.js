@@ -42,7 +42,7 @@ class Linegraph extends Component {
             colorArray = SwimFormulas.colorArray(swimmerData.length);
 
             // * For each distinct (year/event) item in array, converts it into the line data to be graphed
-            swimmerData.forEach(dataset => {
+            swimmerData.forEach((dataset, index) => {
                 // * Creates Athletes and Rank arrays that will be used for the callback tick displays for each Line on the graph (Name, place, time)
                 athletes.push(dataset.map(athlete => athlete.__EMPTY_3));
                 rank.push(dataset.map(rank => rank.__EMPTY_9).reverse());
@@ -50,8 +50,10 @@ class Linegraph extends Component {
                 let times = dataset.map(time => standardize_times(time.__EMPTY_7)).reverse();
                 // * Pop off the color array to give the color to the line and prevent overlapping colors
                 let color = colorArray.pop();
+                let datayear = this.props.year.split('-').map(el => parseInt(el) - index).join('-')
+
                 let el = {
-                    label: this.props.swimEvent,
+                    label: datayear,
                     backgroundColor: color,
                     pointBackgroundColor: [color],
                     borderColor: color,
@@ -60,8 +62,16 @@ class Linegraph extends Component {
                 }
                 datasets.push(el);
             })
+
             // * Finds the length of the largest element in the array, to use for the label length
             maxLength = Math.max.apply(Math, rank.map(el => el.length))
+            // * Fill arrays less then with empty values so that it graphs from 1 - ... correctly. Otherwise data is offset from x-axis
+            datasets.forEach(function (el) {
+                while (el.data.length < maxLength) {
+                    el.data.unshift(null)
+                }
+                return data;
+            })
             // * Data that will be passed to the Linegraph Component
             data = {
                 // * Ensures that the labels along x-axis match the longest dataset length, so that all points are graphed successfully
