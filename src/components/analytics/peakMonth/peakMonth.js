@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
 import PropTypes from 'prop-types';
 
-defaults.global.legend.display = true;
+defaults.global.legend.display = false;
 
 /**
  * Peak Month is responsible for handling the logic and displaying the graph that either,
