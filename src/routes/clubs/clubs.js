@@ -127,7 +127,6 @@ class Clubs extends Component {
 
 
                     this.setState({
-                        // * SWAP FOR DEPLOYMENT 
                         swimmerData: allData, ddl_event: event, swimEvent: event, selectedData: allData[0][urls.indexOf(selectedURL)], loading: false
                     });
 

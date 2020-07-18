@@ -8,7 +8,7 @@ import ReactTable from '../../components/reactTable/reactTable';
 import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import FastestCity from '../../components/analytics/fastestCity/fastestCity';
 import PeakMonth from '../../components/analytics/peakMonth/peakMonth';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 /**
  * Club Dashboard converts the data fetched from the route 'club', to a usable format to be used by the components (FastestMeets,FastestCity,PeakMonths).

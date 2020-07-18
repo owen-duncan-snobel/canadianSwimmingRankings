@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 defaults.global.legend.display = true;
 
