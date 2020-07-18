@@ -32,7 +32,6 @@ export const mostOccurrences = (arr) => {
     }
 };
 
-
 /**
  * Converts the Array of Swimmer Objects.__EMPTY_10 property (Meet Month is stored in excel date value),
  * into a usable month to be viewed and compared with against. Where the month is in [0,1,2,3,4,..11] (with 0 being january and so on)
@@ -244,7 +243,13 @@ export const meetName = (meets) => {
     return [];
 }
 
-
+// * Ensures that all time strings given are in an appropriate ISO String format
+export const standardize_times = (time) => {
+    if (time.length === 5) time = '00:' + time;
+    if (time.length === 7) time = '0' + time;
+    let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
+    return milli;
+}
 /**
  * Color Array takes input arrayLength (Number). It returns an array of gradient colors the same length as the input. 
  * Useful for creating a gradient of colours for a data set that will differ but match a color scheme / theme.

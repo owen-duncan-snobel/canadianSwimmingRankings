@@ -4,6 +4,7 @@ import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Linegraph from '../../components/linegraph/linegraph';
+import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import TimeAnalytics from '../../components/analytics/timeAnalytics/timeAnalytics';
 import SwimmerTable from '../../controllers/swimmertable/swimmertable';
@@ -14,12 +15,6 @@ import PropTypes from 'prop-types';
  * @component
  */
 class SwimDashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-    }
 
     render() {
         let allData = this.props.swimmerData;
@@ -28,7 +23,6 @@ class SwimDashboard extends Component {
         let year = this.props.year;
         let swimmerData = [];
         let meetData = [];
-        let tableData = [];
 
         if (this.props.swimmerData === null || this.props.swimmerData.length === 0) {
             return (
@@ -44,6 +38,8 @@ class SwimDashboard extends Component {
                     let dataset = [];
                     // * For the selected event collect all the swimmer data
                     Sheet.forEach(swimmer => {
+                        // * Convert time from MM:SS.ss to Milliseconds (Needed for graphing y-axis for time, since it is not a standardized time format)
+                        swimmer.__EMPTY_8 = SwimFormulas.standardize_times(swimmer.__EMPTY_7);
                         dataset.push(swimmer);
                     })
                     swimmerData.push(dataset);
@@ -93,7 +89,7 @@ SwimDashboard.propTypes = {
     /**
      *  Standardized JSON File structure Converted from Swimmer Component. It is an Array[Workbooks[Events[Swimmers[]]]]
      */
-    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))),
 
     /**
      *  The name of the event
@@ -103,7 +99,7 @@ SwimDashboard.propTypes = {
     /**
      *   Standardized JSON File structure Converted from Swimmer Component.
      */
-    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))),
 
     /**
      *  The name of the club that is being graphed 
@@ -113,6 +109,6 @@ SwimDashboard.propTypes = {
     /**
      *  The season that data is being graphed from
      */
-    season: PropTypes.string.isRequired
+    season: PropTypes.string
 }
 export default SwimDashboard;

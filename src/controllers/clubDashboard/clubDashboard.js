@@ -16,18 +16,6 @@ import PropTypes, { object } from 'prop-types';
  */
 
 class ClubDashboard extends Component {
-    /**
-     * Takes Data from the route 'clubs' and converts then updates state to allow for proper rendering of its Components.
-     * @constructor 
-     * 
-     */
-    constructor(props) {
-        super(props);
-        this.state = {
-            allSwimmerDataSubComponents: null,
-            swimmerData: null
-        }
-    }
 
     render() {
 
@@ -36,7 +24,6 @@ class ClubDashboard extends Component {
         let allSwimmerDataSubComponents = [];
         let event = '';
         let allData;
-        let selectedData;
 
         // * Checks if the data passed is null OR if data passed in form [Years[Events[Swimmers]]].length == 0 aka. No swimmers for event
         try {
@@ -46,20 +33,20 @@ class ClubDashboard extends Component {
                 )
             } else {
                 allData = this.props.swimmerData;
-                selectedData = this.props.selectedData;
                 event = this.props.event;
                 // * If a specific event is selected, it will get the Sheet with the data for that specific event.
                 if (event !== 'All') {
+
                     allData[0].forEach(workbook => {
                         // * In every Workbook (Age / Year) it holds Sheets with the Events, will select the sheet that contains the events data
                         let index = EVENTS.indexOf(event)
                         let Sheet = workbook[index];
                         // * For the selected event collect all the swimmer data
                         Sheet.forEach(swimmer => {
+                            swimmer.__EMPTY_8 = SwimFormulas.standardize_times(swimmer.__EMPTY_7);
                             swimmerData.push(swimmer);
                         })
-                    }
-                    )
+                    })
 
                     // * Pass it the keys that will be used as the header for the table in React Table
                     let meetCityKeys = [
@@ -85,6 +72,16 @@ class ClubDashboard extends Component {
                     // * Converts the Meet Data Map into useable 'key' and 'value' arrays for graphing
                     let meets = Array.from(SwimFormulas.mostOccurrences(SwimFormulas.meetName(swimmerData))).sort((a, b) => b[1] - a[1]);
                     let meetName = meets.map(name => name[0]);
+                    let timeMap = new Map();
+                    meetName.forEach(el => timeMap.set(el))
+
+                    // * Going to be used for the groupings to sort by more properties. 
+                    for (let el of timeMap) {
+                        // * Builds a Key for the map that consists of an array of Objects where all the meetNames are the same
+                        el[1] = swimmerData.filter(item => item.__EMPTY_12 === el[0])
+                        timeMap.set(el[0], el[1]);
+                    }
+
                     let meetNumber = meets.map(number => number[1]);
                     let meetArr = [];
                     meets.forEach((city, index) => meetArr.push(Object({ '__EMPTY_12': meetName[index], '__EMPTY_14': meetNumber[index] })))
@@ -102,7 +99,7 @@ class ClubDashboard extends Component {
                                         <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
                                     </Col>
                                     <Col className="colBorder" md={6} sm={12}>
-                                        <FastestMeets swimmerData={swimmerData} swimEvent={this.state.swimEvent} />
+                                        <FastestMeets swimmerData={swimmerData} swimEvent={this.props.swimEvent} />
                                         <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
                                     </Col>
                                 </Row>
@@ -127,7 +124,8 @@ class ClubDashboard extends Component {
                         Workbook.forEach(Sheet => {
                             Sheet.forEach(Event => {
                                 Event.forEach(Swimmer => {
-                                    allSwimmerData.push(Swimmer)
+                                    Swimmer.__EMPTY_8 = SwimFormulas.standardize_times(Swimmer.__EMPTY_7);
+                                    allSwimmerData.push(Swimmer);
                                 })
                             })
                         })
@@ -179,7 +177,7 @@ class ClubDashboard extends Component {
                                     <ReactTable tableData={meetCityArr} allowedKeys={meetCityKeys} />
                                 </Col>
                                 <Col className="colBorder" sm={6}>
-                                    <FastestMeets swimmerData={allSwimmerData} swimEvent={this.state.swimEvent} />
+                                    <FastestMeets swimmerData={allSwimmerData} swimEvent={this.props.swimEvent} />
                                     <ReactTable tableData={meetArr} allowedKeys={meetKeys} />
                                 </Col>
                             </Row>
@@ -201,7 +199,7 @@ ClubDashboard.propTypes = {
     /**
      *  Standardized JSON File structure Converted from Clubs Component. It is an Array[Workbooks[Events[Swimmers[]]]]
      */
-    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))).isRequired,
+    swimmerData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)))),
 
     /**
      *  The name of the event
@@ -211,9 +209,6 @@ ClubDashboard.propTypes = {
      * The name of the swimEvent
      */
     swimEvent: PropTypes.string.isRequired,
-    /**
-     * The specific selected event from the Swimmer Data
-     */
-    selectedData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired
+
 }
 export default ClubDashboard;

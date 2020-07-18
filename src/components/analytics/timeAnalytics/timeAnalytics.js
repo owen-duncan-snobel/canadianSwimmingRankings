@@ -118,20 +118,17 @@ class TimeAnalytics extends Component {
                     })
                 })
 
-                // * Ensures that all time strings given are in an appropriate ISO String format
-                const standardize_times = (time) => {
-                    if (time.length === 5) time = '00:' + time;
-                    if (time.length === 7) time = '0' + time;
-                    let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
-                    return milli;
-                }
-
                 function commonTimeRange(meetData, mode) {
-                    return meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)
+                    try {
+                        return meetData.length === 0 ? '' : new Date(mode.mostCommonNumber * 1000).toISOString().substr(14, 8) + '-' + new Date((mode.mostCommonNumber + 1) * 1000).toISOString().substr(14, 8)
+                    } catch (e) {
+                        console.log(e);
+                        return (<div></div>)
+                    }
                 }
 
                 // * Converts The Time & Meet Data To an Array that can be easily used
-                times = meetData.map(time => standardize_times(time.__EMPTY_7));
+                times = meetData.map(time => time.__EMPTY_8);
                 // * Variables for the respective 'average' , 'median' and 'mode' from the data
                 average = SwimFormulas.averageTime(times);
                 median = SwimFormulas.medianTime(times);
