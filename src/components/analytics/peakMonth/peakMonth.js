@@ -605,6 +605,9 @@ class PeakMonth extends Component {
         }
         // * Options for the all events graph 
         allEventsOptions = {
+            legend: {
+                display: false
+            },
             scales: {
                 xAxes: [
                     {
