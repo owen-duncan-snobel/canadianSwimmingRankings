@@ -59,6 +59,15 @@ The Following is a breakdown of how the Columns in the JSON Array / Excel tables
 | __EMPTY_11  | "MEETCITY"  |
 |  __EMPTY_12 | "MEETNAME"  |
 | __EMPTY_13  | "CLUBNAME"  |
+| __EMPTY_13  | "CLUBNAME"  |
+
+
+Custom Added Properties (NOT INCLUDED IN FETCHED EXAMPLES BUT ADDED AFTER FOR TABLE DISPLAY)
+| __EMPTY_14: '# Occurrences' |
+| __EMPTY_15: '' |
+| __EMPTY_16: 'Average Time' |
+| __EMPTY_17: 'Standard Deviation' |
+
 
 Example Usage:  Collect Alltimes From every swimmer in the Event 
 

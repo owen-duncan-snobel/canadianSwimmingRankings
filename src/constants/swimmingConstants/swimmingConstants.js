@@ -58,8 +58,9 @@ export const JSON_ATTRIBUTES = {
     __EMPTY_13: "Clubname",
     __EMPTY_14: '# Occurrences',
     __EMPTY_15: '',
-    __EMPTY_16: '% Occurrences'
-
+    __EMPTY_16: 'Average Time',
+    __EMPTY_17: 'Standard Deviation',
+    __EMPTY_18: '% Occurences'
 };
 
 export const MONTH_NAMES = [

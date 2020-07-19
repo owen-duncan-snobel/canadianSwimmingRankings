@@ -39,7 +39,7 @@ class SwimDashboard extends Component {
                     // * For the selected event collect all the swimmer data
                     Sheet.forEach(swimmer => {
                         // * Convert time from MM:SS.ss to Milliseconds (Needed for graphing y-axis for time, since it is not a standardized time format)
-                        swimmer.__EMPTY_8 = SwimFormulas.standardize_times(swimmer.__EMPTY_7);
+                        swimmer.__EMPTY_8 = SwimFormulas.standardizeTimes(swimmer.__EMPTY_7);
                         dataset.push(swimmer);
                     })
                     swimmerData.push(dataset);
