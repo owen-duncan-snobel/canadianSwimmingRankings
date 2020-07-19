@@ -5,7 +5,6 @@ import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 import PropTypes from 'prop-types';
 
-defaults.global.legend.display = true;
 
 /**
  *  Returns a Piegraph with the number of Meet occurences for each distinct Meetname.

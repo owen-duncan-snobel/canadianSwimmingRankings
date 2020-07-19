@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col';
 import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
 import PropTypes from 'prop-types';
 
-defaults.global.legend.display = false;
 
 /**
  * Peak Month is responsible for handling the logic and displaying the graph that either,
@@ -306,6 +305,7 @@ class PeakMonth extends Component {
                 numSwimmers = months.reduce((a, b) => a + b);
                 monthsPercent = [...months].map(el => Math.floor((el / numSwimmers) * 100));
 
+                console.log(monthsPercent)
                 // * Data that will be passed to the Linegraph Component
                 event = {
                     labels: MONTH_NAMES,
@@ -627,14 +627,14 @@ class PeakMonth extends Component {
         let meetKeys = [
             '__EMPTY_10',
             '__EMPTY_14',
-            '__EMPTY_16'
+            '__EMPTY_18'
         ];
         let monthName = [...MONTH_NAMES];
         let monthNum = [...months];
         let monthPercent = [...monthsPercent];
         let monthTable = [];
 
-        months.forEach((month, index) => monthTable.push(Object({ '__EMPTY_10': monthName[index], '__EMPTY_14': monthNum[index], '__EMPTY_16': monthPercent[index] })))
+        months.forEach((month, index) => monthTable.push(Object({ '__EMPTY_10': monthName[index], '__EMPTY_14': monthNum[index], '__EMPTY_18': monthPercent[index] })))
         monthTable = monthTable.filter(el => el.__EMPTY_14 !== 0);
 
         if (allSwimmerDataSubComponents === undefined || allSwimmerDataSubComponents.length === 0) {

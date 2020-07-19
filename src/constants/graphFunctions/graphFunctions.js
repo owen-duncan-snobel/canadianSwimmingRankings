@@ -244,12 +244,13 @@ export const meetName = (meets) => {
 }
 
 // * Ensures that all time strings given are in an appropriate ISO String format
-export const standardize_times = (time) => {
+export const standardizeTimes = (time) => {
     if (time.length === 5) time = '00:' + time;
     if (time.length === 7) time = '0' + time;
     let milli = ((parseInt(time.split(':')[0] * 60000)) + (parseInt(time.split(':')[1].split('.')[0] * 1000)) + (parseInt(time.split('.')[1]) * 10));
     return milli;
 }
+
 /**
  * Color Array takes input arrayLength (Number). It returns an array of gradient colors the same length as the input. 
  * Useful for creating a gradient of colours for a data set that will differ but match a color scheme / theme.
