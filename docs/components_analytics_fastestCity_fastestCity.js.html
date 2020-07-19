@@ -94,10 +94,7 @@ import { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
-import PropTypes, { object } from 'prop-types';
-
-defaults.global.legend.display = false;
-
+import PropTypes from 'prop-types';
 /**
  * @component
  * @example
@@ -152,6 +149,7 @@ class FastestCity extends Component {
         let meetCityKey;
         let meetCityNum;
         let data = {};
+        let options = {};
         if (allSwimmerData === null) {
             return (
                 &lt;div> &lt;/div>
@@ -173,14 +171,20 @@ class FastestCity extends Component {
                         backgroundColor: colorArray
                     }]
                 }
+                options = {
+                    legend: {
+                        display: false
+                    }
+                }
             }
+
             catch {
                 console.log('Error: Unable to convert data for fastest meets')
             }
             return (
                 &lt;div>
                     &lt;b>&lt;h4 className="formTitle">Location of Meet City  &lt;/h4>&lt;/b> Based On Meet City: (Of selected age group and gender).
-                    &lt; Pie name="Meet City Piechart" data={data} height={175} />
+                    &lt; Pie name="Meet City Piechart" data={data} options={options} height={175} />
                 &lt;/div >
             )
         }

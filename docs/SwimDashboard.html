@@ -90,7 +90,7 @@
 <header>
     
         <h2>
-            &ltSwimDashboard <i>swimmerData</i> <i>swimEvent</i> <i>tableData</i> <i>clubName</i> /&gt
+            &ltSwimDashboard <i>swimmerData</i> <i>swimEvent</i> <i>tableData</i> <i>clubName</i> <i>season</i> /&gt
         </h2>
         
             <div class="class-description"><p>Swim Dashboard converts the data fetched from the route 'swimmer', to a usable format to be used by the components (Linegraph,Analytics, Swimmertable/React Table).</p></div>
@@ -117,7 +117,7 @@
         
         <span class="code-name">
             
-                &ltSwimDashboard <i>swimmerData</i> <i>swimEvent</i> <i>tableData</i> <i>clubName</i> /&gt
+                &ltSwimDashboard <i>swimmerData</i> <i>swimEvent</i> <i>tableData</i> <i>clubName</i> <i>season</i> /&gt
             
         </span>
     </h4>
@@ -154,7 +154,7 @@
             <td>
               arrayOf
             </td>
-            <td>Yes</td>
+            <td>No</td>
             <td>Standardized JSON File structure Converted from Swimmer Component. It is an Array[Workbooks[Events[Swimmers[]]]]</td>
             <td></td>
           </tr>
@@ -176,7 +176,7 @@
             <td>
               arrayOf
             </td>
-            <td>Yes</td>
+            <td>No</td>
             <td>Standardized JSON File structure Converted from Swimmer Component.</td>
             <td></td>
           </tr>
@@ -189,6 +189,17 @@
             </td>
             <td>Yes</td>
             <td>The name of the club that is being graphed</td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>season</code></td>
+            <td>
+              string
+            </td>
+            <td>No</td>
+            <td>The season that data is being graphed from</td>
             <td></td>
           </tr>
           
