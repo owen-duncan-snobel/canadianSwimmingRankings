@@ -305,7 +305,6 @@ class PeakMonth extends Component {
                 numSwimmers = months.reduce((a, b) => a + b);
                 monthsPercent = [...months].map(el => Math.floor((el / numSwimmers) * 100));
 
-                console.log(monthsPercent)
                 // * Data that will be passed to the Linegraph Component
                 event = {
                     labels: MONTH_NAMES,
@@ -661,7 +660,7 @@ class PeakMonth extends Component {
                         <div>
                             <h6 className="text-center">{'All Events: (For selected age group and gender)'} </h6>
                         </div>
-                        <Bar name="All Events Best time over months chart" data={allEvents} options={allEventsOptions} height={175} redraw />
+                        <Bar name="All Events Best time over months chart" data={allEvents} options={allEventsOptions} redraw />
                     </Col>
                 </Row>
 
