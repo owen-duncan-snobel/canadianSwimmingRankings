@@ -1,5 +1,5 @@
 # Canadian Swimming Rankings   <img src="https://i.gyazo.com/5931b368adbf4d985e24f37012cebbc3.png" width="50" height="50">
-[Canadian Swimming Rankings](https://canadian-swimming-rankings.herokuapp.com/) is a graphing website that allows Swimmers and Coaches to take a closer look at the trends and insights from the results across all **Age groups**, **Events** and **Genders** from the **Current** & **Previous Years**.  
+[Canadian Swimming Rankings](https://www.canadianswimmingrankings.ca) is a graphing website that allows Swimmers and Coaches to take a closer look at the trends and insights from the results across all **Age groups**, **Events** and **Genders** from the **Current** & **Previous Years**.  
 
 All Data on this site has been provided by Christian Kaufmann, the owner of swimrankings.net .   If you or your club are looking for **Team Management** or **Meet Management** software, refer to https://www.swimrankings.net/index.php?page=splashsoftware 
 
