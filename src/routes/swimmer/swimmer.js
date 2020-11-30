@@ -6,7 +6,6 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { CLUBS } from '../../constants/swimmingConstants/swimmingConstants';
 import SwimDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
-import { AGES, SEASONS, COURSES, GENDERS } from '../../constants/swimmingConstants/swimmingConstants';
 import XLSX from 'xlsx';
 
 class Swimmer extends Component {
@@ -62,58 +61,26 @@ class Swimmer extends Component {
         const points = 'fina_2019';
 
         // * Creates a new URL adding the appropriate Search Parameters so that you can find the excel file
+        // * Write urls object to the local storage check if it exists if so JSON.parse()
+        // * Otherwise call urls function which will develop json of all the urls
         let urls = [];
 
-        // *  Creates an array of all possible links to the data that you are want to fetch data from
-        for (let age of AGES) {
-            for (let season of SEASONS) {
-                for (let course of COURSES) {
-                    for (let gender of GENDERS) {
-                        let url = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
-                        let param = new URLSearchParams();
-                        param.append('gender', gender);
-                        param.append('agegroup', age);
-                        param.append('course', course);
-                        param.append('season', season.split('-')[1]);
-                        param.append('clubID', clubID);
-                        url += param.toString();
-                        urls.push(url);
-                    }
-                }
-            }
+        // TODO Ideally have a function that will filter it for reusability and return the correct object
+        // Or create object where they overlap year, and group them. Object with all urls where year is equal...
+
+        compare = parseInt(compare)
+        for (let i = 0; i < compare; i++) {
+            let url = 'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
+            let param = new URLSearchParams();
+            param.append('gender', gender);
+            param.append('agegroup', agegroup);
+            param.append('course', course);
+            param.append('season', parseInt(season) - i);
+            param.append('clubID', clubID);
+            url += param.toString();
+            urls.push(url);
         }
-
-        if (compare === 'Last1') {
-            urls = urls.filter(url => url.includes('clubID=' + clubID)
-                && (url.includes('season=' + season) || url.includes('season=' + (parseInt(season) - 1)))
-                && url.includes('course=' + course)
-                && url.includes('gender=' + gender)
-                && url.includes('agegroup=' + agegroup)
-            );
-        } else if (compare === 'Last2') {
-            urls = urls.filter(url => url.includes('clubID=' + clubID)
-                && (url.includes('season=' + season) || url.includes('season=' + (parseInt(season) - 1)) || url.includes('season=' + (parseInt(season) - 2)))
-                && url.includes('course=' + course)
-                && url.includes('gender=' + gender)
-                && url.includes('agegroup=' + agegroup)
-            );
-        } else if (compare === 'Last5') {
-            urls = urls.filter(url => url.includes('clubID=' + clubID)
-                && (url.includes('season=' + season) || url.includes('season=' + (parseInt(season) - 1)) || url.includes('season=' + (parseInt(season) - 2)) || url.includes('season=' + (parseInt(season) - 3)) || url.includes('season=' + (parseInt(season) - 4)) || url.includes('season=' + (parseInt(season) - 5)))
-                && url.includes('course=' + course)
-                && url.includes('gender=' + gender)
-                && url.includes('agegroup=' + agegroup)
-            );
-        } else {
-            urls = urls.filter(url => url.includes('clubID=' + clubID)
-                && url.includes('season=' + season)
-                && url.includes('course=' + course)
-                && url.includes('gender=' + gender)
-                && url.includes('agegroup=' + agegroup)
-            );
-        }
-
-
+        console.log(urls)
 
         // * Fetch the file from swimranking.net, then will convert from .xls (excel) to JSON for graphing and table
         Promise.all(urls.map(url => fetch('https://cors-anywhere.herokuapp.com/' + url, {
@@ -125,8 +92,11 @@ class Swimmer extends Component {
             },
         })
             .then(response => {
-                if (!response.ok) throw new Error("Unable to fetch file");
-                return response.arrayBuffer();
+                if (!response.ok) {
+                    throw new Error("Unable to fetch file");
+                } else {
+                    return response.arrayBuffer();
+                }
             })
             .then(buffer => {
                 let bookBuffer = new Uint8Array(buffer);
@@ -150,11 +120,12 @@ class Swimmer extends Component {
 
                 if (data[0] === undefined) {
                     console.log('Error: No Swimmer Data was returned');
+                    this.setState({ loading: false })
                 } else {
                     // * Need to standardize data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
                     data = [data];
+                    this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year, clubName: clubName, loading: false })
                 }
-                this.setState({ swimmerData: /* test.default */  data, swimEvent: event, tableData: /* test.default */  data, year: year, clubName: clubName, loading: false })
             })
     }
 
@@ -192,11 +163,11 @@ class Swimmer extends Component {
 
                         <Form.Group>
                             <Form.Control name="compare" id="compare" defaultValue={this.state.compare} className="dropdownBox custom-select" as="select">
-                                <option value="" disabled>Compare With</option>
-                                <option value="">None</option>
-                                <option value="Last1">Last Season</option>
-                                <option value="Last2">Last 2 Seasons</option>
-                                <option value="Last5">Last 5 Seasons</option>
+                                <option value="1" disabled>Compare With</option>
+                                <option value="1">None</option>
+                                <option value="2">Last Season</option>
+                                <option value="3">Last 2 Seasons</option>
+                                <option value="6">Last 5 Seasons</option>
                             </Form.Control>
                         </Form.Group>
 

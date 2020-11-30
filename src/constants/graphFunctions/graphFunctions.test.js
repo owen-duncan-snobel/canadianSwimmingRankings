@@ -1,4 +1,4 @@
-import { mostOccurrences, standardDeviation } from './graphFunctions';
+/* import { mostOccurrences, standardDeviation } from './graphFunctions';
 
 test('Most Occurrences Empty/Null/Undefined Tests', () => {
     expect(mostOccurrences([]).size).toBeUndefined;
@@ -40,3 +40,4 @@ test('Standard Deviation Tests', () => {
 })
 
 
+ */
