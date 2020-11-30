@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Swimmer from './routes/swimmer/swimmer';
+//import Swimmer from './routes/swimmer/swimmer';
+import Swimmer from './views/swimmer/swimmer';
 import About from './routes/about/about';
 import Contact from './routes/contact/contact';
 import Clubs from './routes/clubs/clubs';
@@ -60,9 +61,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      { /*  <a href='./src/components/swimmerData.zip' download>Click to download</a> */}
-
-
     </div >
   );
 }
