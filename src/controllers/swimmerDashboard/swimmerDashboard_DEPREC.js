@@ -109,6 +109,6 @@ SwimDashboard.propTypes = {
     /**
      *  The season that data is being graphed from
      */
-    season: PropTypes.string
+    year: PropTypes.string
 }
 export default SwimDashboard;
