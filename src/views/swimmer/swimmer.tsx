@@ -7,9 +7,10 @@ import XLSX from 'xlsx';
 import SwimmerDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 
 // Might break down into interface to match book structure (Interface for swimmer, array of swimmers for event, array of events)
+type SwimmerData = Array<Array<Array<Object>>>;
 
 const Swimmer: React.FC = (props) => {
-	const [data, setData] = useState<Object[][][] | null>(null);
+	const [data, setData] = useState<SwimmerData | null>(null);
 	const [input, setInput] = useState({});
 	const [loading, setLoading] = useState<Boolean>(false);
 	const [urls, setUrls] = useState<String[]>([]);
