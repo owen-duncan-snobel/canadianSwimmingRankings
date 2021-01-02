@@ -52,6 +52,8 @@ import PropTypes from 'prop-types';
 class FastestCity extends Component {
 
     render() {
+
+
         let allSwimmerData = this.props.swimmerData;
         let colorArray;
         let meetCity;
@@ -86,13 +88,12 @@ class FastestCity extends Component {
                     }
                 }
             }
-
             catch {
                 console.log('Error: Unable to convert data for fastest meets')
             }
             return (
                 <div>
-                    <b><h4 className="formTitle">Location of Meet City  </h4></b> Based On Meet City: (Of selected age group and gender).
+                    <b><h4 className="formTitle">Location of Meet City  </h4></b> Based On Meet City (of the selected age group and gender).
                     < Pie name="Meet City Piechart" data={data} options={options} height={175} />
                 </div >
             )
