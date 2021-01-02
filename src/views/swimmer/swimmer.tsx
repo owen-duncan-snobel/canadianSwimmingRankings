@@ -9,16 +9,18 @@ import SwimmerDashboard from '../../controllers/swimmerDashboard/swimmerDashboar
 // Might break down into interface to match book structure (Interface for swimmer, array of swimmers for event, array of events)
 type SwimmerData = Array<Array<Array<Object>>>;
 
-const Swimmer: React.FC = (props) => {
+const Swimmer: React.FC = () => {
 	const [data, setData] = useState<SwimmerData | null>(null);
 	const [input, setInput] = useState({});
 	const [loading, setLoading] = useState<Boolean>(false);
-	const [urls, setUrls] = useState<String[]>([]);
+	const [urls, setUrls] = useState<string[]>([]);
 	const [eventName, setEventName] = useState<string>('');
-	const [clubName, setClubName] = useState<string>('');
-	const [year, setYear] = useState<string>('');
+	const [clubName, setClubName] = useState<string>('72542');
+	const [year, setYear] = useState<string>('2020');
 
-	// Handles any form change, reusable
+	/**
+	 * * Handles any form change, reusable
+	 */
 	const handleInputChange = (e: any) =>
 		setInput({
 			...input,
@@ -26,55 +28,60 @@ const Swimmer: React.FC = (props) => {
 		});
 
 	const handleSubmit = (e: any) => {
-		/**
-		 * * Prevent page from rerouting / reloading
-		 */
-		e.preventDefault();
-		setLoading(true);
+		try {
+			/**
+			 * * Prevent page from rerouting / reloading
+			 */
+			e.preventDefault();
+			setLoading(true);
 
-		/**
-		 * * Formed data is used for getting the contents of the submitted form
-		 */
-		const formdata = new FormData(e.target);
-		const clubID = formdata.get('ddl_club')?.toString();
-		const season = formdata.get('ddl_season')!?.toString();
-		const course = formdata.get('ddl_course')?.toString();
-		const gender = formdata.get('ddl_gender')?.toString();
-		const agegroup = formdata.get('ddl_age')?.toString();
-		const event: string = formdata.get('ddl_event')?.toString()!;
-		let compare = formdata.get('compare')!.toString();
+			/**
+			 * * Formed data is used for getting the contents of the submitted form
+			 */
+			const formdata = new FormData(e.target);
+			const clubID = formdata.get('ddl_club')?.toString();
+			const season = formdata.get('ddl_season')!?.toString();
+			const course = formdata.get('ddl_course')?.toString();
+			const gender = formdata.get('ddl_gender')?.toString();
+			const agegroup = formdata.get('ddl_age')?.toString();
+			const event: string = formdata.get('ddl_event')?.toString()!;
+			let compare = formdata.get('compare')!.toString();
 
-		/**
-		 * * urls array will contain all the distinct urls that will be fetched and graphed/compared.
-		 * * They are stored in an array so that we can track when they change / update in our urls state
-		 */
-		let formUrls = [];
-		let compareI = parseInt(compare);
+			/**
+			 * * urls array will contain all the distinct urls that will be fetched and graphed/compared.
+			 * * They are stored in an array so that we can track when they change / update in our urls state
+			 */
+			let formUrls = [];
+			let compareI = parseInt(compare);
 
-		for (let i = 0; i < compareI; i++) {
-			let url =
-				'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
-			let param = new URLSearchParams();
-			param.append('gender', gender!);
-			param.append('agegroup', agegroup!);
-			param.append('course', course!);
-			param.append('season', (parseInt(season) - i).toString());
-			param.append('clubID', clubID!);
-			url += param.toString();
-			formUrls.push(url);
-		}
+			for (let i = 0; i < compareI; i++) {
+				let url =
+					'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
+				let param = new URLSearchParams();
+				param.append('gender', gender!);
+				param.append('agegroup', agegroup!);
+				param.append('course', course!);
+				param.append('season', (parseInt(season) - i).toString());
+				param.append('clubID', clubID!);
+				url += param.toString();
+				formUrls.push(url);
+			}
 
-		/**
-		 * * If the stringified array of urls is equal to the current form no need to refetch the data
-		 * * since that urls have not changed
-		 */
-		if (JSON.stringify(urls) === JSON.stringify(formUrls)) {
+			/**
+			 * * If the stringified array of urls is equal to the current form no need to refetch the data
+			 * * since that urls have not changed
+			 */
+			if (JSON.stringify(urls) === JSON.stringify(formUrls)) {
+				setLoading(false);
+			} else {
+				setUrls(formUrls);
+				setEventName(event);
+				setClubName(CLUBS.get(clubID));
+				setYear(season);
+			}
+		} catch (error) {
+			console.log(error);
 			setLoading(false);
-		} else {
-			setUrls(formUrls);
-			setEventName(event);
-			setClubName(CLUBS.get(clubID));
-			setYear(season);
 		}
 	};
 
@@ -89,15 +96,19 @@ const Swimmer: React.FC = (props) => {
 			} else {
 				Promise.all(
 					urls.map((url) =>
-						fetch('https://cors-anywhere.herokuapp.com/' + url, {
-							method: 'GET',
-							mode: 'cors',
-							headers: {
-								Host: 'www.swimrankings.net',
-								Accept:
-									'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
-							},
-						})
+						fetch(
+							'https://dark-art-855d.canadianswimmingrankings.workers.dev/?' +
+								url,
+							{
+								method: 'GET',
+								mode: 'cors',
+								headers: {
+									Host: 'www.swimrankings.net',
+									Accept:
+										'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
+								},
+							}
+						)
 							.then((response) => {
 								if (!response.ok) {
 									throw new Error('Unable to fetch file');
@@ -163,7 +174,7 @@ const Swimmer: React.FC = (props) => {
 						<Form.Control
 							name="ddl_season"
 							id="ddl_season"
-							defaultValue={'2019-2020'}
+							defaultValue={year}
 							onChange={(e) => handleInputChange(e)}
 							className="dropdownBox custom-select"
 							as="select"
@@ -212,7 +223,7 @@ const Swimmer: React.FC = (props) => {
 						<Form.Control
 							name="ddl_club"
 							id="ddl_club"
-							defaultValue={'72542'}
+							defaultValue={clubName}
 							onChange={(e) => handleInputChange(e)}
 							className="dropdownBox custom-select"
 							as="select"
@@ -233,6 +244,7 @@ const Swimmer: React.FC = (props) => {
 						<Form.Control
 							name="ddl_course"
 							id="ddl_course"
+							defaultValue="SCM"
 							onChange={(e) => handleInputChange(e)}
 							className="dropdownBox custom-select"
 							as="select"
