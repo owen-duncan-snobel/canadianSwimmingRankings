@@ -308,7 +308,6 @@ export const colorArray = (arrayLength: number) => {
 
 export const commonTimeRange = (meetData: keyable[], mode: keyable) => {
 	try {
-		console.log(mode);
 		if (meetData.length === 0) {
 			return '';
 		} else {

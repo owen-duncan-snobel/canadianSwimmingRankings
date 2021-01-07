@@ -37,7 +37,9 @@ const About: React.FC = () => {
 						</a>
 						.
 					</p>
-					<h2 className="text-center">Request Club / Missing Club</h2>
+					<p className="text-center text-3xl">
+						Request Club / Missing Club
+					</p>
 					<p>
 						If you do not see your <b>club</b> listed in the
 						dropdown or your club is not within Canada. Email me and

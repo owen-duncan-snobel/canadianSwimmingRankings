@@ -764,9 +764,9 @@ const PeakMonth: React.FC<Props> = ({
 			<div className="justify-content-md-center">
 				<div className="mt-1">
 					<div>
-						<h6 className="text-center">
+						<p className="text-center text-md">
 							{'All Events: (For selected age group and gender)'}
-						</h6>
+						</p>
 					</div>
 					<Bar data={allEvents} options={allEventsOptions} />
 				</div>
@@ -778,11 +778,9 @@ const PeakMonth: React.FC<Props> = ({
 		<div>
 			<div className="mt-1">
 				<div className="text-center">
-					<b>
-						<h4 className="formTitle">
-							Distribution Of Best Times Over the Year
-						</h4>
-					</b>
+					<p className="formTitle text-2xl font-semibold">
+						Distribution Of Best Times Over the Year
+					</p>
 				</div>
 				{selectedEvents}
 			</div>

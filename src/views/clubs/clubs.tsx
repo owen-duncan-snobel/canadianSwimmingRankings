@@ -161,10 +161,10 @@ const Clubs: React.FC = () => {
 	return (
 		<div className="m-2">
 			<div>
-				<h1 className="font-bold">Club Analytics</h1>
+				<span className="font-bold text-4xl block">Club Analytics</span>
 			</div>
 
-			<Form className="rankingsForm" onSubmit={handleSubmit}>
+			<Form className="rankingsForm mt-2" onSubmit={handleSubmit}>
 				<Form.Row>
 					{/**  Swimming Season */}
 					<Form.Group>

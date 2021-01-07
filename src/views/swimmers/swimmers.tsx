@@ -168,10 +168,10 @@ const Swimmer: React.FC = () => {
 	return (
 		<div className="m-2">
 			<div>
-				<h1 className="font-bold">Swimmer Rankings</h1>
+				<span className="text-4xl font-bold">Swimmer Rankings</span>
 			</div>
 
-			<Form className="rankingsForm" onSubmit={handleSubmit}>
+			<Form className="rankingsForm mt-2" onSubmit={handleSubmit}>
 				<Form.Row>
 					{/**  Swimming Season */}
 					<Form.Group>
