@@ -72,6 +72,9 @@ const Swimmer: React.FC = () => {
 			 * * since that urls have not changed
 			 */
 			if (JSON.stringify(urls) === JSON.stringify(formUrls)) {
+				if (eventName !== event) {
+					setEventName(event);
+				}
 				setLoading(false);
 			} else {
 				setUrls(formUrls);
@@ -93,6 +96,7 @@ const Swimmer: React.FC = () => {
 		const fetchData = async () => {
 			if (urls === undefined || !urls.length) {
 				console.log('No URLS to fetch');
+				setLoading(false);
 			} else {
 				Promise.all(
 					urls.map((url) =>
@@ -162,9 +166,9 @@ const Swimmer: React.FC = () => {
 	}, [urls]);
 
 	return (
-		<div>
+		<div className="m-2">
 			<div>
-				<h1 className="formTitle">Swimmer Rankings</h1>
+				<h1 className="font-bold">Swimmer Rankings</h1>
 			</div>
 
 			<Form className="rankingsForm" onSubmit={handleSubmit}>

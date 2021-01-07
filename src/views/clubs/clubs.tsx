@@ -159,9 +159,9 @@ const Clubs: React.FC = () => {
 	}, [urls]);
 
 	return (
-		<div>
+		<div className="m-2">
 			<div>
-				<h1 className="formTitle">Club Analytics</h1>
+				<h1 className="font-bold">Club Analytics</h1>
 			</div>
 
 			<Form className="rankingsForm" onSubmit={handleSubmit}>
