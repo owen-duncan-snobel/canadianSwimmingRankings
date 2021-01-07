@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 import { Bar } from 'react-chartjs-2';
 import ReactTable from '../../../components/reactTable/reactTable';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { MONTH_NAMES } from '../../../constants/swimmingConstants/swimmingConstants';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 
 /**
  * Peak Month is responsible for handling the logic and displaying the graph that either,
@@ -302,7 +299,6 @@ const PeakMonth: React.FC<Props> = ({
 	let months: number[] = [];
 	let numSwimmers: number;
 	let monthsPercent: number[] = [];
-	let labels: string[];
 	let colorArray: string[] = [];
 	let allEvents: Object = {};
 	let event: Object = {};
@@ -749,54 +745,47 @@ const PeakMonth: React.FC<Props> = ({
 		allSwimmerDataSubComponents.length === 0
 	) {
 		selectedEvents = (
-			<Row className="justify-content-md-center">
-				<Col className="mt-1" lg={9} xs={12}>
+			<div className="justify-content-md-center">
+				<div className="mt-1">
 					<div>
-						<h6 className="text-center">
-							{eventName + ': Month of Best Time'}{' '}
-						</h6>
+						<span className="text-center text-lg">
+							{eventName + ': Month of Best Time'}
+						</span>
 					</div>
-					<Bar
-						data={event}
-						options={eventOptions}
-						height={175}
-						//redraw
-					/>
-				</Col>
-				<Col lg={3} xs={12}>
+					<Bar data={event} options={eventOptions} redraw />
+				</div>
+				<div>
 					<ReactTable tableData={monthTable} allowedKeys={meetKeys} />
-				</Col>
-			</Row>
+				</div>
+			</div>
 		);
 	} else {
 		selectedEvents = (
-			<Row className="justify-content-md-center">
-				<Col className="mt-1" md={10} xs={12}>
+			<div className="justify-content-md-center">
+				<div className="mt-1">
 					<div>
 						<h6 className="text-center">
-							{'All Events: (For selected age group and gender)'}{' '}
+							{'All Events: (For selected age group and gender)'}
 						</h6>
 					</div>
-					<Bar data={allEvents} options={allEventsOptions} redraw />
-				</Col>
-			</Row>
+					<Bar data={allEvents} options={allEventsOptions} />
+				</div>
+			</div>
 		);
 	}
 
 	return (
 		<div>
-			<Container fluid className="mt-1">
-				<Row>
-					<Col className="text-center">
-						<b>
-							<h4 className="formTitle">
-								Distribution Of Best Times Over the Year
-							</h4>
-						</b>
-					</Col>
-				</Row>
+			<div className="mt-1">
+				<div className="text-center">
+					<b>
+						<h4 className="formTitle">
+							Distribution Of Best Times Over the Year
+						</h4>
+					</b>
+				</div>
 				{selectedEvents}
-			</Container>
+			</div>
 		</div>
 	);
 };

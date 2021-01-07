@@ -1,8 +1,4 @@
 import React from 'react';
-import '../analytics.css';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import * as SwimFormulas from '../../../constants/graphFunctions/graphFunctions';
 
 /**
@@ -118,7 +114,6 @@ const TimeAnalytics: React.FC<Props> = ({ swimmerData, eventName }) => {
 		return <div></div>;
 	} else {
 		try {
-			console.log('WORKING');
 			swimmerData.forEach((event: keyable[]) => {
 				event.forEach((swimmer: keyable) => {
 					meetData.push(swimmer);
@@ -138,45 +133,45 @@ const TimeAnalytics: React.FC<Props> = ({ swimmerData, eventName }) => {
 		}
 	}
 	return (
-		<div>
+		<div className="container">
 			{/* Time Analytics */}
-			<Container>
-				<Row>
-					<Col lg={12} md={5} xs={12}>
-						{/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
+			<div>
+				{/* Hides The Average,Median,Mode if all events are selected. Aka data length is larger then 50 */}
 
-						<div>
-							<h4 className="formTitle">Swimming Analytics</h4>
+				{/** Swimming Analytics Title */}
+				<div>
+					<p className="font-semibold text-2xl text-center">
+						Swimming Analytics
+					</p>
 
-							<p className="averageTime">
-								{' '}
-								<b>Average Time </b> <br></br>
-								{average}
-							</p>
+					<p>
+						<span className="font-bold block">Average Time</span>
+						{average}
+					</p>
 
-							<p className="medianTime">
-								<b>Median Time</b> <br></br>
-								{median}
-							</p>
+					<p>
+						<span className="font-bold block">Median Time</span>
+						{median}
+					</p>
 
-							<p className="modeTime">
-								{' '}
-								<b>Most Common Time Range </b> <br></br>
-								{mostCommonTimeRange} <br></br>
-								<b className="modeCount">
-									{' '}
-									With {mode.maxCount} Swimmers{' '}
-								</b>
-							</p>
-							<p className="standardDeviation">
-								{' '}
-								<b>Standard Deviation</b> <br></br>
-								{standardDeviation}
-							</p>
-						</div>
-					</Col>
-				</Row>
-			</Container>
+					<p>
+						<span className="font-bold block">
+							Most Common Time Range
+						</span>
+						{mostCommonTimeRange}
+						<span className="font-bold block">
+							With {mode.maxCount} Swimmers
+						</span>
+					</p>
+
+					<p>
+						<span className="font-bold block">
+							Standard Deviation
+						</span>
+						{standardDeviation}
+					</p>
+				</div>
+			</div>
 		</div>
 	);
 };

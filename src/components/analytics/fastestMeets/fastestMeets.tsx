@@ -60,12 +60,10 @@ const FastestMeets: React.FC<Props> = ({ swimmerData, eventName }: Props) => {
 		}
 	}
 	return (
-		<div className="p-1">
-			<h4 className="formTitle">Fastest Meets</h4> Based On Meet Where
-			Best Times Were Swam.
-			<div>
-				<Pie data={data} options={options} height={150} />
-			</div>
+		<div className="container pt-2 pb-2">
+			<span className="font-semibold text-2xl block">Fastest Meets</span>
+			Based On Meet Where Best Times Were Swam.
+			<Pie data={data} options={options} />
 		</div>
 	);
 };

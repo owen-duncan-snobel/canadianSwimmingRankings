@@ -16,7 +16,7 @@ const ReactTable: React.FC<Props> = ({ tableData, allowedKeys }) => {
 		) => obj[key];
 
 		return (
-			<Table size="sm" responsive className="swimTable colBorder">
+			<Table responsive className="m-1 text-xs">
 				<thead>
 					<tr>
 						{allowedKeys.map((key: any) => {
