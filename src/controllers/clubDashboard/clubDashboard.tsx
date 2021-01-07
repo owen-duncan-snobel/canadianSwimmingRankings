@@ -1,9 +1,6 @@
 import React from 'react';
 import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import ReactTable from '../../components/reactTable/reactTable';
 import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
 import FastestCity from '../../components/analytics/fastestCity/fastestCity';
@@ -173,27 +170,27 @@ const ClubDashboard: React.FC<Props> = ({
 
 				return (
 					<div>
-						<Container fluid className="mt-1">
-							<Row>
+						<div className="mt-1">
+							<div>
 								{/* Displays The Distribution of months with best time, aka. Peak Months */}
-								<Col className="text-center colBorder">
+								<div className="text-center border border-black m-2">
 									<PeakMonth
 										swimmerData={data}
 										allSwimmerData={allSwimmerData}
 										allSwimmerDataSubComponents={[]}
 										eventName={eventName}
 									/>
-								</Col>
-							</Row>
-							<Row className="mt-2">
-								<Col className="colBorder" md={6} sm={12}>
+								</div>
+							</div>
+							<div className="grid grid-cols-1 md:grid-cols-2">
+								<div className="border border-black m-2">
 									<FastestCity swimmerData={data} />
 									<ReactTable
 										tableData={meetCityArr}
 										allowedKeys={meetCityKeys}
 									/>
-								</Col>
-								<Col className="colBorder" md={6} sm={12}>
+								</div>
+								<div className="border border-black m-2">
 									<FastestMeets
 										swimmerData={data}
 										eventName={eventName}
@@ -202,9 +199,9 @@ const ClubDashboard: React.FC<Props> = ({
 										tableData={meetArr}
 										allowedKeys={meetKeys}
 									/>
-								</Col>
-							</Row>
-						</Container>
+								</div>
+							</div>
+						</div>
 					</div>
 				);
 			} else {
@@ -282,31 +279,30 @@ const ClubDashboard: React.FC<Props> = ({
 				);
 
 				return (
-					<div>
-						<Container fluid className="mt-1">
-							<Row>
-								{/* Displays The Distribution of months with best time, aka. Peak Months */}
-								<Col className="text-center colBorder">
-									{' '}
-									<PeakMonth
-										swimmerData={data}
-										allSwimmerData={allSwimmerData}
-										allSwimmerDataSubComponents={
-											allSwimmerDataSubComponents
-										}
-										eventName={eventName}
-									/>
-								</Col>
-							</Row>
-							<Row className="mt-2">
-								<Col className="colBorder" sm={6}>
+					<div className="mt-1">
+						{/* Displays The Distribution of months with best time, aka. Peak Months */}
+						<div className="text-center border border-black m-2">
+							<PeakMonth
+								swimmerData={data}
+								allSwimmerData={allSwimmerData}
+								allSwimmerDataSubComponents={
+									allSwimmerDataSubComponents
+								}
+								eventName={eventName}
+							/>
+						</div>
+						<div className="mt-1">
+							{/** sm={6} */}
+							<div className="border border-black m-2 grid grid-cols-1 md:grid-cols-2">
+								<div className="colBorder md:cols-span-2">
 									<FastestCity swimmerData={data} />
 									<ReactTable
 										tableData={meetCityArr}
 										allowedKeys={meetCityKeys}
 									/>
-								</Col>
-								<Col className="colBorder" sm={6}>
+								</div>
+								{/** sm={6} */}
+								<div className="colBorder md:cols-span-2">
 									<FastestMeets
 										swimmerData={data}
 										eventName={eventName}
@@ -315,9 +311,9 @@ const ClubDashboard: React.FC<Props> = ({
 										tableData={meetArr}
 										allowedKeys={meetKeys}
 									/>
-								</Col>
-							</Row>
-						</Container>
+								</div>
+							</div>
+						</div>
 					</div>
 				);
 			}

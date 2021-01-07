@@ -1,8 +1,5 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import { EVENTS } from '../../constants/swimmingConstants/swimmingConstants';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Linegraph from '../../components/linegraph/linegraph';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 import FastestMeets from '../../components/analytics/fastestMeets/fastestMeets';
@@ -77,41 +74,38 @@ const SwimmerDashboard: React.FC<Props> = ({
 	return (
 		<div>
 			{/* Dashboard with all the logic for the graph **/}
-			<Container fluid>
-				<Row className="mb-3">
-					<Col className="pr-0 mt-2" lg={8}>
-						<Linegraph
+
+			<div className="grid grid-cols-1 md:grid-cols-3">
+				<div className="border border-black m-1 col-span-3 md:col-span-2">
+					<Linegraph
+						swimmerData={selectedSwimmerData}
+						eventName={eventName}
+						year={year}
+						clubName={clubName}
+					/>
+				</div>
+				<div className="border border-black m-1 md:col-span-1">
+					<div className="">
+						<TimeAnalytics
 							swimmerData={selectedSwimmerData}
 							eventName={eventName}
-							year={year}
-							clubName={clubName}
 						/>
-					</Col>
-					<Col className="pl-0 mt-2" lg={4}>
-						<div className="colBorder ml-2">
-							<TimeAnalytics
-								swimmerData={selectedSwimmerData}
-								eventName={eventName}
-							/>
-						</div>
+					</div>
 
-						<div className="colBorder ml-2 mt-2">
-							<FastestMeets
-								swimmerData={meetData}
-								eventName={eventName}
-							/>
-						</div>
-					</Col>
-				</Row>
-			</Container>
+					<div className="">
+						<FastestMeets
+							swimmerData={meetData}
+							eventName={eventName}
+						/>
+					</div>
+				</div>
+			</div>
 
-			<Container fluid>
-				<Row>
-					<Col>
-						<SwimmerTable tableData={selectedSwimmerData} />
-					</Col>
-				</Row>
-			</Container>
+			<div>
+				<div>
+					<SwimmerTable tableData={selectedSwimmerData} />
+				</div>
+			</div>
 		</div>
 	);
 };
