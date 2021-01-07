@@ -1,6 +1,5 @@
 module.exports = {
 	future: {},
-	purge: [],
 	theme: {
 		extend: {
 			colors: {
@@ -9,7 +8,6 @@ module.exports = {
 			},
 		},
 	},
-	extend: {},
 	variants: {},
 	plugins: [require('tailwindcss'), require('autoprefixer')],
 };
