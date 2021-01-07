@@ -94,17 +94,15 @@ const FastestCity: React.FC<Props> = ({ swimmerData }) => {
 			};
 
 			return (
-				<div>
-					<b>
-						<h4 className="formTitle">Location of Meet City </h4>
-					</b>{' '}
-					Based On Meet City (of the selected age group and gender).
-					<Pie data={data} options={options} height={175} />
+				<div className="container pt-2 pb-2">
+					<span className="font-semibold text-2xl block">
+						Location of Meet City
+					</span>
+					Based On Meet City (Of age group and gender).
+					<Pie data={data} options={options} />
 				</div>
 			);
 		}
-
-		return <div></div>;
 	} catch (error) {
 		console.log(error);
 		return <div></div>;
