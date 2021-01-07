@@ -18,7 +18,7 @@ const SwimmerTable: React.FC<Props> = ({ tableData }) => {
 		 * * If there is multiple years for an event to compare together; Then convert the data and flatten to single array of swimmer objects
 		 */
 		tableData.forEach((el) => {
-			el.map((item) => {
+			el.forEach((item) => {
 				/**
 				 * * If the data is not changing between renders it will be converted from excel date time to date
 				 * * string only on the first render. (Stops the date from attempting to convert again and breaking)

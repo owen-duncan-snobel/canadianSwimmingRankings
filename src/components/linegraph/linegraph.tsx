@@ -155,8 +155,10 @@ const Linegraph: React.FC<Props> = ({
 		};
 
 		return (
-			<div className="colBorder">
-				<div className="App mt-1 formTitle">{clubName} Rankings</div>
+			<div>
+				<div className="font-semibold text-center p-1">
+					{clubName} Rankings
+				</div>
 				<div>
 					<Line data={data} options={options} height={500} redraw />
 				</div>
