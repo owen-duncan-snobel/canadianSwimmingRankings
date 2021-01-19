@@ -4,7 +4,6 @@
 All Data on this site has been provided by Christian Kaufmann, the owner of swimrankings.net .   If you or your club are looking for **Team Management** or **Meet Management** software, refer to https://www.swimrankings.net/index.php?page=splashsoftware 
 
 ![](https://gyazo.com/63ca11f92848681bfbb7190a4ad6912a.png)
-![](https://gyazo.com/33094e11879d3b4f30e5617b170dd20d.png)
 ![](https://gyazo.com/e49fa62a5e16d6e51994fc1dc478d1b7.png)
 ![](https://gyazo.com/b9f85a972a97990fbedbbe455ca74dd3.png)
 
