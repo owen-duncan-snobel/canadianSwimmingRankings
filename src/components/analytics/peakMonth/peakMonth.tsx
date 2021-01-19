@@ -748,7 +748,7 @@ const PeakMonth: React.FC<Props> = ({
 			<div className="justify-content-md-center">
 				<div className="mt-1">
 					<div>
-						<span className="text-center text-lg">
+						<span className="text-center text-md">
 							{eventName + ': Month of Best Time'}
 						</span>
 					</div>
@@ -762,7 +762,7 @@ const PeakMonth: React.FC<Props> = ({
 	} else {
 		selectedEvents = (
 			<div className="justify-content-md-center">
-				<div className="mt-1">
+				<div className="">
 					<div>
 						<p className="text-center text-md">
 							{'All Events: (For selected age group and gender)'}

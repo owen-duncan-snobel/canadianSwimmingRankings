@@ -173,7 +173,7 @@ const ClubDashboard: React.FC<Props> = ({
 						<div className="mt-1">
 							<div>
 								{/* Displays The Distribution of months with best time, aka. Peak Months */}
-								<div className="text-center border border-black m-2">
+								<div className="text-center border border-black m-2 lg:px-20">
 									<PeakMonth
 										swimmerData={data}
 										allSwimmerData={allSwimmerData}
@@ -281,7 +281,7 @@ const ClubDashboard: React.FC<Props> = ({
 				return (
 					<div className="mt-1">
 						{/* Displays The Distribution of months with best time, aka. Peak Months */}
-						<div className="text-center border border-black m-2">
+						<div className="text-center border border-black m-2 lg:px-20">
 							<PeakMonth
 								swimmerData={data}
 								allSwimmerData={allSwimmerData}
