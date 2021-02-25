@@ -4,6 +4,7 @@ Selenium/
 Puppeteer_Scraping/
 testing/
 .cache
+.idea
 # TEMP CAN REMOVE AFTER
 2020-01-08/
 .cache

@@ -156,6 +156,7 @@ const Swimmer: React.FC = () => {
 						 * * Need to standardize the data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
 						 * * In the case where there is multiple urls/files implies multiple xlsx workbooks. You will need to keep an array of workbooks then iterate through each.
 						 */
+						console.log(promiseData);
 						setData([promiseData]);
 						setLoading(false);
 					}
