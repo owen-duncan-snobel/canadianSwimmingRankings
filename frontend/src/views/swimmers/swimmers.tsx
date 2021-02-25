@@ -99,7 +99,7 @@ const Swimmer: React.FC = () => {
 				setLoading(false);
 			} else {
 				Promise.all(
-					urls.map((url) =>
+					urls.map((url: any) =>
 						fetch(
 							'https://dark-art-855d.canadianswimmingrankings.workers.dev/?' +
 								url,

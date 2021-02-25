@@ -1,28 +1,24 @@
+window.reactComponents = {};
 
-    window.reactComponents = {};
+window.vueComponents = {};
 
-    window.vueComponents = {};
+import React from 'react';
 
-  
-      import React from "react";
+import ReactDOM from 'react-dom';
 
-      import ReactDOM from "react-dom";
+import ReactWrapper from 'better-docs/lib/react-wrapper';
 
+window.React = React;
 
-      import ReactWrapper from '../node_modules/better-docs/lib/react-wrapper.js';
+window.ReactDOM = ReactDOM;
 
-      window.React = React;
+window.ReactWrapper = ReactWrapper;
 
-      window.ReactDOM = ReactDOM;
+import './styles/reset.css';
 
-      window.ReactWrapper = ReactWrapper;
+import './styles/iframe.css';
 
-    
-    import './styles/reset.css';
-
-    import './styles/iframe.css';
-
-  import Component0 from '../src/controllers/clubDashboard/clubDashboard.js';
+import Component0 from '../src/controllers/clubDashboard/clubDashboard.js';
 reactComponents['ClubDashboard'] = Component0;
 
 import Component1 from '../src/components/analytics/fastestCity/fastestCity.js';
