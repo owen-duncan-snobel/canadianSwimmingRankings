@@ -36,39 +36,40 @@ or
 | 400m Individual Medley |400m Me | 
 
 
-------------
 
 
 #### JSON Array / Excel Rows Column Schematics
 
 The Following is a breakdown of how the Columns in the JSON Array / Excel tables sheets rows are named. **REFER** to this when looking for what attribute property is needed for the corresponding data graphing or collection.
 
-| JSON Attribute / Excel Column Name   | Data Column Holds   | INDEX
-| ------------ | ------------ |
-| __EMPTY  | "GENDER"   |     0
-| __EMPTY_1 | "DISTANCE"   |  1
-| __EMPTY_2  | "STROKE"  |    2
-| __EMPTY_3  | "FULLNAME"   | 3
-| __EMPTY_4 | "BIRTHDATE"   | 4
-| __EMPTY_5 | "NATION"  |     5
-| __EMPTY_6   | "CLUBCODE"  | 6
-| __EMPTY_7  | "SWIMTIME" **(Time as a string)  **| 7
-| __EMPTY_8  | "SWIMTIME_N" **(Time as a number) ** |  
-| __EMPTY_9  | "PLACE"   |
-| __EMPTY_10  | "MEETDATE"  |
-| __EMPTY_11  | "MEETCITY"  |
-|  __EMPTY_12 | "MEETNAME"  |
-| __EMPTY_13  | "CLUBNAME"  |
-| __EMPTY_13  | "CLUBNAME"  |
+| JSON Attribute / Excel Column Name   | Data Column Holds   | INDEX | Data Type |
+| ------------ | ------------ |  ------------ | ------------ |
+| __EMPTY  | "GENDER"   |     0 | String: "M" or "F"
+| __EMPTY_1 | "DISTANCE"   |  1 |  Number: 25,50,100,200,400,800,1500
+| __EMPTY_2  | "STROKE"  |    2 |  String: "Fr" or "Bk" or "Br" or "Bu" or "Me"
+| __EMPTY_3  | "FULLNAME"   | 3 | String: "___"
+| __EMPTY_4 | "BIRTHDATE"   | 4 | Epoch_Time
+| __EMPTY_5 | "NATION"  |     5 | String: "CAN", ... , "MEX"
+| __EMPTY_6   | "CLUBCODE"  | 6 | String: "OAK" , ... ,
+| __EMPTY_7  | "SWIMTIME" **(Time as a string)  **| 7 | String: "25.62" in seconds s.MM
+| __EMPTY_8  | "SWIMTIME_N" **(Time as a number) ** | 8 | Decimal_Number: 25.62 seconds s.MM
+| __EMPTY_9  | "PLACE"   | 9 | Integer: 1,2,3,4,...,50
+| __EMPTY_10  | "MEETDATE"  | 10 | Epoch_Time
+| __EMPTY_11  | "MEETCITY"  | 11 | String: "Toronto"
+|  __EMPTY_12 | "MEETNAME"  | 12 | String: "Dr. Ralph Hicken ..."
+| __EMPTY_13  | "CLUBNAME"  | 13 | String: "Oakville Aquatic Club"
 
 
 Custom Added Properties (NOT INCLUDED IN FETCHED EXAMPLES BUT ADDED AFTER FOR TABLE DISPLAY)
-| __EMPTY_14: '# Occurrences' |
+
+| JSON Attribute / Excel Column Name   | Data Column Holds |
+| ------------ | ------------ | 
+| __EMPTY_14: '# Occurrences' |    |
 | __EMPTY_15: '' |
-| __EMPTY_16: 'Average Time' |
-| __EMPTY_17: 'Standard Deviation' |
+| __EMPTY_16: 'Average Time' | AVERAGE_TIME   |
+| __EMPTY_17: 'Standard Deviation' | 
 
-
+** MIGHT ADD A NESTED PROPERTY THAT CONTAINS ALL THE STATS FROM THE RESPECTIVE SHEET
 Example Usage:  Collect Alltimes From every swimmer in the Event 
 
      let data = workbook.Sheets[event];
