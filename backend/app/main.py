@@ -33,7 +33,7 @@ https://www.swimrankings.net/services/RankingXls/ranking.xls?gender=M&agegroup=X
 @app.get("/swimmers")
 async def get_swimmers(gender:str, course:str, season:int, clubId:int, Points:Optional[str] = None, Language:Optional[str] = 'us', agegroup: str = 'X_X', compare: int = 1):
     try:
-        data = get_swimmers_data(gender,agegroup,course,season,clubId,Points,Language, compare)
+        data = get_swimmers_data(gender, agegroup, course, season, clubId, Points, Language, compare)
     except Exception:
         raise HTTPException(status_code=404, detail="Item not found")
     return data
