@@ -4,16 +4,16 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { CLUBS } from '../../constants/swimmingConstants/swimmingConstants';
 import XLSX from 'xlsx';
+import axios from 'axios';
 import SwimmerDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 
 // Might break down into interface to match book structure (Interface for swimmer, array of swimmers for event, array of events)
 type SwimmerData = Array<Array<Array<Object>>>;
 
 const Swimmer: React.FC = () => {
-	const [data, setData] = useState<SwimmerData | null>(null);
-	const [input, setInput] = useState({});
+	const [data, setData] = useState(null);
+	const [formInput, setFormInput] = useState({});
 	const [loading, setLoading] = useState<Boolean>(false);
-	const [urls, setUrls] = useState<string[]>([]);
 	const [eventName, setEventName] = useState<string>('');
 	const [clubName, setClubName] = useState<string>('72542');
 	const [year, setYear] = useState<string>('2020');
@@ -22,8 +22,8 @@ const Swimmer: React.FC = () => {
 	 * * Handles any form change, reusable
 	 */
 	const handleInputChange = (e: any) =>
-		setInput({
-			...input,
+		setFormInput({
+			...formInput,
 			[e.currentTarget.name]: e.currentTarget.value,
 		});
 
@@ -35,136 +35,42 @@ const Swimmer: React.FC = () => {
 			e.preventDefault();
 			setLoading(true);
 
-			/**
-			 * * Formed data is used for getting the contents of the submitted form
-			 */
 			const formdata = new FormData(e.target);
-			const clubID = formdata.get('ddl_club')?.toString();
+			const clubId = formdata.get('ddl_club')?.toString();
 			const season = formdata.get('ddl_season')!?.toString();
 			const course = formdata.get('ddl_course')?.toString();
 			const gender = formdata.get('ddl_gender')?.toString();
 			const agegroup = formdata.get('ddl_age')?.toString();
+			const compare = formdata.get('compare')?.toString();
+			/**
+			 * * Event is not required for fetching only displaying the correct dataset and event name in the component
+			 */
 			const event: string = formdata.get('ddl_event')?.toString()!;
-			let compare = formdata.get('compare')!.toString();
 
-			/**
-			 * * urls array will contain all the distinct urls that will be fetched and graphed/compared.
-			 * * They are stored in an array so that we can track when they change / update in our urls state
-			 */
-			let formUrls = [];
-			let compareI = parseInt(compare);
-
-			for (let i = 0; i < compareI; i++) {
-				let url =
-					'https://www.swimrankings.net/services/RankingXls/ranking.xls?';
-				let param = new URLSearchParams();
-				param.append('gender', gender!);
-				param.append('agegroup', agegroup!);
-				param.append('course', course!);
-				param.append('season', (parseInt(season) - i).toString());
-				param.append('clubID', clubID!);
-				url += param.toString();
-				formUrls.push(url);
-			}
-
-			/**
-			 * * If the stringified array of urls is equal to the current form no need to refetch the data
-			 * * since that urls have not changed
-			 */
-			if (JSON.stringify(urls) === JSON.stringify(formUrls)) {
-				if (eventName !== event) {
-					setEventName(event);
-				}
-				setLoading(false);
-			} else {
-				setUrls(formUrls);
-				setEventName(event);
-				setClubName(CLUBS.get(clubID));
-				setYear(season);
-			}
-		} catch (error) {
-			console.log(error);
+			axios({
+				method: 'POST',
+				url: 'http://localhost:8080/swimmers',
+				data: JSON.stringify({
+					clubId: clubId,
+					season: season,
+					course: course,
+					gender: gender,
+					agegroup: agegroup,
+					compare: compare,
+				}),
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+			})
+				.then((res) => res.data)
+				.then((text) => console.log(text));
 			setLoading(false);
+		} catch (e) {
+			console.log(e);
 		}
 	};
-
-	useEffect(() => {
-		// Check if the file exists in local storage / will looking into storing with IndexedDB
-		// TODO console.log('only fetch 1')
-
-		// Else fetch the data needed
-		const fetchData = async () => {
-			if (urls === undefined || !urls.length) {
-				console.log('No URLS to fetch');
-				setLoading(false);
-			} else {
-				Promise.all(
-					urls.map((url: any) =>
-						fetch(
-							'https://dark-art-855d.canadianswimmingrankings.workers.dev/?' +
-								url,
-							{
-								method: 'GET',
-								mode: 'cors',
-								headers: {
-									Host: 'www.swimrankings.net',
-									Accept:
-										'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,',
-								},
-							}
-						)
-							.then((response) => {
-								if (!response.ok) {
-									throw new Error('Unable to fetch file');
-								} else {
-									return response.arrayBuffer();
-								}
-							})
-							.then((buffer) => {
-								/**
-								 * * Converts the XLSX file into an Array buffer to be converted to Object
-								 */
-								let bookBuffer = new Uint8Array(buffer);
-								let workbook = XLSX.read(bookBuffer, {
-									type: 'array',
-								});
-
-								let workbookData = [];
-								for (let sheet in workbook.Sheets) {
-									let sheetData: Array<Object> = XLSX.utils.sheet_to_json(
-										workbook.Sheets[sheet]
-									);
-									// * removes place holder for top of file
-									sheetData.shift();
-									workbookData.push(sheetData);
-								}
-								return workbookData;
-							})
-							.catch((error) => {
-								console.log(error);
-							})
-					)
-				).then((promiseData: any) => {
-					/**
-					 * * Ensure that the data is first an array, as well as that the data isn't an empty array
-					 */
-					if (!Array.isArray(promiseData) || !promiseData.length) {
-						console.log('Error: No Swimmer Data was returned');
-						setLoading(false);
-					} else {
-						/**
-						 * * Need to standardize the data structure, ([Workbook (Year / Agegroup)] -> [Sheets (aka Event)] -> [Swimmers in event])
-						 * * In the case where there is multiple urls/files implies multiple xlsx workbooks. You will need to keep an array of workbooks then iterate through each.
-						 */
-						console.log(promiseData);
-						setData([promiseData]);
-						setLoading(false);
-					}
-				});
-			}
-		};
-		fetchData();
-	}, [urls]);
 
 	return (
 		<div className="m-2">
@@ -346,12 +252,6 @@ const Swimmer: React.FC = () => {
 					</Button>
 				</Form.Row>
 			</Form>
-			<SwimmerDashboard
-				allSwimmerData={data}
-				eventName={eventName}
-				clubName={clubName}
-				year={year}
-			/>
 		</div>
 	);
 };
