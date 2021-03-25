@@ -29,20 +29,25 @@ app.get('/*', (req, res) => {
  */
 app.post('/swimmers', jsonParser, async (req, res) => {
 	try {
+		/**
+		 * * Convert the form data into a query params string
+		 */
 		const params = req.body;
 		const qs = Object.keys(params)
 			.map((key) => `${key}=${params[key]}`)
 			.join('&');
 
-		axios({
+		await axios({
 			method: 'GET',
 			url: 'http://127.0.0.1:8000/swimmers?' + qs,
 		})
-			.then((response) => response.data)
+			.then((response) => {
+				return response.data;
+			})
 			.then((data) => res.send(data));
 	} catch (error) {
 		console.log(error);
-		res.send('ERROR FETCHING DATA');
+		res.status(error.response.status).send(error.response.data);
 	}
 });
 

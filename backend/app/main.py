@@ -2,20 +2,10 @@ from utils.get_data import get_swimmers_data, get_clubs_data
 from typing import Optional
 
 from pydantic import BaseModel
-from fastapi import BackgroundTasks, HTTPException, FastAPI
+from fastapi import BackgroundTasks, HTTPException, FastAPI, Query
 
 app = FastAPI()
 
-
-# STILL NEED TO IMPLEMENT THE CORRECT SWIMMERMODELS AND BASE MODELS
-class Swimmers(BaseModel):
-    gender:str
-    agegroup: str
-    course:str
-    season:int
-    clubId:int
-    Points:str
-    Language:str
 
 """
 Which Would give us the Excel File with the following Parameters: 
@@ -31,7 +21,7 @@ https://www.swimrankings.net/services/RankingXls/ranking.xls?gender=M&agegroup=X
 """
 
 @app.get("/swimmers")
-async def get_swimmers(gender:str, course:str, season:int, clubId:int, Points:Optional[str] = None, Language:Optional[str] = 'us', agegroup: str = 'X_X', compare: int = 1):
+async def get_swimmers(gender:str, course:str, clubId:int, Points:Optional[str] = None, Language:Optional[str] = 'us', agegroup: str = 'X_X', compare: int = 1, season: int = Query(..., gt=2007)):
     try:
         data = get_swimmers_data(gender, agegroup, course, season, clubId, Points, Language, compare)
     except Exception:
@@ -39,7 +29,7 @@ async def get_swimmers(gender:str, course:str, season:int, clubId:int, Points:Op
     return data
 
 @app.get("/clubs")
-async def get_clubs(gender:str, course:str, season:int, clubId:int, Points:Optional[str] = None, Language:Optional[str] = 'us', agegroup: str = 'X_X'):
+async def get_clubs(gender:str, course:str, clubId:int, Points:Optional[str] = None, Language:Optional[str] = 'us', agegroup: str = 'X_X', season: int = Query(..., gt=2007)):
     try:
         data = get_clubs_data(gender,agegroup,course,season,clubId,Points,Language)
     except Exception:

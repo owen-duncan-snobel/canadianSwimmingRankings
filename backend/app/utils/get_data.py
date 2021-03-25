@@ -8,7 +8,7 @@ def get_swimmers_data(gender,agegroup,course,season,clubId,Points,Language,compa
     
     # Create a dictionary of all the the seasons wishing to be compared
     data_dict_all = []
-
+    year = None
     for i in range(compare):
         # 2008 is the earliest recorded season
         if season-i < 2008: break
@@ -20,10 +20,9 @@ def get_swimmers_data(gender,agegroup,course,season,clubId,Points,Language,compa
 
         # convert dataframes into dictionaries
         data_dict = {
-            key: dict_of_df[key].to_dict(orient='records')
-            for key in dict_of_df
+            key: dict_of_df[key].to_dict(orient='records') for key in dict_of_df
         }
-
+        data_dict['year'] = season-i
         data_dict_all.append(data_dict)
  
     return data_dict_all
