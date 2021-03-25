@@ -2,168 +2,221 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import * as SwimFormulas from '../../constants/graphFunctions/graphFunctions';
 
-interface keyable {
-	[key: string]: any;
+interface Swimmer {
+	COURSE: string;
+	GENDER: Gender;
+	DISTANCE: number;
+	STROKE: Stroke;
+	FULLNAME: string;
+	BIRTHDATE: Date;
+	NATION: string;
+	CLUBCODE: string;
+	SWIMTIME: string;
+	SWIMTIME_N: number;
+	PTS_FINA: number;
+	PTS_RUDOLPH: number;
+	PLACE: number;
+	MEETDATE: Date;
+	MEETCITY: string;
+	MEETNAME: string;
+	CLUBNAME: string;
 }
 
+enum Stroke {
+	Bk = 'Bk',
+	Br = 'Br',
+	Bu = 'Bu',
+	Fr = 'Fr',
+	Me = 'Me',
+}
+enum Gender {
+	M = 'M',
+	F = 'F',
+}
+
+interface SwimmerData {
+	'50m Fr': Swimmer[];
+	'100m Fr': Swimmer[];
+	'200m Fr': Swimmer[];
+	'400m Fr': Swimmer[];
+	'800m Fr': Swimmer[];
+	'1500m Fr': Swimmer[];
+	'50m Bk': Swimmer[];
+	'100m Bk': Swimmer[];
+	'200m Bk': Swimmer[];
+	'50m Br': Swimmer[];
+	'100m Br': Swimmer[];
+	'200m Br': Swimmer[];
+	'50m Bu': Swimmer[];
+	'100m Bu': Swimmer[];
+	'200m Bu': Swimmer[];
+	'200m Me': Swimmer[];
+	'400m Me': Swimmer[];
+	year: number;
+}
+
+type SwimmerDataKeys = keyof Omit<SwimmerData, 'year'>;
+
 interface Props {
-	swimmerData: keyable[][];
-	eventName: string;
+	swimmerData: SwimmerData[];
+	eventName: SwimmerDataKeys;
 	year: string;
 	clubName: string;
 }
+
 const Linegraph: React.FC<Props> = ({
 	swimmerData,
 	eventName,
 	year,
 	clubName,
 }) => {
-	let data: Object = {};
-	let options: Object = {};
-	let athletes: keyable[] = [];
-	let rank: keyable[] = [];
-	let maxLength: any;
-	let swimData = JSON.parse(JSON.stringify(swimmerData));
-	let colorArray: string[] = [];
+	/**
+	 * * Creates the labels from 1 - 50 for the rankings of the swimmers. (Currently can only return 1-50 max from api the length may be smaller)
+	 */
+	const labels = Array.from({ length: 50 }, (_, i) => i + 1);
 
-	if (swimmerData === null || swimmerData.length === 0) {
-		return <div></div>;
-	} else {
-		/**
-		 * * Datasets will hold all the datasets which will be passed to the linegraph component. (aka. Each line and its options / data)
-		 */
-		let datasets: keyable[] = [];
-		/**
-		 * * Creates a Color Array to give each line a distinct color
-		 */
-		colorArray = SwimFormulas.colorArray(swimData.length);
+	/**
+	 * * Creates a Color Array to give each line a distinct color
+	 */
+	const colorArray = SwimFormulas.colorArray(swimmerData.length);
+
+	/**
+	 * * For each season (compare number chosen) create the chart.js data object
+	 */
+	const datasets = swimmerData.map((season, index) => {
+		const year = season['year'];
 
 		/**
-		 * * For each distinct (year/event) item in array, converts it into the line data to be graphed
+		 * * Get the event times for the selected season and corresponding eventName (ex. 50m Fr, 50m Bk, ...) reversed so that it graphs descending order (50-1)
 		 */
-		swimmerData.forEach((dataset: keyable[], index: number) => {
-			/**
-			 * * Creates Athletes and Rank arrays that will be used for the callback tick displays for each Line on the graph (Name, place, time)
-			 */
-			athletes.push(dataset.map((athlete) => athlete.__EMPTY_3));
-			rank.push(dataset.map((rank) => rank.__EMPTY_9).reverse());
-
-			let times = dataset
-				.map((time) => SwimFormulas.standardizeTimes(time.__EMPTY_7))
-				.reverse();
-			/**
-			 * * Pop off the color array to give the color to the line and prevent overlapping colors
-			 */
-			let color = colorArray.pop();
-			let datayear = year
-				.split('-')
-				.map((el) => parseInt(el) - index)
-				.join('-');
-
-			let el = {
-				label: datayear,
-				backgroundColor: color,
-				pointBackgroundColor: [color],
-				borderColor: color,
-				fill: false,
-				data: times,
-			};
-			datasets.push(el);
-		});
-
-		/**
-		 * * Finds the length of the largest element in the array, to use for the label length
-		 */
-		maxLength = Math.max.apply(
-			Math,
-			rank.map((el) => el.length)
+		const eventTimes = season[eventName].map(
+			(swimmer) => swimmer.SWIMTIME_N
 		);
-		/**
-		 * * Fill arrays less then with empty values so that it graphs from 1 - ... correctly. Otherwise data is offset from x-axis
-		 */
-		datasets.forEach(function (el) {
-			while (el.data.length < maxLength) {
-				el.data.unshift(null);
-			}
-			return data;
-		});
-		/**
-		 * * Data that will be passed to the Linegraph Component
-		 */
-		data = {
-			/**
-			 * * Ensures that the labels along x-axis match the longest dataset length, so that all points are graphed successfully
-			 */
-			labels: Array.from(Array(maxLength), (_, i) => i + 1).reverse(),
-			datasets: datasets,
-		};
 
-		options = {
-			title: {
-				display: true,
-				text: eventName,
-			},
-			responsive: true,
-			maintainAspectRatio: false,
-			animation: {
-				duration: 0, // general animation time
-			},
-			tooltips: {
-				callbacks: {
-					// * Updates the Tooltips (Graph Points) with the Name,Time
-					label: (tooltipItem: any, data: any) => {
-						// * Label Array is used to create multiple labels inside of data element in graph.
-						let labelArr = [];
-						// * Selects the athlete name from the correct dataset array
-						labelArr.push(
-							athletes[tooltipItem.datasetIndex][
-								tooltipItem.label - 1
-							] +
-								' ' +
-								new Date(tooltipItem.yLabel)
-									.toISOString()
-									.substr(14, 8)
-						);
-						return labelArr;
-					},
+		const color = colorArray[index];
+
+		return {
+			label: year,
+			backgroundColor: color,
+			pointBackgroundColor: [color],
+			borderColor: color,
+			fill: false,
+			data: eventTimes,
+		};
+	});
+
+	/**
+	 * * Array of array of athletes names (needed for the tooltips to display the names)
+	 */
+	const athletes = swimmerData.map((season, index) => {
+		return season[eventName].map((swimmer) => swimmer.FULLNAME);
+	});
+
+	let data = {
+		datasets: datasets,
+		labels: labels,
+	};
+
+	let options = {
+		title: {
+			display: true,
+			text: eventName,
+		},
+		responsive: true,
+		maintainAspectRatio: false,
+		animation: {
+			duration: 0, // general animation time
+		},
+		tooltips: {
+			callbacks: {
+				/**
+				 * * Tooltip callback on hover will display the swimmer name + the corresponding time as the label. (yLabel * 1000 for seconds to milliseconds)
+				 */
+				label: (tooltipItem: any, data: any) => {
+					return (
+						athletes[tooltipItem.datasetIndex][
+							tooltipItem.label - 1
+						] +
+						' ' +
+						new Date(tooltipItem.yLabel * 1000)
+							.toISOString()
+							.slice(14, 22)
+					);
 				},
 			},
-			scales: {
-				yAxes: [
-					{
-						scaleLabel: {
-							display: true,
-							labelString: 'Times (Seconds)',
-						},
-						ticks: {
-							callback: function (v: number) {
-								//* Responsible for the time graphing for the y-axis (converts ms to a readable format)
-								return new Date(v).toISOString().substr(14, 8);
-							},
-						},
+		},
+		scales: {
+			xAxes: [
+				{
+					/**
+					 * * x-axis needs to be reversed for the descending labels (50-1)
+					 */
+					ticks: {
+						reverse: true,
 					},
-				],
-				xAxes: [
-					{
-						scaleLabel: {
-							display: true,
-							labelString: 'Rank',
-						},
-					},
-				],
-			},
-		};
+				},
+			],
+		},
+	};
 
-		return (
-			<div>
-				<div className="font-semibold text-center p-1">
-					{clubName} Rankings
-				</div>
-				<div>
-					<Line data={data} options={options} height={500} redraw />
-				</div>
+	/*
+	options = {
+
+		tooltips: {
+			callbacks: {
+				// * Updates the Tooltips (Graph Points) with the Name,Time
+				label: (tooltipItem: any, data: any) => {
+					// * Label Array is used to create multiple labels inside of data element in graph.
+					let labelArr = [];
+					// * Selects the athlete name from the correct dataset array
+					labelArr.push(
+						athletes[tooltipItem.datasetIndex][
+							tooltipItem.label - 1
+						] +
+							' ' +
+							new Date(tooltipItem.yLabel)
+								.toISOString()
+								.substr(14, 8)
+					);
+					return labelArr;
+				},
+			},
+		},
+		scales: {
+			yAxes: [
+				{
+					scaleLabel: {
+						display: true,
+						labelString: 'Times (Seconds)',
+					},
+					ticks: {
+						callback: function (v: number) {
+							//* Responsible for the time graphing for the y-axis (converts ms to a readable format)
+							return new Date(v).toISOString().substr(14, 8);
+						},
+					},
+				},
+			],
+			xAxes: [
+				{
+					scaleLabel: {
+						display: true,
+						labelString: 'Rank',
+					},
+				},
+			],
+		},
+	};
+*/
+	return (
+		<div>
+			<div className="font-semibold text-center p-1">
+				{clubName} Rankings
 			</div>
-		);
-	}
+			<div>
+				<Line data={data} options={options} height={500} redraw />
+			</div>
+		</div>
+	);
 };
 export default Linegraph;

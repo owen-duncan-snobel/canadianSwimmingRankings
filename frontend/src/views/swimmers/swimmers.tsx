@@ -8,9 +8,13 @@ import axios from 'axios';
 import SwimmerDashboard from '../../controllers/swimmerDashboard/swimmerDashboard';
 
 // Might break down into interface to match book structure (Interface for swimmer, array of swimmers for event, array of events)
+// * Updated data type should be Array<Objects> where object contains each event as a property with an array of each swimmer object. Will need to update the interfact to match for TS
 type SwimmerData = Array<Array<Array<Object>>>;
 
 const Swimmer: React.FC = () => {
+	/**
+	 * * Might remove the reduntant useState's declarations and place inside a single formInput object
+	 */
 	const [data, setData] = useState(null);
 	const [formInput, setFormInput] = useState({});
 	const [loading, setLoading] = useState<Boolean>(false);
