@@ -13,5 +13,7 @@ services:
       - 8000:8000
     environment:
       - name=value
+      - DATABASE_URL=${DATABASE_URL}
+      - PORT=8000
     volumes:
       - ./mount/src:/app/src
