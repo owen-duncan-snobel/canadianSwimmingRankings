@@ -1,25 +1,21 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import { ResponseError } from '../middleware/error_handler'
+import { zParse } from '../middleware/validation'
 import { GetAthleteSchema } from '../schemas/swimmers.schemas'
 import { getAthlete } from '../services/swimmers.services'
 
-const getSwimmer = async (req: Request, res: Response ) => {
+const getSwimmer = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const validate = GetAthleteSchema.safeParse(req)
-
-    if (!validate.success){
-      return res.status(400).json(validate.error)
-    }
-
-    const { athleteId } = validate.data.params
-
+    const { params } = await zParse(GetAthleteSchema, req)
+    const { athleteId } = params
     const athlete = await getAthlete(athleteId)
 
     if (!athlete) {
-      return res.status(404).json({
-        status: 'ERROR',
-        message: `athleteId: '${athleteId}' does not exist`
-      })
+      const err: ResponseError = new Error(`athleteId: '${athleteId}' does not exist`)
+      err.status = 404
+      throw err
     }
+
     return res.status(200).json({
       status: 'SUCCESS',
       ...athlete
@@ -27,13 +23,14 @@ const getSwimmer = async (req: Request, res: Response ) => {
 
   } catch (err){
     console.log(err)
-    return res.status(500)
+    return next(err)
   }
 }
 
 module.exports = {
   getSwimmer
 }
+
 
 // import { PrismaClient } from '@prisma/client'
 

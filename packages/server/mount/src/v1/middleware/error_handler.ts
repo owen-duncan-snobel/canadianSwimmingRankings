@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { ZodError } from "zod";
 
-interface ResponseError extends Error {
+export interface ResponseError extends Error {
   status?: number
 }
 
