@@ -13,3 +13,4 @@ export const getAthlete = async (id: number) => {
     return null
   }
 }
+
