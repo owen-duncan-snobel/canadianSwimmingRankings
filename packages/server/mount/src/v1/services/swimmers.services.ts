@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import fetch from 'node-fetch'
+import axios from 'axios'
 import redis from 'redis'
 
 const prisma = new PrismaClient()
@@ -31,8 +31,8 @@ const getAthleteFromSwimRankings = async (id: number) => {
   try {
     // need to parse the dom and select the rows from the table
     /// html/body/div[34]/table/tbody/tr/td/table[2]      xpath
-    const response = await fetch(`https://www.swimrankings.net/index.php?page=athleteDetail&athleteId=${id}`)
-    return []
+    const response = await axios(`https://www.swimrankings.net/index.php?page=athleteDetail&athleteId=${id}`)
+    return response.data
     //const data = await response.json()
   } catch (error){
     console.log(error)
