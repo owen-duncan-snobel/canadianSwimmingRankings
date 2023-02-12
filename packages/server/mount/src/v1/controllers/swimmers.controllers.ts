@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { ResponseError } from '../middleware/error_handler'
+import { ResponseError } from '../../types/api'
 import { zParse } from '../middleware/validation'
 import { GetAthleteSchema } from '../schemas/swimmers.schemas'
 import { getAthlete } from '../services/swimmers.services'
@@ -12,7 +12,7 @@ const getSwimmer = async (req: Request, res: Response, next: NextFunction) => {
 
     if (!athlete) {
       const err: ResponseError = new Error(`athleteId: '${athleteId}' does not exist`)
-      err.status = 404
+      err.statusCode = 404
       throw err
     }
 

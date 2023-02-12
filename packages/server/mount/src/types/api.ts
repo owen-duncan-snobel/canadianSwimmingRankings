@@ -1,5 +1,11 @@
+export type Status = 'SUCCESS' | 'ERROR'
 export interface ApiResponse {
-  status: 'SUCCESS' | 'ERROR',
+  status: Status,
   message: string,
   results: any
+}
+
+export interface ResponseError extends Error {
+  status?: Status
+  statusCode?: number
 }
