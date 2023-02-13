@@ -2,28 +2,42 @@ import { PrismaClient, BestTimes } from '@prisma/client'
 import axios from 'axios'
 import redis from 'redis'
 import * as cheerio from 'cheerio'
+import { parse } from 'date-fns'
+
+type BestTimesWithoutId = Omit<BestTimes, 'id' | 'athlete_id'> 
 
 const prisma = new PrismaClient()
 //const redisClient = redis.createClient()
 
 export const getAthlete = async (id: number) => {
   try {
-    let athlete
+    let athlete: BestTimesWithoutId[] | null = null
     // check redis cache 
     if (athlete) return athlete
-    // check db
-    athlete = await prisma.users.findFirst({
-      where: { id }
-    })
-    if (athlete){
-      // set cache
-      return athlete
-    } 
+    // // check db
+    // athlete = await prisma.users.findFirst({
+    //   where: { id }
+    // })
+    // if (athlete){
+    //   // set cache
+    //   return athlete
+    // } 
     // if not in db attempt to fetch from swimrankings.net
     athlete = await getAthleteFromSwimRankings(id)
     if (athlete){
-      
+      const createAthlete = await prisma.users.create({
+        data: {
+          first_name: 'Owen',
+          last_name: 'Duncan-Snobel',
+          id,
+          best_times: {
+            create: athlete
+          }
+        }
+      })
+     //console.log(createAthlete)
     }
+
     // TODO need to also fetch name and birthdate to create the user 
     // need to differentiate between user and swimmer
     // user should probably be signed up to the site
@@ -37,38 +51,27 @@ export const getAthlete = async (id: number) => {
   }
 }
 
-type BestTimesWithoutId = Omit<BestTimes, 'id'>
-
 const getAthleteFromSwimRankings = async (id: number) => {
   try {
-    // need to parse the dom and select the rows from the table
-    /// html/body/div[34]/table/tbody/tr/td/table[2]      xpath
     if (!id) throw Error('Missing id')
-    const response = await axios(`https://www.swimrankings.net/index.php?page=athleteDetail&athleteId=${id}`)
+    const response = await axios(`https://www.swimrankings.net/index.php?page=athleteDetail&athleteId=${id}`, {
+      responseEncoding: 'binary'
+    })
     const data = response.data
     const $ = cheerio.load(data)
-    const bestTimes: BestTimesWithoutId[] = []
-    $('.athleteBest > tbody > tr')
-      .each((index, el) => {
-        const event = $(el).find('td.event').text()
-        const course =  $(el).find('td.course').text()
-        const time =  $(el).find('td.time').text()
-        const code =  $(el).find('td.code').text()
-        const date =  $(el).find('td.date').text() as unknown as Date
-        const city =  $(el).find('td.city').text()
-        const meet_name =  $(el).find('td.name').text()
-        bestTimes.push({
-          athlete_id: id,
-          course,
-          time,
-          date,
-          event,
-          location: city,
-          meet_name,
-          points: +code,
-        })
-    })
-    return bestTimes
+       return $('.athleteBest > tbody > tr:gt(0)')
+        .map(function (i, el){
+          return {
+          course: $(el).find('td.course').text(),
+          time: $(el).find('td.time').text(),
+          // date is being encoded with \u00A0/ need to replace with regular space
+          date:  parse($(el).find('td.date').text().replace(/\u00A0/g, ' '), 'dd MMM yyyy', new Date()),
+          event: $(el).find('td.event').text(),
+          location: $(el).find('td.city').text(),
+          meet_name: $(el).find('td.name').text(),
+          points: parseInt($(el).find('td.code').text()) || null,
+        }}
+      ).get()
   } catch (error){
     console.log(error)
     return null
