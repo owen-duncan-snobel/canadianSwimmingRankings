@@ -3,7 +3,6 @@ import axios from 'axios'
 import redis from 'redis'
 import * as cheerio from 'cheerio'
 
-
 const prisma = new PrismaClient()
 //const redisClient = redis.createClient()
 
@@ -25,6 +24,12 @@ export const getAthlete = async (id: number) => {
     if (athlete){
       
     }
+    // TODO need to also fetch name and birthdate to create the user 
+    // need to differentiate between user and swimmer
+    // user should probably be signed up to the site
+    // swimmer is just searching for a swimmer from that site
+    // each swimmer will have an athleteId which is associated to the best times
+    // potentially let Users add there athleteId to there page to track / view there times
     return athlete
   } catch (error){
     console.log(error)
@@ -64,7 +69,6 @@ const getAthleteFromSwimRankings = async (id: number) => {
         })
     })
     return bestTimes
-    //const data = await response.json()
   } catch (error){
     console.log(error)
     return null
