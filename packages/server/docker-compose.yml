@@ -14,6 +14,8 @@ services:
     environment:
       - name=value
       - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
       - PORT=8000
     volumes:
       - ./mount/src:/app/src
