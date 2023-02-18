@@ -5,6 +5,7 @@ import 'dotenv/config'
 import v1 from './v1'
 import ErrorHandler from './v1/middleware/error_handler'
 import redisClient from './libs/redis/redis'
+require('express-async-errors')
 
 const PORT = process.env.PORT
 const app = express()

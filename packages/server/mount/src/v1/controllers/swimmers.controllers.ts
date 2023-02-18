@@ -9,11 +9,6 @@ const getSwimmer = async (req: Request, res: Response, next: NextFunction) => {
     const { params } = await zParse(GetAthleteSchema, req)
     const { athleteId } = params
     const athlete = await getAthlete(athleteId)
-    if (!athlete) {
-      const err: ResponseError = new Error(`athleteId: '${athleteId}' does not exist`)
-      err.statusCode = 404
-      throw err
-    }
     return res.status(200).json({
       status: 'SUCCESS',
       ...athlete,
