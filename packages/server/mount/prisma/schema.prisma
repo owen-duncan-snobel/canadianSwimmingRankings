@@ -16,11 +16,22 @@ model Users {
   id         Int     @id
   first_name String
   last_name String
-  best_times BestTimes[]
+}
+
+// Athletes from swimrankings
+model Athletes { 
+  id            Int    @default(autoincrement())
+  first_name    String
+  last_name     String
+  birth_year    Int
+  nation        String
+  club          String
+  athlete_id    Int     @id
+  gender        String
+  best_times BestTimes[] @relation()
 }
 
 model BestTimes {
-  id        Int    @id @default(autoincrement())
   event     String
   course    String
   time      String
@@ -28,6 +39,7 @@ model BestTimes {
   date      DateTime
   location  String
   meet_name String
-  athlete Users @relation(fields: [athlete_id], references: [id])
+  athlete Athletes @relation(fields: [athlete_id], references: [athlete_id])
   athlete_id Int
+  @@id([athlete_id, event, course])
 }
