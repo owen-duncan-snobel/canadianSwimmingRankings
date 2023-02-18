@@ -15,6 +15,12 @@ interface AthleteData {
 
 const athleteDataRedisKey = (id: number) => `athleteData_${id}`
 
+const setRedisKey = (key: string, data: any) => {
+  redisClient.set(key, JSON.stringify(data), {
+    EX: 60 * 60 * 24
+  })
+}
+
 export const getAthletesService = async (id: number): Promise<Prisma.AthletesUncheckedCreateInput> => {
     const cached = await redisClient.get(athleteDataRedisKey(id))
     if (cached){
@@ -30,18 +36,12 @@ export const getAthletesService = async (id: number): Promise<Prisma.AthletesUnc
     if (!athlete){
       const newAthlete = await createAthleteWithBestTimes(id, athleteData)
       const {best_times, ...athleteWithoutBestTimes} = newAthlete
-      redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
-        EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
-      })
+      setRedisKey(athleteDataRedisKey(id), athleteData)
       return athleteWithoutBestTimes as Athletes
     }
-
     // update best times of swimmer
     updateBestTimes(id, athleteData)
-
-    redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
-      EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
-    })
+    setRedisKey(athleteDataRedisKey(id), athleteData)
     return athlete
 }
 
@@ -60,20 +60,14 @@ export const getBestTimesService = async (id: number): Promise<Prisma.BestTimesU
     // if you have no best times no athleteId would exist
     if (!bestTimes){
       const newAthlete = await createAthleteWithBestTimes(id, athleteData)
-      redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
-        EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
-      })
-
+      setRedisKey(athleteDataRedisKey(id), athleteData)
       const bestTimes = newAthlete.best_times
       return bestTimes
     }
 
     // update best times of swimmer
     updateBestTimes(id, athleteData)
-
-    redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
-      EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
-    })
+    setRedisKey(athleteDataRedisKey(id), athleteData)
     return bestTimes
 }
 
@@ -135,7 +129,6 @@ const getAthleteDataFromSwimRankings = async (id: number) => {
     .split('<br>')
     .slice(1)
 
-  console.log('NATION:', nation_club)
   const nation = nation_club ? nation_club[0].split(' ')[0] : ''
   const club = nation_club && nation_club[1] ? nation_club[1] : ''
 

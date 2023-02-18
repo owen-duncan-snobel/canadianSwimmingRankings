@@ -11,7 +11,7 @@ const getSwimmersWithId = async (req: Request, res: Response, next: NextFunction
     const athlete = await getAthletesService(athleteId)
     return res.status(200).json({
       status: 'SUCCESS',
-      ...athlete,
+      data: athlete,
       message: ''
     } as ApiResponse)
   } catch (err){
@@ -27,7 +27,7 @@ const getSwimmersBestTimes = async (req: Request, res: Response, next: NextFunct
     const best_times = await getBestTimesService(athleteId)
     return res.status(200).json({
       status: 'SUCCESS',
-      ...best_times,
+      data: best_times,
       message: ''
     } as ApiResponse)
   } catch (err){

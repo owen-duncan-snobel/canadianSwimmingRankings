@@ -32,8 +32,7 @@ app.get('/health', async (req, res) => {
 app.use(ErrorHandler)
 
 redisClient.connect()
-  .then(() => {
-    app.listen(PORT, () => {
-    console.log(`Now listening on port: ${PORT}`)
-  })
+
+app.listen(PORT, () => {
+  console.log(`Now listening on port: ${PORT}`)
 })
