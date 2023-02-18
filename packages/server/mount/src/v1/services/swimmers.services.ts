@@ -13,36 +13,71 @@ interface AthleteData {
   bestTimes: Prisma.BestTimesUncheckedCreateInput[]
 }
 
-export const getAthlete = async (id: number): Promise<Athletes> => {
-    const cached = await redisClient.get(`athlete_data_${id}`)
-    if (cached) return JSON.parse(cached)
+const athleteDataRedisKey = (id: number) => `athleteData_${id}`
+
+export const getAthletesService = async (id: number): Promise<Prisma.AthletesUncheckedCreateInput> => {
+    const cached = await redisClient.get(athleteDataRedisKey(id))
+    if (cached){
+      const athleteData: AthleteData = JSON.parse(cached)
+      return athleteData.athlete
+    } 
+
+    const athleteData = await getAthleteDataFromSwimRankings(id)
 
     const athlete = await prisma.athletes.findFirst({
       where: { athlete_id: id }
     })
-
-    const athleteData = await getAthleteDataFromSwimRankings(id)
-
-    if (!athleteData) throw (`Error: TEST ERROR: ${id} data`)
-
     if (!athlete){
-      const newAthlete = await createAthlete(id, athleteData)
-      redisClient.set(`athlete_data_${id}`, JSON.stringify(newAthlete), {
+      const newAthlete = await createAthleteWithBestTimes(id, athleteData)
+      const {best_times, ...athleteWithoutBestTimes} = newAthlete
+      redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
         EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
       })
-      return newAthlete
+      return athleteWithoutBestTimes as Athletes
     }
 
-    const updatedTimes = await updateBestTimes(id, athleteData)
-    if (!updatedTimes) throw Error('Error: unable to update')
+    // update best times of swimmer
+    updateBestTimes(id, athleteData)
 
-    redisClient.set(`athlete_data_${id}`, JSON.stringify(athlete), {
+    redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
       EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
     })
     return athlete
 }
 
-const getAthleteDataFromSwimRankings = async (id: number): Promise<AthleteData> => {
+export const getBestTimesService = async (id: number): Promise<Prisma.BestTimesUncheckedCreateInput[]> => {
+    const cached = await redisClient.get(athleteDataRedisKey(id))
+    if (cached){
+      const athleteData: AthleteData = JSON.parse(cached)
+      return athleteData.bestTimes
+    }
+
+    const athleteData = await getAthleteDataFromSwimRankings(id)
+
+    const bestTimes = await prisma.bestTimes.findMany({
+      where: { athlete_id: id }
+    })
+    // if you have no best times no athleteId would exist
+    if (!bestTimes){
+      const newAthlete = await createAthleteWithBestTimes(id, athleteData)
+      redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
+        EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
+      })
+
+      const bestTimes = newAthlete.best_times
+      return bestTimes
+    }
+
+    // update best times of swimmer
+    updateBestTimes(id, athleteData)
+
+    redisClient.set(athleteDataRedisKey(id), JSON.stringify(athleteData), {
+      EX: 60 * 60 * 24 // expire every day (inorder to update for new meets)
+    })
+    return bestTimes
+}
+
+const getAthleteDataFromSwimRankings = async (id: number) => {
   if (!id) throw Error('Missing id')
   const response = await axios(`https://www.swimrankings.net/index.php?page=athleteDetail&athleteId=${id}`, {
     responseEncoding: 'binary'
@@ -120,7 +155,7 @@ const getAthleteDataFromSwimRankings = async (id: number): Promise<AthleteData> 
   }
 }
 
-const createAthlete = async (id: number, athleteData: AthleteData): Promise<Athletes> => {
+const createAthleteWithBestTimes = async (id: number, athleteData: AthleteData) => {
   const athlete = await prisma.athletes.create({
     data: {
       ...athleteData.athlete,
@@ -128,7 +163,10 @@ const createAthlete = async (id: number, athleteData: AthleteData): Promise<Athl
       best_times: {
         create: athleteData?.bestTimes
       },
-    }
+    },
+     include: {
+      best_times: true
+     }
   })
   return athlete
 }
