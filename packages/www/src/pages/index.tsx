@@ -2,8 +2,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { Auth, EmailAuth } from '@supabase/auth-ui-react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/router'
+import Auth from '@/components/auth/'
+import SignIn from '@/components/auth/SignIn'
 
 const NAV_ROUTES = [
   {
@@ -37,9 +39,21 @@ export function Navbar(){
 }
 
 export default function Home() {
-  const supabaseClient = useSupabaseClient()
   const user = useUser()
+  const router = useRouter()
 
+  if (!user){
+    return (
+      <div className='flex justify-center'>
+        <div className='w-1/2'>
+          {/* <Auth view={'sign_in'} /> */}
+          <SignIn />
+        </div>
+      </div>
+    )
+  }
+
+  console.log(user)
   return (
     <>
       <Head>
