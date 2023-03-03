@@ -13,18 +13,8 @@ export default function SignUp(){
     setView('sign_up')
   }, [])
 
-  if (initial){
-    return <div></div>
-  }
+  if (initial) return <div></div>
+  if (user) return router.push('/')
 
-  if (user){
-    router.push('/')
-    return
-  }
-  
-  return (
-    <div>
-      <Auth view={view}  />
-    </div>
-  )
+  return <Auth view={view}  />
 }

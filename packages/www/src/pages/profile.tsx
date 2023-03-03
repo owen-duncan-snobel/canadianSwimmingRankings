@@ -3,7 +3,6 @@ import Auth from "@/components/auth"
 import { useAuth } from "@/components/AuthProvider"
 import { Navbar } from "."
 
-
 export default function Profile(){
   const { initial, user } = useAuth() 
   const { view } = useAuth()

@@ -50,6 +50,7 @@ export default function Home() {
       </div>
     )
   }
+  
   if (!user){
     return (
       <div className='flex justify-center'>
