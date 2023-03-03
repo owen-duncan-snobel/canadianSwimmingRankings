@@ -26,8 +26,8 @@ export const AuthContext = createContext<IAuthContext | undefined>(undefined)
 
 export const AuthProvider = (props:any) => {
   const supabase = useSupabaseClient()
-  const [initial, setInitial] = useState(true)
   const [session, setSession] = useState<IAuthContext["session"]>(null)
+  const [initial, setInitial] = useState<IAuthContext["initial"]>(true)
   const [user, setUser] = useState<IAuthContext["user"]>(null)
   const [view, setView] = useState<Views>(VIEWS.SIGN_IN)
   const router = useRouter()
@@ -69,7 +69,6 @@ export const AuthProvider = (props:any) => {
     return () => {
       authListener?.unsubscribe()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const value = useMemo(() => {

@@ -2,10 +2,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useUser, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
 import Auth from '@/components/auth/'
 import SignIn from '@/components/auth/SignIn'
+import { useAuth } from '@/components/AuthProvider'
 
 const NAV_ROUTES = [
   {
@@ -39,21 +40,26 @@ export function Navbar(){
 }
 
 export default function Home() {
-  const user = useUser()
-  const router = useRouter()
+  const { initial, user } = useAuth() 
+  const { view } = useAuth()
 
+  if (initial){
+    return (
+      <div>
+        {/** TODO Skeleton component goes here */}
+      </div>
+    )
+  }
   if (!user){
     return (
       <div className='flex justify-center'>
         <div className='w-1/2'>
-          {/* <Auth view={'sign_in'} /> */}
-          <SignIn />
+          <Auth view={view} />
         </div>
       </div>
     )
   }
 
-  console.log(user)
   return (
     <>
       <Head>
@@ -65,7 +71,9 @@ export default function Home() {
       <main>
         <Navbar />
         <div className='mt-20'>
-          <h1 className='flex justify-center text-4xl font-medium'>Canadian Swimming Rankings</h1>
+          <h1 className='flex justify-center text-4xl font-medium'>
+            Canadian Swimming Rankings
+          </h1>
         </div>
       </main>
     </>

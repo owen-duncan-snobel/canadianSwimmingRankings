@@ -22,7 +22,7 @@ export interface IViews {
 export type Views = ValueOf<IViews>
 
 export interface IAuthContext {
- inital:  boolean
+ initial:  boolean
  session: Session | null 
  user:    User | null
  view:    Views
