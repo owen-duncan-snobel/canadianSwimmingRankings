@@ -18,7 +18,7 @@ export default function Profile(){
   if (!user){
     return (
       <div className='flex justify-center'>
-        <div className='w-1/2'>
+        <div className='w-full sm:w-1/2'>
           <Auth view={view} />
         </div>
       </div>

@@ -1,9 +1,8 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { Auth } from "@supabase/auth-ui-react"
-import { useRouter } from "next/router"
 import { useState } from "react"
 import { z } from "zod"
 import { useAuth } from "../AuthProvider"
+import { GitHubButton, GoogleButton } from "./SocialProviders"
 
 const SignInData = z.object({
   email: z.string().email(),
@@ -46,7 +45,7 @@ export default function SignIn(){
   return (
     <div>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-sm space-y-8">
           <div>
             <img
               className="mx-auto h-12 w-auto"
@@ -63,8 +62,13 @@ export default function SignIn(){
               </a>
             </p>
           </div>
-          <form className="mt-8 space-y-6">
+
+          <div className="flex justify-center space-x-5">
+            <GoogleButton supabase={supabase} />
+            <GitHubButton supabase={supabase} />
+          </div>
             
+          <form className="mt-8 space-y-6">    
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
