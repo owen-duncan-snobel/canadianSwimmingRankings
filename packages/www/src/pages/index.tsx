@@ -36,7 +36,6 @@ export function MobileNavbar(){
       </Menu.Button>
       <Menu.Items className={"flex flex-col bg-white w-full"}>
         {ROUTES.map((route) => (
-          /* Use the `active` state to conditionally style the active item. */
           <Menu.Item key={route.path} as={Fragment}>
             {({ active }) => (
               <a

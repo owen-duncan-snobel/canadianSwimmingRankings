@@ -1,19 +1,17 @@
-import { PrismaClient, Prisma, Athletes, BestTimes } from '@prisma/client'
+import { Prisma, Athletes, BestTimes } from '@prisma/client'
 import axios from 'axios'
 import redis from 'redis'
 import * as cheerio from 'cheerio'
 import { parse } from 'date-fns'
-import redisClient from '../../libs/redis/redis'
-import { ResponseError } from '../../types/api'
-
-const prisma = new PrismaClient()
+import redisClient from '../../../libs/redis/redis'
+import { ResponseError } from '../../../types/api'
+import { athleteRedisKey, bestTimesRedisKey } from '../../middleware/check_cache'
+import prisma from '../../../libs/prisma/client'
 
 interface AthleteData {
-  athlete: Prisma.AthletesUncheckedCreateInput,
-  bestTimes: Prisma.BestTimesUncheckedCreateInput[]
+  athlete: Athletes
+  bestTimes: BestTimes[]
 }
-
-const athleteDataRedisKey = (id: number) => `athleteData_${id}`
 
 const setRedisKey = (key: string, data: any) => {
   redisClient.set(key, JSON.stringify(data), {
@@ -22,52 +20,38 @@ const setRedisKey = (key: string, data: any) => {
 }
 
 export const getAthletesService = async (id: number): Promise<Prisma.AthletesUncheckedCreateInput> => {
-    const cached = await redisClient.get(athleteDataRedisKey(id))
-    if (cached){
-      const athleteData: AthleteData = JSON.parse(cached)
-      return athleteData.athlete
-    } 
-
-    const athleteData = await getAthleteDataFromSwimRankings(id)
+    const data = await getAthleteDataFromSwimRankings(id)
 
     const athlete = await prisma.athletes.findFirst({
       where: { athlete_id: id }
     })
     if (!athlete){
-      const newAthlete = await createAthleteWithBestTimes(id, athleteData)
+      const newAthlete = await createAthleteWithBestTimes(id, data)
       const {best_times, ...athleteWithoutBestTimes} = newAthlete
-      setRedisKey(athleteDataRedisKey(id), athleteData)
+      setRedisKey(athleteRedisKey(id), athleteWithoutBestTimes)
       return athleteWithoutBestTimes as Athletes
     }
-    // update best times of swimmer
-    updateBestTimes(id, athleteData)
-    setRedisKey(athleteDataRedisKey(id), athleteData)
+    // TODO update best times of swimmer (done via queue / job)
+    // updateBestTimes(id, athleteData)
+    setRedisKey(athleteRedisKey(id), athlete)
     return athlete
 }
 
-export const getBestTimesService = async (id: number): Promise<Prisma.BestTimesUncheckedCreateInput[]> => {
-    const cached = await redisClient.get(athleteDataRedisKey(id))
-    if (cached){
-      const athleteData: AthleteData = JSON.parse(cached)
-      return athleteData.bestTimes
-    }
-
-    const athleteData = await getAthleteDataFromSwimRankings(id)
+export const getBestTimesService = async (id: number): Promise<BestTimes[]> => {
+    const data = await getAthleteDataFromSwimRankings(id)
 
     const bestTimes = await prisma.bestTimes.findMany({
       where: { athlete_id: id }
     })
+
     // if you have no best times no athleteId would exist
-    if (!bestTimes){
-      const newAthlete = await createAthleteWithBestTimes(id, athleteData)
-      setRedisKey(athleteDataRedisKey(id), athleteData)
+    if (!!bestTimes){ // BUG this should work with just !, need to double check the typeof
+      const newAthlete = await createAthleteWithBestTimes(id, data)
       const bestTimes = newAthlete.best_times
       return bestTimes
     }
 
-    // update best times of swimmer
-    updateBestTimes(id, athleteData)
-    setRedisKey(athleteDataRedisKey(id), athleteData)
+    await updateBestTimes(id, data.bestTimes as BestTimes[]) // use a queue to run this tasks in the background (the result of this should have no effect on the route)
     return bestTimes
 }
 
@@ -82,7 +66,7 @@ const getAthleteDataFromSwimRankings = async (id: number) => {
   // check if athlete exists
   const athleteDoesNotExists = $('.name').text().includes('Unknown athlete id.')
   if (athleteDoesNotExists){
-      const err: ResponseError = new Error(`athleteId: '${id}' does not exist`)
+      const err: ResponseError = new Error(`Athlete id: '${id}' does not exist`)
       err.statusCode = 404
       throw err
   }
@@ -98,7 +82,6 @@ const getAthleteDataFromSwimRankings = async (id: number) => {
       location: $(el).find('td.city').text(),
       meet_name: $(el).find('td.name').text(),
       points: parseInt($(el).find('td.code').text()) || null,
-      athlete_id: id
     }}
   ).get()
 
@@ -145,38 +128,38 @@ const getAthleteDataFromSwimRankings = async (id: number) => {
       athlete_id: id,
     },
     bestTimes
-  }
+  } as AthleteData
 }
 
-const createAthleteWithBestTimes = async (id: number, athleteData: AthleteData) => {
+//  TODO THESE NEED A MAJOR REFACTORING FOR THE DATA TYPES, also very poor naming
+const createAthleteWithBestTimes = async (id: number, data: AthleteData) => {
   const athlete = await prisma.athletes.create({
     data: {
-      ...athleteData.athlete,
+      ...data.athlete,
       athlete_id: id,
       best_times: {
-        create: athleteData?.bestTimes
-      },
+        create: data.bestTimes
+      }
     },
-     include: {
+    include: {
       best_times: true
-     }
+    }
   })
   return athlete
 }
 
-const updateBestTimes = async (id: number, athleteData: AthleteData): Promise<BestTimes[]> => {
+const updateBestTimes = async (id: number, data: BestTimes[]): Promise<BestTimes[]> => {
   const updatedTimes = await prisma.$transaction(
-  athleteData.bestTimes.map(bestTime => 
+  data.map((bestTime): any => 
     prisma.bestTimes.update({
       where: {
         athlete_id_event_course: {
           athlete_id: id,
-          event: bestTime.event,
-          course: bestTime.course
+          event: bestTime.event as string,
+          course: bestTime.course as string
         }
       },
       data: {
-        ...bestTime,
         athlete_id: id
       }
     }))

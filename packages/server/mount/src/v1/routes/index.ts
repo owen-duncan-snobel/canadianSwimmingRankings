@@ -1,7 +1,2 @@
-import express from 'express'
-import swimmers from './swimmers.routes'
-
-const router = express.Router()
-router.use('/swimmers', swimmers)
-
+import router from "./combineRoutes";
 export default router

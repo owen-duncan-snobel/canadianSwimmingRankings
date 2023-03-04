@@ -11,10 +11,10 @@ export async function zParse<T extends AnyZodObject>(
   try {
     return schema.parseAsync(req);
   } catch (error: any) {
-    if (error instanceof ZodError) {
-      //throw badRequest(error.message);
-    }
-    //return badRequest(JSON.stringify(error));
+    // if (error instanceof ZodError) {
+    //   throw badRequest(error.message);
+    // }
+    // return badRequest(JSON.stringify(error));
     return error
   }
 }

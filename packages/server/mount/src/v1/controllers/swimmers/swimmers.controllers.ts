@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
-import { ApiResponse, ResponseError } from '../../types/api'
-import { zParse } from '../middleware/validation'
-import { GetAthleteSchema } from '../schemas/swimmers.schemas'
-import { getBestTimesService, getAthletesService } from '../services/swimmers.services'
+import { ApiResponse, ResponseError } from '../../../types/api'
+import { zParse } from '../../middleware/validation'
+import { GetAthleteSchema } from '../../schemas/swimmers.schemas'
+import { getBestTimesService, getAthletesService } from '../../services/swimmers/swimmers.services'
 
 const getSwimmersWithId = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { params } = await zParse(GetAthleteSchema, req)
-    const { athleteId } = params
-    const athlete = await getAthletesService(athleteId)
+    const { id } = params
+    const athlete = await getAthletesService(id)
     return res.status(200).json({
       status: 'SUCCESS',
       data: athlete,
@@ -23,8 +23,8 @@ const getSwimmersWithId = async (req: Request, res: Response, next: NextFunction
 const getSwimmersBestTimes = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { params } = await zParse(GetAthleteSchema, req)
-    const { athleteId } = params
-    const best_times = await getBestTimesService(athleteId)
+    const { id } = params
+    const best_times = await getBestTimesService(id)
     return res.status(200).json({
       status: 'SUCCESS',
       data: best_times,
