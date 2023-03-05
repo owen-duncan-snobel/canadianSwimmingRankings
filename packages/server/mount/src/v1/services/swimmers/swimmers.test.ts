@@ -1,7 +1,7 @@
 import prisma from '../../../libs/prisma/client'
 import {expect, jest, test} from '@jest/globals'
 import { BestTimes, Prisma, PrismaClient } from '@prisma/client'
-import { createAthleteWithBestTimes, getAthleteDataFromSwimRankings } from './swimmers.services'
+import { createAthleteWithBestTimes, getAthleteDataFromSwimRankings, getAthletesService, updateBestTimes } from './swimmers.services'
 import { parse } from 'date-fns'
 
 beforeAll(async () => {
@@ -27,6 +27,16 @@ beforeAll(async () => {
         gender: 'M',
         nation: 'CAN',
         id: 2
+      },
+      {
+        athlete_id: 4448778,
+        first_name: 'RANDOM',
+        last_name: 'DATA',
+        birth_year: 1997,
+        gender: 'M',
+        club: 'Fake',
+        nation: 'SWE',
+        id: 10
       }
     ],
   })
@@ -76,16 +86,9 @@ afterAll(async () => {
   await prisma.$disconnect()
 })
 
-describe('Get Athlete Service', () => {
-  
-})
-
-describe('Get Athlete Service', () => {
-  
-})
 
 describe('Get athlete data from swimrankings', () => {
- it('Get old athlete data', async() => {
+  it('Get old athlete data', async() => {
     const athleteAndBestTimes = {
       athlete: {
         athlete_id: 4100001,
@@ -101,10 +104,10 @@ describe('Get athlete data from swimrankings', () => {
     const data = await getAthleteDataFromSwimRankings(4100001)
 
     expect(athleteAndBestTimes).toEqual(data)
- }) 
+  }) 
 
- it('Get newer athlete data', async() => {
-  const athleteAndBestTimes = {
+  it('Get newer athlete data', async() => {
+    const athleteAndBestTimes = {
       athlete: {
         athlete_id: 4448779,
         first_name: 'RASMUS',
@@ -116,20 +119,28 @@ describe('Get athlete data from swimrankings', () => {
       } as Prisma.AthletesCreateInput,
       bestTimes: [
         {
-          event: '25m Freestyle',
-          course: '25m',
-
+          event: '50m Freestyle',
+          course: '50m',
+          time: '25.68',
+          points: 539,
+          date: parse('8 Jun 2014', 'dd MMM yyyy', new Date()),
+          location: 'Joenkoeping',
+          meet_name: 'Oestsvenska Maesterskapen'
         }
       ] as Prisma.BestTimesCreateManyAthleteInput[]
     }
-    const data = await getAthleteDataFromSwimRankings(4100001)
+      const data = await getAthleteDataFromSwimRankings(4448779)
 
-    expect(athleteAndBestTimes).toEqual(data)
- })
+      expect(athleteAndBestTimes.athlete).toEqual(data.athlete)
+      // compare second item instead of getting every besttime
+      expect(athleteAndBestTimes.bestTimes[0]).toEqual(data.bestTimes[1])
+  })
 
- it('athlete does not exist', async() => {
-  
- }) 
+  it('athlete does not exist', async() => {
+    await expect(getAthleteDataFromSwimRankings(-1))
+      .rejects
+      .toThrowError(`Athlete id: '-1' does not exist`)
+  }) 
 })
 
 describe('Create athlete with best times', () => {
@@ -175,3 +186,62 @@ describe('Create athlete with best times', () => {
 
   })
 })
+
+describe('Update best times', () => {
+  it('Update best times', async() => {
+    const bestTimes: BestTimes[] = [
+      {
+        athlete_id: 1,
+        course: 'SCM',
+        date: new Date(),
+        event: '50m Freestyle',
+        location: 'Updated Location',
+        meet_name: 'Updated Meet',
+        time: '123',
+        points: null
+      },
+       {
+        athlete_id: 1,
+        course: 'LCM',
+        date: new Date(),
+        event: '50m Freestyle',
+        location: 'Updated Location',
+        meet_name: 'Updated Meet',
+        time: '123',
+        points: null
+      },
+       {
+        athlete_id: 1,
+        course: 'SCM',
+        date: new Date(),
+        event: '50m Backstroke',
+        location: 'Updated Location',
+        meet_name: 'Updated Meet',
+        time: '123',
+        points: null
+      }
+    ]
+
+    const data = await updateBestTimes(1, bestTimes)
+
+    const updatedTimes = await prisma.bestTimes.findMany({
+      where: {
+        athlete_id: 1
+      }
+    })
+
+    expect(updatedTimes).toEqual(data)
+  })
+})
+
+// describe('Get Athlete Service', () => {
+//   it('Get athlete already in db', async() => {
+//     const data = await getAthletesService(4448778)
+//     const athlete = await prisma.athletes.findFirst({
+//       where: {
+//         athlete_id: 4448778
+//       }
+//     })
+//     expect(data).toEqual(athlete)
+//   })
+// })
