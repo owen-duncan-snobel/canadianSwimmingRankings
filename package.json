@@ -18,12 +18,17 @@
   },
   "homepage": "https://github.com/owen-duncan-snobel/canadianSwimmingRankings#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
+    "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.0.0"
   }
 }
